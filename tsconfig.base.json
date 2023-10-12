@@ -16,8 +16,11 @@
     "baseUrl": ".",
     "paths": {
       "@project/config/config-users": ["config/config-users/src/index.ts"],
+      "@project/shared/shared-dto": ["shared/shared-dto/src/index.ts"],
+      "@project/shared/shared-pipes": ["shared/shared-pipes/src/index.ts"],
       "@project/shared/shared-types": ["shared/shared-types/src/index.ts"],
-      "@project/util/util-core": ["util/util-core/src/index.ts"]
+      "@project/util/util-core": ["util/util-core/src/index.ts"],
+      "@project/util/util-types": ["util/util-types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

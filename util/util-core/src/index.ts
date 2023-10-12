@@ -1,1 +1,4 @@
-export * from './lib/util/util-core';
+export * from './lib/helpers';
+export * from './lib/jwt-access.strategy';
+export * from './lib/jwt-auth.guard';
+export * from './lib/jwt';
