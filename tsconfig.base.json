@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@project/config/config-users": ["config/config-users/src/index.ts"],
+      "@project/shared/shared-types": ["shared/shared-types/src/index.ts"],
+      "@project/util/util-core": ["util/util-core/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
