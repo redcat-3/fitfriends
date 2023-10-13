@@ -2,6 +2,7 @@ import { UserGender } from "./user-gender.enum";
 import { UserLevel } from "./user-level.enum";
 import { UserLocation } from "./user-location.enum";
 import { UserRole } from "./user-role.enum";
+import { UserTime } from "./user-time.enum";
 
 export interface User {
   _id?: string;
@@ -18,7 +19,7 @@ export interface User {
   image?: string;
   level: UserLevel;
   typeOfTrain?: string[];
-  timeOfTrain?: string;
+  timeOfTrain?: UserTime;
   caloriesToReset?: number;
   caloriesToSpend?: number;
   trainingReady?: boolean;

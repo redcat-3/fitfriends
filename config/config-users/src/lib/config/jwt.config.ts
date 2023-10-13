@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { JWTConfig } from '@project/shared/app-types';
+import { JWTConfig } from '@project/shared/shared-types';
 import * as Joi from 'joi';
 import { ConfigName, DEFAULT_ERROR_MESSAGE } from '../config-users.constant';
 

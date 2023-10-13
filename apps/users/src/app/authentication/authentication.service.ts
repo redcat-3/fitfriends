@@ -1,8 +1,7 @@
 import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { AuthError } from './authentication.constant';
-import { BlogUserEntity } from '../../../../../libs/repositories/user-repository/src/lib/blog-user.entity';
-import { BlogUserRepository } from '../../../../../libs/repositories/user-repository/src/lib/blog-user.repository';
-import { User } from '@project/shared/shared-types';
+import { UserRepository } from '../user/user.repository';
+import { User, UserRole } from '@project/shared/shared-types';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConfig } from '@project/config/config-users';
 import { ChangePasswordDto, CreateUserDto, LoginUserDto,  } from '@project/shared/shared-dto';
@@ -10,11 +9,13 @@ import { ConfigType } from '@nestjs/config';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 import { createJWTPayload } from '@project/util/util-core';
 import * as crypto from 'node:crypto';
+import { TypeEntityAdapter } from '../user/util/entity-adapter';
+import dayjs from 'dayjs';
 
 @Injectable()
 export class AuthenticationService {
   constructor(
-    private readonly blogUserRepository: BlogUserRepository,
+    private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
     @Inject (jwtConfig.KEY)
     private readonly jwtOptions: ConfigType<typeof jwtConfig>,
@@ -22,47 +23,46 @@ export class AuthenticationService {
   ) {}
 
   public async register(dto: CreateUserDto) {
-    const {email, name, password, avatarId } = dto;
-
-    const blogUser = {
-      email,
-      name,
-      avatar: avatarId || '',
+    const user = {
+      ... dto,
+      role: dto.role || UserRole.User,
       passwordHash: '',
+      dateBirth: dayjs(dto.dateBirth).toDate(),
     };
+    delete user.password;
 
-    const existUser = await this.blogUserRepository
-      .findByEmail(email);
+    const existUser = await this.userRepository
+      .findByEmail(dto.email);
 
     if (existUser) {
       throw new ConflictException(AuthError.UserExists);
     }
 
-    const userEntity = await new BlogUserEntity(blogUser)
-      .setPassword(password)
+    const userEntity = await new TypeEntityAdapter[user.role](user);
+    await userEntity.setPassword(dto.password);
 
-    return this.blogUserRepository
+    return this.userRepository
       .create(userEntity);
   }
 
   public async verifyUser(dto: LoginUserDto) {
     const {email, password} = dto;
-    const existUser = await this.blogUserRepository.findByEmail(email);
+    const existUser = await this.userRepository.findByEmail(email);
 
     if (!existUser) {
       throw new NotFoundException(AuthError.NotFound);
     }
 
-    const blogUserEntity = new BlogUserEntity(existUser);
-    if (!await blogUserEntity.comparePassword(password)) {
+    const userEntity = new TypeEntityAdapter[existUser.role](existUser);
+    if (!await userEntity.comparePassword(password)) {
       throw new UnauthorizedException(AuthError.PasswordWrong);
     }
 
-    return blogUserEntity.toObject();
+    return userEntity.toObject();
   }
 
   public async getUser(id: string) {
-    return this.blogUserRepository.findById(id);
+    return this.userRepository.findById(id);
   }
 
   public async createUserToken(user: User) {
@@ -83,18 +83,18 @@ export class AuthenticationService {
     if(currentPassword === newPassword){
       throw new BadRequestException (AuthError.PasswordSimilar);
     }
-    const blogUser = await this.getUser(id);
-    const blogUserEntity = new BlogUserEntity(blogUser);
-    if (!await blogUserEntity.comparePassword(currentPassword)) {
+    const user = await this.getUser(id);
+    const userEntity = new TypeEntityAdapter[user.role](user);
+    if (!await userEntity.comparePassword(currentPassword)) {
       throw new BadRequestException (AuthError.PasswordWrong);
     }
-    await blogUserEntity.setPassword(newPassword)
-    return this.blogUserRepository.update(id, blogUserEntity);
+    await userEntity.setPassword(newPassword)
+    return this.userRepository.update(id, userEntity);
   }
 
   public async updateAvatar (id:string, avatarId:string){
-    const blogUser = await this.getUser(id);
-    const blogUserEntity = new BlogUserEntity({...blogUser, avatar:avatarId});
-    return this.blogUserRepository.update(id, blogUserEntity);
+    const user = await this.getUser(id);
+    const userEntity = new TypeEntityAdapter[user.role]({...user, avatar:avatarId});
+    return this.userRepository.update(id, userEntity);
   }
 }

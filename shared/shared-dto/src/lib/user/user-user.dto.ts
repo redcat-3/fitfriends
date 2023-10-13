@@ -4,7 +4,7 @@ import { IsBoolean, IsEnum, IsNumber, IsOptional, Max, Min } from 'class-validat
 import { UserTime } from '@project/shared/shared-types';
 import { CountCaloriesToReset, CountCaloriesToSpend } from './user-dto.constant';
 
-export class UserUserDto  extends UserDto{
+export class UserUserDto extends UserDto{
   @ApiProperty({
     description: 'Время на тренировку. Время на тренировку указывается в предопределённых интервалах в минутах.',
     example: UserTime.Three
