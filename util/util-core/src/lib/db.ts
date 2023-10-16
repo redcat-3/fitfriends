@@ -11,7 +11,7 @@ export function getMongooseOptions(optionSpace: string): MongooseModuleAsyncOpti
           username: config.get<string>(`${optionSpace}.user`),
           password: config.get<string>(`${optionSpace}.password`),
           port: config.get<string>(`${optionSpace}.port`),
-          host: config.get<string>('${optionSpace}.host'),
+          host: config.get<string>(`${optionSpace}.host`),
           databaseName: config.get<string>(`${optionSpace}.name`),
           authDatabase: config.get<string>(`${optionSpace}.authBase`),
         })

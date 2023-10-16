@@ -1,4 +1,4 @@
-export const ENV_USERS_FILE_PATH = 'apps/users/.users.env';
+export const ENV_USERS_FILE_PATH = '.users.env';
 
 export const ConfigName = {
   Db: 'database',
