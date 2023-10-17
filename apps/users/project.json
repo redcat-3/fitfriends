@@ -1,5 +1,9 @@
 {
   "name": "users",
+  "type": "module",
+  "bin": {  
+    "tran": "./bin/index.js"  
+  },
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/users/src",
   "projectType": "application",
