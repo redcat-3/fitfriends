@@ -1,7 +1,7 @@
 import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { AuthError } from './authentication.constant';
 import { UserRepository } from '../user/user.repository';
-import { User, UserRole } from '@project/shared/shared-types';
+import { User, UserRole, UserTime } from '@project/shared/shared-types';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConfig } from '@project/config/config-users';
 import { ChangePasswordDto, CreateUserDto, LoginUserDto,  } from '@project/shared/shared-dto';
@@ -11,6 +11,7 @@ import { createJWTPayload } from '@project/util/util-core';
 import * as crypto from 'node:crypto';
 import { TypeEntityAdapter } from '../user/util/entity-adapter';
 import dayjs from 'dayjs';
+import { adaptCreateDtoUser } from '@project/util/util-core';
 
 @Injectable()
 export class AuthenticationService {
@@ -23,12 +24,30 @@ export class AuthenticationService {
   ) {}
 
   public async register(dto: CreateUserDto) {
-    const user = {
-      ... dto,
-      role: dto.role || UserRole.User,
+    const dtoUser = adaptCreateDtoUser(dto);
+    let user = {
+      ... dtoUser,
       passwordHash: '',
       dateBirth: dayjs(dto.dateBirth).toDate(),
     };
+    if (user.role === UserRole.User) {
+      user = {
+        ... user,
+        certificate: '',
+        merit: '',
+        passwordHash: '',
+        personalTraining: false
+      }
+    } else if (user.role === UserRole.Сoach) {
+      user = {
+        ... user,
+        timeOfTrain: UserTime.One,
+        caloriesToReset: 1000,
+        caloriesToSpend: 1000,
+        trainingReady: false,
+      }
+    }
+  
     delete user.password;
 
     const existUser = await this.userRepository
@@ -38,7 +57,7 @@ export class AuthenticationService {
       throw new ConflictException(AuthError.UserExists);
     }
 
-    const userEntity = await new TypeEntityAdapter[user.role](user);
+    const userEntity = new TypeEntityAdapter[user.role](user as unknown as User);
     await userEntity.setPassword(dto.password);
 
     return this.userRepository
@@ -94,7 +113,7 @@ export class AuthenticationService {
 
   public async updateAvatar (id:string, avatarId:string){
     const user = await this.getUser(id);
-    const userEntity = new TypeEntityAdapter[user.role]({...user, avatar:avatarId});
+    const userEntity = new TypeEntityAdapter[user.role]({...user, avatarId});
     return this.userRepository.update(id, userEntity);
   }
 }

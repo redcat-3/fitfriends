@@ -2,13 +2,12 @@ import { UserGender } from "./user-gender.enum";
 import { UserLevel } from "./user-level.enum";
 import { UserLocation } from "./user-location.enum";
 import { UserRole } from "./user-role.enum";
-import { UserTime } from "./user-time.enum";
 
-export interface User {
+export interface UserAbstract {
   _id?: string;
   email: string;
   name: string;
-  avatar?: string;
+  avatarId?: string;
   passwordHash: string;
   gender: UserGender;
   dateBirth?: Date;
@@ -19,11 +18,4 @@ export interface User {
   image?: string;
   level: UserLevel;
   typeOfTrain?: string[];
-  timeOfTrain?: UserTime;
-  caloriesToReset: number;
-  caloriesToSpend: number;
-  trainingReady: boolean;
-  certificate: string;
-  merit: string;
-  personalTraining: boolean;
 }

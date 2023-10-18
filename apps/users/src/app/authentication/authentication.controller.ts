@@ -4,14 +4,15 @@ import { JwtAuthGuard, fillObject } from '@project/util/util-core';
 import { UserRdo } from './rdo/user.rdo';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { API_TAG_NAME, AuthError, AuthMessages, AuthPath } from './authentication.constant';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { MongoidValidationPipe } from '@project/shared/shared-pipes';
+import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CreateUserValidationPipe, MongoidValidationPipe } from '@project/shared/shared-pipes';
 import { RequestWithUser, RequestWithUserPayload } from '@project/shared/shared-types';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
-import { ChangePasswordDto, CreateUserDto } from '@project/shared/shared-dto';
+import { ChangePasswordDto, CreateUserDto, UserCoachDto, UserUserDto } from '@project/shared/shared-dto';
 
 @ApiTags(API_TAG_NAME)
+@ApiExtraModels(UserUserDto, UserCoachDto,  ChangePasswordDto)
 @Controller(AuthPath.Main)
   export class AuthenticationController {
     constructor(
@@ -23,7 +24,7 @@ import { ChangePasswordDto, CreateUserDto } from '@project/shared/shared-dto';
       description:AuthMessages.Register
     })
     @Post(AuthPath.Register)
-    public async create(@Body() dto: CreateUserDto) {
+    public async create(@Body(CreateUserValidationPipe) dto: CreateUserDto) {
       const newUser = await this.authService.register(dto);
       return fillObject(UserRdo, newUser);
     }

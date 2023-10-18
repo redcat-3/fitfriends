@@ -1,4 +1,4 @@
-import { CliCommandInterface, UserRole } from '@project/shared/shared-types';
+import { CliCommandInterface, User, UserRole } from '@project/shared/shared-types';
 import { CreateUserDto } from '@project/shared/shared-dto';
 import mongoose from 'mongoose';
 import { DECIMAL } from '../../user/user.constant.js';
@@ -34,7 +34,7 @@ export default class FillDbCommand implements CliCommandInterface {
       throw new ConflictException(AuthError.UserExists);
     }
 
-    const userEntity = await new TypeEntityAdapter[user.role](user);
+    const userEntity = await new TypeEntityAdapter[user.role](user as unknown as User);
     await userEntity.setPassword(dto.password);
 
     return this.userRepository

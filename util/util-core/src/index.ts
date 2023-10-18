@@ -4,3 +4,4 @@ export * from './lib/jwt-auth.guard';
 export * from './lib/jwt';
 export * from './lib/db';
 export * from './lib/random';
+export * from './lib/adapt-dto-user';

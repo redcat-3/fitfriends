@@ -1,8 +1,8 @@
-import { User, UserGender, UserLevel, UserLocation, UserRole } from '@project/shared/shared-types';
+import { UserAbstract, UserGender, UserLevel, UserLocation, UserRole } from '@project/shared/shared-types';
 import { compare, genSalt, hash } from 'bcrypt';
 import { SALT_ROUNDS } from '../user.constant';
 
-export class UserAbstractEntity implements User {
+export class UserAbstractEntity implements UserAbstract {
     public _id: string;
     public email: string;
     public name: string;
@@ -17,41 +17,24 @@ export class UserAbstractEntity implements User {
     public level: UserLevel;
     public typeOfTrain: string[];
 
-  constructor(user: User) {
-    this.fillEntity(user);
+  constructor(userData: UserAbstract) {
+    this._id = userData._id;
+    this.email = userData.email;
+    this.name = userData.name;
+    this.avatarId = userData.avatarId;
+    this.gender = userData.gender;
+    this.dateBirth = userData.dateBirth;
+    this.role = userData.role;
+    this.description = userData.description;
+    this.location = userData.location;
+    this.image = userData.image;
+    this.level = userData.level;
+    this.typeOfTrain = userData.typeOfTrain;
+    this.passwordHash = userData.passwordHash;
   }
 
   public toObject() {
-    return {
-      _id: this._id,
-      email: this.email,
-      name: this.name,
-      passwordHash: this.passwordHash,
-      avatarId: this.avatarId,
-      gender: this.gender,
-      dateBirth: this.dateBirth,
-      role: this.role,
-      description: this.description,
-      location: this.location,
-      image: this.image,
-      level: this.level,
-      typeOfTrain: this.typeOfTrain
-    };
-  }
-
-  public fillEntity(user: User) {
-    this._id = user._id;
-    this.email = user.email;
-    this.name = user.name;
-    this.avatarId = user.avatar;
-    this.gender = user.gender;
-    this.dateBirth = user.dateBirth;
-    this.role = user.role;
-    this.description = user.description;
-    this.location = user.location;
-    this.image = user.image;
-    this.level = user.level;
-    this.typeOfTrain = user.typeOfTrain;
+    return {...this};
   }
 
   public async setPassword(password: string): Promise<UserAbstractEntity> {
