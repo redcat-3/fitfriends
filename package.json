@@ -1,5 +1,6 @@
 {
   "name": "@project/source",
+  "type": "module",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {},
