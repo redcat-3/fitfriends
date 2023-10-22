@@ -5,3 +5,4 @@ export * from './lib/jwt';
 export * from './lib/db';
 export * from './lib/random';
 export * from './lib/adapt-dto-user';
+export * from './lib/adapt-rdo-user';

@@ -82,6 +82,11 @@ export class UserModel extends Document implements User {
 
   @Prop({
     required: false,
+  })
+  public friends: string[];
+
+  @Prop({
+    required: false,
     type: String,
     enum: UserTime,
     default: UserTime.One,

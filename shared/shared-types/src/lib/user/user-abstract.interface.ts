@@ -7,7 +7,7 @@ export interface UserAbstract {
   _id?: string;
   email: string;
   name: string;
-  avatarId?: string;
+  avatar?: string;
   passwordHash: string;
   gender: UserGender;
   dateBirth?: Date;
@@ -18,4 +18,5 @@ export interface UserAbstract {
   image?: string;
   level: UserLevel;
   typeOfTrain?: string[];
+  friends?: string[];
 }

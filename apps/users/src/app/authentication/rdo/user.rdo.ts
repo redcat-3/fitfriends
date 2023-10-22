@@ -1,6 +1,7 @@
 import { Expose, Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserGender } from 'shared/shared-types/src/lib/user/user-gender.enum';
+import { UserLevel, UserLocation, UserRole } from '@project/shared/shared-types';
 
 export class UserRdo {
   @ApiProperty({
@@ -41,7 +42,7 @@ export class UserRdo {
 
   @ApiProperty({
     description: 'User gender',
-    example: 'male'
+    example: UserGender.Male
   })
   @Expose()
   public gender: UserGender;
@@ -52,4 +53,47 @@ export class UserRdo {
   })
   @Expose()
   public dateBirth: string;
+
+  
+  @ApiProperty({
+    description: 'User role',
+    example: UserRole.User
+  })
+  @Expose()
+  public role: UserGender;
+
+  @ApiProperty({
+    description: 'Текст с общей информацией.',
+    example: 'John Doe is cool'
+  })
+  @Expose()
+  public description: string;
+  
+  @ApiProperty({
+    description: 'Станция метро. Одна из станций: «Пионерская», «Петроградская», «Удельная», «Звёздная», «Спортивная»',
+    example: UserLocation.Pion
+  })
+  @Expose()
+  public location: UserLocation;
+
+  @ApiProperty({
+    description: 'Фоновая картинка для карточки пользователя.',
+    example: '123456'
+  })
+  @Expose()
+  public image?: string;
+
+  @ApiProperty({
+    description: 'Уровень физической подготовки пользователя.',
+    example: UserLevel.Pro
+  })
+  @Expose()
+  public level: UserLevel;
+
+  @ApiProperty({
+    description: 'Тип тренировок.',
+    example: ['йога', 'бег', 'стрейчинг']
+  })
+  @Expose()
+  public typeOfTrain: string[];
 }

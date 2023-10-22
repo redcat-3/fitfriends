@@ -38,4 +38,9 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
       .findByIdAndUpdate(id, item.toObject(), { new: true })
       .exec();
   }
+
+  public async getFriendsByUserId(userId: string): Promise<string[] | null> {
+    const user = await this.userModel.findOne({ _id: userId })
+    return user.friends;
+  }
 }

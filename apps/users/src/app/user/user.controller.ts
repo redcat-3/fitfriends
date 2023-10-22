@@ -1,7 +1,7 @@
 import { Controller, Get, HttpStatus, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiResponse } from '@nestjs/swagger';
-import { UserRdo } from './rdo/user.rdo';
+import { UserRdo } from '../../../src/app/authentication/rdo/user.rdo';
 
 @Controller('user')
 export class UserController {

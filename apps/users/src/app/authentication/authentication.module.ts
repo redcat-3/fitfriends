@@ -8,10 +8,12 @@ import { JwtAccessStrategy, getJwtOptions } from '@project/util/util-core';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { RefreshTokenModule } from '../refresh-token/refresh-token.module';
+import { UserRepositoryModule } from '@project/repositories/user-repository';
 
 @Module({
   imports: [
     UserModule,
+    UserRepositoryModule,
     JwtModule.registerAsync({
       imports: [],
       inject: [ConfigService],

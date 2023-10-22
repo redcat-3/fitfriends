@@ -1,6 +1,6 @@
 import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { AuthError } from './authentication.constant';
-import { UserRepository } from '../user/user.repository';
+import { UserRepository } from '@project/repositories/user-repository';
 import { User, UserRole, UserTime } from '@project/shared/shared-types';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConfig } from '@project/config/config-users';
@@ -9,7 +9,7 @@ import { ConfigType } from '@nestjs/config';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 import { createJWTPayload } from '@project/util/util-core';
 import * as crypto from 'node:crypto';
-import { TypeEntityAdapter } from '../user/util/entity-adapter';
+import { TypeEntityAdapter } from '../../../../../repositories/user-repository/src/lib/entity-adapter';
 import dayjs from 'dayjs';
 import { adaptCreateDtoUser } from '@project/util/util-core';
 
@@ -111,9 +111,9 @@ export class AuthenticationService {
     return this.userRepository.update(id, userEntity);
   }
 
-  public async updateAvatar (id:string, avatarId:string){
+  public async updateAvatar (id:string, avatar:string){
     const user = await this.getUser(id);
-    const userEntity = new TypeEntityAdapter[user.role]({...user, avatarId});
+    const userEntity = new TypeEntityAdapter[user.role]({...user, avatar});
     return this.userRepository.update(id, userEntity);
   }
 }

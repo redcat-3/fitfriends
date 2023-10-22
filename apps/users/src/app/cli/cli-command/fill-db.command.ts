@@ -3,12 +3,12 @@ import { CreateUserDto } from '@project/shared/shared-dto';
 import mongoose from 'mongoose';
 import { DECIMAL } from '../../user/user.constant.js';
 import UserGenerator from '../user-generator.js';
-import { UserRepository } from '../../user/user.repository.js';
-import { UserModel } from '../../user/user.model.js';
+import { UserRepository } from '../../../../../../repositories/user-repository/src/lib/user.repository.js';
+import { UserModel } from '../../../../../../repositories/user-repository/src/lib/user.model.js';
 import dayjs from 'dayjs';
 import { ConflictException } from '@nestjs/common';
 import { AuthError } from '../../authentication/authentication.constant.js';
-import { TypeEntityAdapter } from '../../user/util/entity-adapter.js';
+import { TypeEntityAdapter } from '../../../../../../repositories/user-repository/src/lib/entity-adapter.js';
 
 export default class FillDbCommand implements CliCommandInterface {
   public readonly name = '--fill-db';

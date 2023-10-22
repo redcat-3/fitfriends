@@ -7,6 +7,7 @@ import { API_TAG_NAME, AuthError, AuthMessages, AuthPath } from './authenticatio
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserValidationPipe, MongoidValidationPipe } from '@project/shared/shared-pipes';
 import { RequestWithUser, RequestWithUserPayload } from '@project/shared/shared-types';
+import { adaptRdoUser } from '@project/util/util-core';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { ChangePasswordDto, CreateUserDto, UserCoachDto, UserUserDto } from '@project/shared/shared-dto';
@@ -26,7 +27,7 @@ import { ChangePasswordDto, CreateUserDto, UserCoachDto, UserUserDto } from '@pr
     @Post(AuthPath.Register)
     public async create(@Body(CreateUserValidationPipe) dto: CreateUserDto) {
       const newUser = await this.authService.register(dto);
-      return fillObject(UserRdo, newUser);
+      return adaptRdoUser(newUser);
     }
 
     @ApiResponse({
@@ -41,7 +42,8 @@ import { ChangePasswordDto, CreateUserDto, UserCoachDto, UserUserDto } from '@pr
     @UseGuards(LocalAuthGuard)
     @Post(AuthPath.Login)
     public async login(@Req() {user}: RequestWithUser) {
-    return await this.authService.createUserToken(user);
+    const loggedUser = await this.authService.createUserToken(user);
+    return await fillObject(LoggedUserRdo, loggedUser);
     }
 
     @ApiResponse({
@@ -52,7 +54,7 @@ import { ChangePasswordDto, CreateUserDto, UserCoachDto, UserUserDto } from '@pr
     @Get(AuthPath.Id)
     public async show(@Param('id', MongoidValidationPipe) id: string) {
       const existUser = await this.authService.getUser(id);
-      return fillObject(UserRdo, existUser);
+      return adaptRdoUser(existUser);
     }
 
     @ApiResponse({
@@ -90,6 +92,7 @@ import { ChangePasswordDto, CreateUserDto, UserCoachDto, UserUserDto } from '@pr
     @UseGuards(JwtAuthGuard)
     @Post(AuthPath.UpdateAvatar)
     public async updateAvatar(@Req() { user }: RequestWithUserPayload, @Body('avatarId') avatarId:string) {
-      return this.authService.updateAvatar(user.sub, avatarId);
+      const updatedUser = await this.authService.updateAvatar(user.sub, avatarId);
+      return adaptRdoUser(updatedUser);
     }
   }
