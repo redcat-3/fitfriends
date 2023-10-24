@@ -15,17 +15,3 @@ export function adaptCreateDtoUser(dto: CreateUserDto) {
   }
 }
 
-// export function adaptUpdateDtoPost(dto: UpdatePostContentDto) {
-//   switch (dto.type) {
-//     case PostType.Link:
-//       return plainToInstance(UpdateLinkPostDto, dto);
-//     case PostType.Photo:
-//       return plainToInstance(UpdatePhotoPostDto, dto);
-//     case PostType.Quote:
-//       return plainToInstance(UpdateQuotePostDto, dto);
-//     case PostType.Text:
-//       return plainToInstance(UpdateTextPostDto, dto);
-//     case PostType.Video:
-//       return plainToInstance(UpdateVideoPostDto, dto);
-//   }
-// }

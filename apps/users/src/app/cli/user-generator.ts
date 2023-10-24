@@ -1,8 +1,7 @@
 import { UserGender, UserGeneratorInterface, UserLevel, UserLocation, UserRole, UserTime } from '@project/shared/shared-types';
 import { MOCS_DATA } from './mocs';
 import { generateRandomValue, getRandomBoolean, getRandomItem, getRandomItems, randomDate } from '@project/util/util-core';
-import { CountCaloriesToReset, CountCaloriesToSpend, CreateUserDto } from '@project/shared/shared-dto';
-import { UserDto } from 'shared/shared-dto/src/lib/user/user.dto';
+import { CountCaloriesToReset, CountCaloriesToSpend, CreateUserDto, UserDto } from '@project/shared/shared-dto';
 
 const DEFAULT_USER_PASSWORD = '123456';
 

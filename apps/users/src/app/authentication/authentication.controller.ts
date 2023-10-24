@@ -1,11 +1,10 @@
-import { Body, Req, Controller, Get, HttpStatus,HttpCode, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Req, Controller, HttpStatus,HttpCode, Post, UseGuards } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { JwtAuthGuard, fillObject } from '@project/util/util-core';
-import { UserRdo } from './rdo/user.rdo';
-import { LoggedUserRdo } from './rdo/logged-user.rdo';
+import { LoggedUserRdo } from '../../../../../shared/shared-rdo/src/lib/auth/rdo/logged-user.rdo';
 import { API_TAG_NAME, AuthError, AuthMessages, AuthPath } from './authentication.constant';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateUserValidationPipe, MongoidValidationPipe } from '@project/shared/shared-pipes';
+import { CreateUserValidationPipe } from '@project/shared/shared-pipes';
 import { RequestWithUser, RequestWithUserPayload } from '@project/shared/shared-types';
 import { adaptRdoUser } from '@project/util/util-core';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -47,17 +46,6 @@ import { ChangePasswordDto, CreateUserDto, UserCoachDto, UserUserDto } from '@pr
     }
 
     @ApiResponse({
-      type: UserRdo,
-      status: HttpStatus.OK,
-      description: AuthMessages.UserFound
-    })
-    @Get(AuthPath.Id)
-    public async show(@Param('id', MongoidValidationPipe) id: string) {
-      const existUser = await this.authService.getUser(id);
-      return adaptRdoUser(existUser);
-    }
-
-    @ApiResponse({
       type: LoggedUserRdo,
       status: HttpStatus.OK,
       description: AuthMessages.PasswordChanged
@@ -87,7 +75,7 @@ import { ChangePasswordDto, CreateUserDto, UserCoachDto, UserUserDto } from '@pr
 
     @ApiResponse({
       status: HttpStatus.OK,
-      description:AuthMessages.AvatarAdded
+      description: AuthMessages.AvatarAdded
     })
     @UseGuards(JwtAuthGuard)
     @Post(AuthPath.UpdateAvatar)

@@ -7,7 +7,7 @@ import { TokenPayload } from '@project/shared/shared-types';
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(Strategy) {
   constructor(
-    private readonly configService: ConfigService,
+    private readonly configService: ConfigService
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

@@ -1,4 +1,5 @@
 export const  API_TAG_NAME ='authentication'
+export const USERNAME_FIELD_NAME = 'email';
 
 export const AuthError = {
   UserExists: 'User with this email already exists',

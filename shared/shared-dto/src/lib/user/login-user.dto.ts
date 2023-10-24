@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
-import {EMAIL_ERROR, UserPasswordLength} from './user-dto.constant'
+import {EMAIL_ERROR, UserPasswordLength} from './create/user-dto.constant'
 
 export class LoginUserDto {
   @ApiProperty({
