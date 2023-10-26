@@ -1,11 +1,86 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+enum WorkoutType {
+  yoga
+  running
+  boxing
+  stretching
+  crossfit
+  aerobics
+  pilates
+}
+
+enum UserLevel {
+  beginner
+  ethusiast
+  pro
+}
+
+enum UserGender {
+  male
+  female
+  indifferent
+}
+
+enum PaymentMethod {
+  visa
+  mir
+  umoney
+}
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  output          = "../../../../node_modules/.prisma/client"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Workout {
+  workoutId       Int         @id @default(autoincrement()) @map("workout_id")
+  name            String
+  background      String
+  level           UserLevel
+  type            WorkoutType
+  timeOfTraining  String      @map("time_of_training")
+  price           Int
+  caloriesToSpend Int         @map("calories_to_spend")
+  description     String
+  gender          UserGender
+  video           String
+  rating          Int         @default(0)
+  coachId         String      @map("coach_id")
+  special         Boolean
+  createdDate     DateTime    @default(now()) @map("created_date")
+  feedbacks       Feedback[]
+  orders          Order[]
+
+  @@map("workouts")
+}
+
+model Feedback {
+  feedbackId  Int      @id @default(autoincrement()) @map("feedback_id")
+  userId      String   @map("user_id")
+  workout     Workout  @relation(fields: [workoutId], references: [workoutId], onDelete: Cascade, onUpdate: Cascade)
+  workoutId   Int      @map("workout_id")
+  text        String   @default("")
+  createdDate DateTime @default(now()) @map("created_date")
+
+  @@map("feedbacks")
+}
+
+model Order {
+  orderId       Int           @id @default(autoincrement()) @map("order_id")
+  orderType     String
+  workout       Workout       @relation(fields: [workoutId], references: [workoutId], onDelete: Cascade, onUpdate: Cascade)
+  workoutId     Int           @map("workout_id")
+  userId        String        @map("user_id")
+  price         Int
+  count         Int
+  orderPrice    Int           @map("order_price")
+  paymentMethod PaymentMethod @map("payment_method")
+  createdDate   DateTime      @default(now()) @map("created_date")
+
+  @@map("orders")
 }

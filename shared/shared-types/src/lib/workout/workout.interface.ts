@@ -4,18 +4,19 @@ import { UserTime } from "../user/user-time.enum";
 import { WorkoutType } from "./workout-type.enum";
 
 export interface Workout {
-  id?: string;
+  workoutId?: number;
   name: string;
   background: string;
   level: UserLevel;
   type: WorkoutType;
-  timeOfTrain: UserTime;
+  timeOfTraining: UserTime;
   price: number;
   caloriesToSpend: number;
   description: string;
   gender: UserGender;
   video: string;
   rating: number;
-  coach: string;
+  coachId: string;
   special: boolean;
+  createdDate: string;
 }

@@ -19,7 +19,7 @@ export interface User {
   image?: string;
   level: UserLevel;
   typeOfTrain?: string[];
-  timeOfTrain?: UserTime;
+  timeOfTraining?: UserTime;
   caloriesToReset: number;
   caloriesToSpend: number;
   trainingReady: boolean;
