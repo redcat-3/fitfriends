@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { PostRepository } from './workout.repository';
+import { WorkoutRepository } from './workout.repository';
 import { PrismaModule } from './prisma/prisma.module';
-import { LikeRepository } from './like.repository';
-import { CommentRepository } from './comment.repository';
+// import { OrderRepository } from './order.repository';
+// import { FeeddbackRepository } from './feedback.repository';
 
 @Module({
   imports: [PrismaModule],
-  providers: [PrismaModule, PostRepository,  LikeRepository, CommentRepository],
-  exports: [PrismaModule, PostRepository,  LikeRepository, CommentRepository]
+  providers: [PrismaModule, WorkoutRepository],
+  exports: [PrismaModule, WorkoutRepository]
 })
 export class PostRepositoryModule {}

@@ -1,167 +1,87 @@
 import { CRUDRepository } from '@project/util/util-types';
-import { PostContentType, PostStatus } from '@project/shared/app-types';
-import { PostQuery, SearchPostsQuery } from '@project/shared/shared-queries';
+import { IWorkout } from '@project/shared/shared-types';
+import { WorkoutQuery } from '@project/shared/shared-query';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
-import { adaptPrismaPost } from './utils/adapt-prisma-post';
-import { formatTags } from './utils/helpers';
-import { Prisma, PostType} from '@prisma/client';
-import { PostContentEntity } from './entity/post-content-entity.type';
+import { Prisma } from '@prisma/client';
+import { WorkoutEntity } from './workout.entity';
+import { adaptPrismaWorkout } from './utils/adapt-prisma-workout';
 
 @Injectable()
-export class PostRepository implements CRUDRepository<PostContentEntity, number, PostContentType> {
+export class WorkoutRepository implements CRUDRepository<WorkoutEntity, number, IWorkout> {
   constructor(private readonly prisma: PrismaService) { }
 
-  public async create(item: PostContentEntity): Promise<PostContentType> {
-    const post: Prisma.PostCreateInput = {
+  public async create(item:  WorkoutEntity): Promise<IWorkout> {
+    const workout: Prisma.WorkoutCreateInput = {
       ...item.toObject(),
-      userId: item._userId,
-      originUserId: item._originUserId,
-      originId: item._originId,
     }
-    if(item.tags){
-      post.tags = formatTags(item.tags)
-    }
-    const createdPost = await this.prisma.post.create({data: post});
-    return adaptPrismaPost(createdPost)
+    const createdWorkout = await this.prisma.workout.create({data: workout});
+    return adaptPrismaWorkout(createdWorkout);
   }
 
-  public async findById(postId: number): Promise<PostContentType | null> {
-    const post = await this.prisma.post.findFirst({
+  public async findById(workoutId: number): Promise<IWorkout | null> {
+    const workout = await this.prisma.workout.findFirst({
       where: {
-        postId
+        workoutId
       },
       include: {
-        comments: true,
-        likes: true,
+        feedbacks: true,
+        orders: true,
       },
     });
-    return adaptPrismaPost(post)
+    return adaptPrismaWorkout(workout);
   }
 
-  public async findRepost(postId: number, userId:string): Promise<PostContentType | null> {
-    const post = await this.prisma.post.findFirst({
-      where: {
-      AND:{
-        originId: postId,
-        userId
-      }},
-      include: {
-        comments: true,
-        likes: true,
-      },
-    });
-    return adaptPrismaPost(post)
-  }
-
-  public async findAll({ limit, page, sortBy, type, sortDirection, user, tag }: PostQuery): Promise<PostContentType[]> {
+  public async findAll({ limit, page, sortBy, caloriesToSpend, sortDirection, price, timeOfTraining, rating }: WorkoutQuery): Promise<IWorkout[]> {
     const queryParams = {
       where: {
         AND: {
-          status: PostStatus.Published,
-          type: type as PostType,
-          userId: user,
-          tags:undefined
+          price,
+          timeOfTraining,
+          caloriesToSpend,
+          rating
         }
       },
       take: limit,
       include: {
-        comments: true,
-        likes: true,
+        feedbacks: true,
+        orders: true,
       },
       orderBy: [
         { [sortBy]: sortDirection }
       ],
       skip: page > 0 ? limit * (page - 1) : undefined,
     }
-    if (tag) {
-      queryParams.where.AND.tags = { has: tag };
-    }
-    const posts = await this.prisma.post.findMany(queryParams);
-    return posts.map((post) => adaptPrismaPost(post))
+    const workouts = await this.prisma.workout.findMany(queryParams);
+    return workouts.map((workout) => adaptPrismaWorkout(workout))
   }
 
-  public async getFullList(): Promise<PostContentType[]> {
-    const posts = await this.prisma.post.findMany({
-      where: {
-          status: PostStatus.Published
-      },
-      include: {
-        comments: true,
-        likes: true,
-      },
-    });
-    return posts.map((post) => adaptPrismaPost(post))
-  }
-
-  public async searchByTitle({ title, limit }: SearchPostsQuery): Promise<PostContentType[]> {
-    const posts = await this.prisma.post.findMany({
-      where: {
-        AND: {
-          status: PostStatus.Published,
-          title: {
-            search: title.split(" ").join(" & ")
-          }
-        }
-      },
-      take: limit,
-      include: {
-        comments: true,
-        likes: true,
-      },
-    });
-    return posts.map((post) => adaptPrismaPost(post))
-  }
-
-  public async searchByUserId( userId: string ): Promise<PostContentType[]> {
+  public async searchByUserId( userId: string ): Promise<IWorkout[]> {
     const queryParams = {
       where: {
-        userId
-      },
-    }
-    const posts = await this.prisma.post.findMany(queryParams);
-    return posts.map((post) => adaptPrismaPost(post))
-  }
-
-  public async findDrafts(userId: string): Promise<PostContentType[]> {
-    const posts = await this.prisma.post.findMany({
-      where: {
-        AND: {
-          status: PostStatus.Draft,
-          userId: userId,
-        }
-      },
-      include: {
-        comments: true,
-        likes: true,
+        coachId: userId,
       }
-    });
-    return posts.map((post) => adaptPrismaPost(post))
+    }
+    const workouts = await this.prisma.workout.findMany(queryParams);
+    return workouts.map((workout) => adaptPrismaWorkout(workout))
   }
 
-  public async update(postId: number, item: PostContentEntity): Promise<PostContentType> {
+  public async update(workoutId: number, item: WorkoutEntity): Promise<IWorkout> {
     const data = {
       ...item.toObject(),
-      tags:formatTags(item.tags),
-      userId: item._userId,
-      originUserId: item._originUserId
     }
-    delete data._id;
-    delete data._userId;
-    delete data._originUserId;
-
-    const post = await this.prisma.post.update({
-      where: { postId },
+    const workout = await this.prisma.workout.update({
+      where: { workoutId },
       data,
       include: {
-        comments: true,
-        likes: true,
+        feedbacks: true,
+        orders: true,
       }
     });
-    return adaptPrismaPost(post)
+    return adaptPrismaWorkout(workout)
   }
 
-  public async destroy(postId: number): Promise<void> {
-    await this.prisma.post.delete({ where: { postId } });
+  public async destroy(workoutId: number): Promise<void> {
+    await this.prisma.workout.delete({ where: { workoutId } });
   }
 }

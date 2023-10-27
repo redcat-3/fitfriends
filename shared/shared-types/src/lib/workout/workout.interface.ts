@@ -1,10 +1,9 @@
-import { UserGender } from "../user/user-gender.enum";
-import { UserLevel } from "../user/user-level.enum";
 import { UserTime } from "../user/user-time.enum";
-import { WorkoutType } from "./workout-type.enum";
+import { WorkoutType, UserLevel, UserGender } from "@prisma/client";
 
-export interface Workout {
+export interface IWorkout {
   workoutId?: number;
+  coachId: string;
   name: string;
   background: string;
   level: UserLevel;
@@ -16,7 +15,6 @@ export interface Workout {
   gender: UserGender;
   video: string;
   rating: number;
-  coachId: string;
   special: boolean;
   createdDate: string;
 }
