@@ -1,8 +1,8 @@
 export interface Feedback {
-  feedbackId: number;
+  feedbackId?: number;
   workoutId: number;
   userId: string;
   rating: number;
   text: string;
-  createdDate: string;
+  createdDate: Date;
 }

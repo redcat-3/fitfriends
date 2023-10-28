@@ -1,4 +1,5 @@
-import { PaymentMethod } from "./payment-method.enum";
+import { PaymentMethod } from "@prisma/client";
+
 
 export interface Order {
   orderId: number;
@@ -9,5 +10,5 @@ export interface Order {
   count: number;
   orderPrice: number;
   paymentMethod: PaymentMethod;
-  createdDate: string;
+  createdDate: Date;
 }

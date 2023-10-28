@@ -64,6 +64,7 @@ model Feedback {
   userId      String   @map("user_id")
   workout     Workout  @relation(fields: [workoutId], references: [workoutId], onDelete: Cascade, onUpdate: Cascade)
   workoutId   Int      @map("workout_id")
+  rating      Float
   text        String   @default("")
   createdDate DateTime @default(now()) @map("created_date")
 

@@ -4,12 +4,12 @@ import { WorkoutQuery } from '@project/shared/shared-query';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import { Prisma } from '@prisma/client';
-import { WorkoutEntity } from './workout.entity';
+import { WorkoutEntity } from './entities/workout.entity';
 import { adaptPrismaWorkout } from './utils/adapt-prisma-workout';
 
 @Injectable()
 export class WorkoutRepository implements CRUDRepository<WorkoutEntity, number, IWorkout> {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor( private readonly prisma: PrismaService ) { }
 
   public async create(item:  WorkoutEntity): Promise<IWorkout> {
     const workout: Prisma.WorkoutCreateInput = {
@@ -79,6 +79,31 @@ export class WorkoutRepository implements CRUDRepository<WorkoutEntity, number, 
       }
     });
     return adaptPrismaWorkout(workout)
+  }
+
+  public async addFeedback(workoutId: number, newRating: number): Promise<IWorkout| null> {
+    const currentWorkout = await this.prisma.workout.findFirst({
+      where:{
+        workoutId
+      },
+      include: {
+        feedbacks: true,
+      }
+    });
+    if (!currentWorkout) {
+      return null;
+    }
+    const rating = ((currentWorkout.rating + newRating) / (currentWorkout.feedbacks.length + 1)).toFixed(1);
+    const workout = await this.prisma.workout.update({
+      where:{
+        workoutId
+      },
+      data: {
+        rating: +rating
+      }
+     });
+     
+    return adaptPrismaWorkout(workout);
   }
 
   public async destroy(workoutId: number): Promise<void> {

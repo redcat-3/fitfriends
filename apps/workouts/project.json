@@ -57,6 +57,34 @@
           "ci": true,
           "codeCoverage": true
         }
+      },
+      "db:lint": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "npx prisma validate --schema ./schema.prisma",
+          "cwd": "models/workout-models/prisma"
+        }
+      },
+      "db:migrate": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "npx prisma migrate dev --schema ./schema.prisma --skip-seed",
+          "cwd": "models/workout-models/prisma"
+        }
+      },
+      "db:reset": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "npx prisma migrate reset --schema ./schema.prisma --force --skip-seed",
+          "cwd": "models/workout-models/prisma"
+        }
+      },
+      "db:generate": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "npx prisma generate --schema ./schema.prisma",
+          "cwd": "models/workout-models/prisma"
+        }
       }
     }
   },
