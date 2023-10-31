@@ -5,7 +5,7 @@ import { UserModule } from '../user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { getJwtOptions } from '@project/util/util-core';
-import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
+import { JwtAccessStrategy } from '../../../../../util/util-core/src/lib/jwt-access.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { RefreshTokenModule } from '../refresh-token/refresh-token.module';

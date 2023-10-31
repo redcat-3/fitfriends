@@ -7,7 +7,7 @@ import {
   UserDescriptionLength,
   UserNameLength, 
   UserPasswordLength
-} from './user-dto.constant'
+} from '../user-dto.constant'
 import { UserGender, UserLevel, UserLocation, UserRole } from '@project/shared/shared-types';
 
 export class UserDto {
@@ -88,7 +88,7 @@ export class UserDto {
   })
   @IsString()
   @IsOptional()
-  public image?: string;
+  public image: string;
 
   @ApiProperty({
     description: 'Уровень физической подготовки пользователя.',

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UpdateAbstractUserDto } from './update-abstract-user.dto';
 import { IsBoolean, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
-import { CoachMeritLength } from './user-dto.constant';
+import { CoachMeritLength } from '../user-dto.constant';
 
 export class UpdateUserCoachDto extends UpdateAbstractUserDto {
   @ApiProperty({

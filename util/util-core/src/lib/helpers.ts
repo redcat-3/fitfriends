@@ -1,5 +1,6 @@
 import {plainToInstance, ClassConstructor} from 'class-transformer';
 import { ParseTimeError } from './util.constant';
+import dayjs = require('dayjs');
 
 export function fillObject<T, V>(someDto: ClassConstructor<T>, plainObject: V) {
   return plainToInstance(someDto, plainObject, {excludeExtraneousValues: true});
@@ -11,6 +12,10 @@ export function getMongoConnectionString({username, password, databaseName, host
 
 export function getRabbitMQConnectionString({user, password, host, port}): string {
   return `amqp://${user}:${password}@${host}:${port}`;
+}
+
+export const getDate = () => {
+  return dayjs().toISOString();
 }
 
 export type DateTimeUnit = 's' | 'h' | 'd' | 'm' | 'y';

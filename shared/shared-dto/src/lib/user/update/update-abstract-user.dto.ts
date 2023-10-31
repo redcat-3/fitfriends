@@ -4,7 +4,7 @@ import {
   MAX_TRAIN_COUNT,
   UserDescriptionLength,
   UserNameLength
-} from './user-dto.constant'
+} from '../user-dto.constant'
 import { UserGender, UserLevel, UserLocation } from '@project/shared/shared-types';
 
 export class UpdateAbstractUserDto {

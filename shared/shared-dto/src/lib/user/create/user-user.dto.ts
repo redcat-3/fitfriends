@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { UserDto } from './user.dto';
 import { IsBoolean, IsEnum, IsNumber, IsOptional, Max, Min } from 'class-validator';
 import { UserTime } from '@project/shared/shared-types';
-import { CountCaloriesToReset, CountCaloriesToSpend } from './user-dto.constant';
+import { CountCaloriesToReset, CountCaloriesToSpend } from '../user-dto.constant';
 
 export class UserUserDto extends UserDto{
   @ApiProperty({
@@ -11,7 +11,7 @@ export class UserUserDto extends UserDto{
   })
   @IsEnum(UserTime)
   @IsOptional()
-  public timeOfTrain?: UserTime;
+  public timeOfTraining?: UserTime;
      
   @ApiProperty({
     description: 'Количество калорий для сброса.',

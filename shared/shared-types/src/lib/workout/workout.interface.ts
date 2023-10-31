@@ -1,4 +1,3 @@
-import { UserTime } from "../user/user-time.enum";
 import { WorkoutType, UserLevel, UserGender } from "@prisma/client";
 
 export interface IWorkout {
@@ -8,7 +7,7 @@ export interface IWorkout {
   background: string;
   level: UserLevel;
   type: WorkoutType;
-  timeOfTraining: UserTime;
+  timeOfTraining: string;
   price: number;
   caloriesToSpend: number;
   description: string;

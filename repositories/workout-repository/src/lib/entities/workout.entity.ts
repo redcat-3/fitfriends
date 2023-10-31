@@ -1,14 +1,14 @@
-import { UserTime, IWorkout } from '@project/shared/shared-types';
+import { IWorkout } from '@project/shared/shared-types';
 import { UserGender, UserLevel, WorkoutType } from '@prisma/client';
 
-export abstract class WorkoutEntity implements IWorkout {
+export class WorkoutEntity implements IWorkout {
   public workoutId?: number;
   public coachId: string;
   public name: string;
   public background: string;
   public level: UserLevel;
   public type: WorkoutType;
-  public timeOfTraining: UserTime;
+  public timeOfTraining: string;
   public price: number;
   public caloriesToSpend: number;
   public description: string;

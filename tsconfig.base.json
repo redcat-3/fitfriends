@@ -16,6 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@project/config/config-users": ["config/config-users/src/index.ts"],
+      "@project/config/config-workouts": [
+        "config/config-workouts/src/index.ts"
+      ],
       "@project/models/workout-models": ["models/workout-models/src/index.ts"],
       "@project/repositories/user-repository": [
         "repositories/user-repository/src/index.ts"
