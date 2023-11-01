@@ -3,13 +3,14 @@ import { ConfigModule } from '@nestjs/config';
 import { ENV_WORKOUTS_FILE_PATH } from './config-workouts.constant';
 import jwtConfig from './config/jwt.config';
 import appConfig from './config/app.config';
+import dbConfig from './config/db.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      load: [appConfig, jwtConfig],
+      load: [appConfig, jwtConfig, dbConfig],
       envFilePath: ENV_WORKOUTS_FILE_PATH
     }),
   ]

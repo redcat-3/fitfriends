@@ -16,22 +16,21 @@ POST http://localhost:3001/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "test3@test1.local",
-  "name": "Test Doe",
+  "email": "coach@test.local",
+  "name": "Coach Doe",
   "password": "123456",
   "avatarId": "C:/img/content/avatars/users/photo-1.png",
   "gender": "male",
   "dateBirth": "2012-02-22",
-  "role": "user",
+  "role": "coach",
   "description": "Страшный рассказ о драконе. Колдовство, предательство и необыкновенный мир фэнтези.",
   "location": "Пионерская",
   "image": "C:/img/content/avatars/users/photo-1.png",
-  "level": "новичок",
+  "level": "pro",
   "typeOfTrain": ["йога", "стрейчинг"],
-  "timeOfTrain": "50-80",
-  "caloriesToReset": 1500,
-  "caloriesToSpend": 1500,
-  "trainingReady": true
+  "certificate": "certificate.jpg",
+  "merit": "studed yoga in India 5 years",
+  "personalTraining": true
 }
 
 ###

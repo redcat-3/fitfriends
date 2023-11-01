@@ -13,9 +13,9 @@ export class WorkoutQuery {
   @IsOptional()
   public page: number;
 
-  @IsIn(['postedDate', 'likesCount', 'commentsCount'])
+  @IsIn(['createdAt'])
   @IsOptional()
-  public sortBy?: 'postedDate' | 'likesCount' | 'commentsCount' = DefaultSortParam.Type;
+  public sortBy?: 'createdAt' | 'udefined' = DefaultSortParam.Type;
 
   @IsInt()
   @IsOptional()

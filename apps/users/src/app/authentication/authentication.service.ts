@@ -41,7 +41,7 @@ export class AuthenticationService {
     } else if (user.role === UserRole.Сoach) {
       user = {
         ... user,
-        timeOfTrain: UserTime.One,
+        timeOfTraining: UserTime.One,
         caloriesToReset: 1000,
         caloriesToSpend: 1000,
         trainingReady: false,

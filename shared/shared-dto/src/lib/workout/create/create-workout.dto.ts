@@ -79,7 +79,7 @@ export class CreateWorkoutDto {
 
   @ApiProperty({
     description: 'Видео файл с демонстрацией тренировки.',
-    example: 'image.jpg'
+    example: 'video.mov'
   })
   @IsString()
   public video: string;

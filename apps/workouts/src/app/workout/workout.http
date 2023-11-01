@@ -1,0 +1,87 @@
+@token={{login.response.body.accessToken}}
+# @name login
+# Login user by email and password
+
+POST http://localhost:3001/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "coach@test.local",
+  "password": "123456"
+}
+
+###
+
+# Create post
+POST http://localhost:3002/api/workout/add HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Yoga",
+  "background": "image.jpg",
+  "level": "beginner",
+  "type": "yoga",
+  "timeOfTraining": "30-50",
+  "price": 2500,
+  "caloriesToSpend": 1500,
+  "description": "Yoga for beginners",
+  "gender": "indifferent",
+  "video": "/video1.mov",
+  "special": false
+}
+
+###
+
+# Update post by ID
+PATCH http://localhost:3002/api/workout/list/coach/3 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Yoga for all",
+  "timeOfTraining": "50-80"
+}
+
+###
+
+# Get post by ID
+GET http://localhost:3002/api/workout/list/coach/3 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Get all posts and filtres
+GET http://localhost:3002/api/workout/list HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Get all posts
+GET http://localhost:3002/api/workout/list/coach HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Delete post
+DELETE  http://localhost:3002/api/workout/list/coach/1 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# # Get comments of the post
+# GET http://localhost:3000/api/post/6485f358299152496b800a62/comments HTTP/1.1
+
+# ###
+
+# # Post new comment of the post
+# POST http://localhost:3333/api/post/6485f358299152496b800a62/comments HTTP/1.1
+# Authorization: Bearer {{token}}
+# Content-Type: application/json
+
+# {
+#   "text": "The universe loves you",
+#   "author": "6485f358299152496b800a62"
+# }
+# ###
+

@@ -16,6 +16,13 @@ export class WorkoutService {
   ) { }
 
   public async create(dto: CreateWorkoutDto, coachId: string) {
+    const coach = await this.userRepository.findById(coachId);
+    if (!coach) {
+      throw new NotFoundException(WorkoutsError.UserNotFound);
+    } 
+    if (coach.role !== UserRole.Сoach) {
+      throw new BadRequestException(WorkoutsError.WrongRole);
+    }
     const workout = {
       ...dto,
       coachId,
@@ -63,9 +70,11 @@ export class WorkoutService {
 
   public async remove(workoutId: number, coachId: string) {
     const workout = await this.findByWorkoutId(workoutId);
-    if (coachId !== workout.coachId) {
-      throw new BadRequestException(WorkoutsError.NotUserAuthor)
+    if (coachId === workout.coachId) {
+      return this.workoutRepository.destroy(workoutId);
+    } else {
+      throw new BadRequestException(WorkoutsError.NotUserAuthor);
     }
-    return this.workoutRepository.destroy(workoutId);
+    
   }
 }

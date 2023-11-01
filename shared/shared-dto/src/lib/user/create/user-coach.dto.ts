@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserDto } from './user.dto';
 import { IsBoolean, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
-import { CoachMeritLength } from './user-dto.constant';
+import { CoachMeritLength } from '../user-dto.constant';
 
 export class UserCoachDto extends UserDto{
   @ApiProperty({

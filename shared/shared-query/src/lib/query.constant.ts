@@ -5,7 +5,7 @@ export const DefaultPostsLimit = {
 
 export const DefaultSortParam = {
   Direction: 'desc',
-  Type: 'postedDate',
+  Type: 'createdAt',
 } as const;
 
 export const TagDefaultParam = {
