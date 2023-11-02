@@ -82,6 +82,13 @@ export class WorkoutRdo {
   public video: string;
 
   @ApiProperty({
+    description: 'Рейтинг тренировки, рассчитывается автоматически',
+    example: 4
+  })
+  @Expose()
+  public rating: number;
+
+  @ApiProperty({
     description: 'Флаг определяет участие тренировки (участвует, не участвует) в качестве специального предложения.',
     example: true
   })

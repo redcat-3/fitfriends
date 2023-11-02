@@ -11,3 +11,5 @@ export * from './lib/user/user-dto.constant';
 export * from './lib/workout/create/create-workout.dto';
 export * from './lib/workout/update/update-workout.dto';
 export * from './lib/workout/workout-dto.constant';
+export * from './lib/reaction/create/create-feedback.dto';
+export * from './lib/reaction/reaction.constant';

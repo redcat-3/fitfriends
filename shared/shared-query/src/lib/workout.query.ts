@@ -13,9 +13,9 @@ export class WorkoutQuery {
   @IsOptional()
   public page: number;
 
-  @IsIn(['createdAt'])
+  @IsIn(['createdAt', 'price'])
   @IsOptional()
-  public sortBy?: 'createdAt' | 'udefined' = DefaultSortParam.Type;
+  public sortBy?: 'createdAt' | 'price' = DefaultSortParam.Type;
 
   @IsInt()
   @IsOptional()
