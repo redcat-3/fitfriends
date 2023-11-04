@@ -8,6 +8,7 @@ import { UserRepositoryModule } from '@project/repositories/user-repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { getMongooseOptions } from '@project/util/util-core';
 import { FeedbackModule } from './feedback/feedback.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { FeedbackModule } from './feedback/feedback.module';
     UserRepositoryModule,
     MongooseModule.forRootAsync(getMongooseOptions(ConfigName.Db)),
     FeedbackModule,
+    OrderModule,
   ],
   controllers: [],
   providers: [],

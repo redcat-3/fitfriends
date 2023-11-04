@@ -12,6 +12,12 @@ export interface DbConfig {
 }
 
 export default registerAs(ConfigName.Db, (): DbConfig => {
+  if (!process.env.MONGO_HOST || !process.env.MONGO_PORT || !process.env.MONGO_DB || !process.env.MONGO_USER
+    || !process.env.MONGO_PASSWORD || !process.env.MONGO_AUTH_BASE) {
+    throw new Error(
+      `[Application Config]: ${DEFAULT_ERROR_MESSAGE} PORT undefined`,
+    );
+  }
   const config: DbConfig = {
     host: process.env.MONGO_HOST,
     port: parseInt(process.env.MONGO_PORT, 10),

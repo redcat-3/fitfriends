@@ -1,16 +1,17 @@
 import {plainToInstance, ClassConstructor} from 'class-transformer';
 import { ParseTimeError } from './util.constant';
 import dayjs = require('dayjs');
+import { MongoConnectionString, RabbitConnectionString } from '@project/shared/shared-types';
 
 export function fillObject<T, V>(someDto: ClassConstructor<T>, plainObject: V) {
   return plainToInstance(someDto, plainObject, {excludeExtraneousValues: true});
 }
 
-export function getMongoConnectionString({username, password, databaseName, host, port, authDatabase}): string {
+export function getMongoConnectionString({username, password, databaseName, host, port, authDatabase}: MongoConnectionString): string {
   return `mongodb://${username}:${password}@${host}:${port}/${databaseName}?authSource=${authDatabase}`;
 }
 
-export function getRabbitMQConnectionString({user, password, host, port}): string {
+export function getRabbitMQConnectionString({user, password, host, port}: RabbitConnectionString): string {
   return `amqp://${user}:${password}@${host}:${port}`;
 }
 

@@ -3,6 +3,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigWorkoutsModule } from '@project/config/config-workouts';
 import { UserRepositoryModule } from '@project/repositories/user-repository';
 import { WorkoutRepositoryModule } from '@project/repositories/workout-repository';
+import { ConfigService } from '@nestjs/config';
+import { getJwtOptions } from '@project/util/util-core';
 import { FeedbacksController } from './feedback.controller';
 import { JwtAccessStrategy } from '@project/util/util-core';
 import { FeedbacksService } from './feedback.service';
@@ -13,12 +15,9 @@ import { FeedbacksService } from './feedback.service';
     UserRepositoryModule,
     ConfigWorkoutsModule,
     JwtModule.registerAsync({
-      useFactory: async () => ({
-        secretOrPrivateKey: process.env.JWT_SECRET_KEY,
-        signOptions: {
-          expiresIn: process.env.JWT_EXPIRATION_TIME,
-        },
-      }),
+      imports: [],
+      inject: [ConfigService],
+      useFactory: getJwtOptions,
     }),
   ],
   controllers: [FeedbacksController],

@@ -3,19 +3,19 @@ import { compare, genSalt, hash } from 'bcrypt';
 import { SALT_ROUNDS } from '../user-repository.constant';
 
 export class UserAbstractEntity implements UserAbstract {
-    public _id: string;
+    public _id: string | undefined;
     public email: string;
     public name: string;
     public passwordHash: string;
     public avatar?: string;
     public gender: UserGender;
-    public dateBirth: Date;
+    public dateBirth: Date | undefined;
     public role: UserRole;
-    public description: string;
+    public description: string | undefined;
     public location: UserLocation;
     public image?: string;
     public level: UserLevel;
-    public typeOfTrain: string[];
+    public typeOfTrain: string[] | undefined;
     public friends?: string[];
 
   constructor(userData: UserAbstract) {

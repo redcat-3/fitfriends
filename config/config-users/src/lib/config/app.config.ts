@@ -9,6 +9,11 @@ export interface ApplicationConfig {
 }
 
 export default registerAs(ConfigName.App, (): ApplicationConfig => {
+  if (!process.env.PORT || !process.env.NODE_ENV || !process.env.GLOBAL_PREFIX) {
+    throw new Error(
+      `[Application Config]: ${DEFAULT_ERROR_MESSAGE} variable is undefined`,
+    );
+  }
   const config: ApplicationConfig = {
     environment: process.env.NODE_ENV,
     port: parseInt(process.env.PORT, 10),

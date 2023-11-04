@@ -8,7 +8,7 @@ import { UserTime } from '@project/shared/shared-types';
 export class CreateWorkoutDto {
   @ApiProperty({
     description: `Название тренировки. Ограничения: обязательно для заполнения; минимальная длина ${NameLength.Min} символ, максимальная длина ${NameLength.Max} символов.`,
-    example: 'John Doe is cool'
+    example: 'Joga'
   })
   @IsString()
   @MinLength(NameLength.Min)
@@ -46,7 +46,7 @@ export class CreateWorkoutDto {
 
   @ApiProperty({
     description: `Стоимость тренировки в рублях. Ограничения: целые числа; число больше или равно 0. Значение 0 подразумевает бесплатную тренировку.`,
-    example: 'John Doe is cool'
+    example: 500
   })
   @IsInt()
   @Min(DEFAULT_AMOUNT)
@@ -54,7 +54,7 @@ export class CreateWorkoutDto {
 
   @ApiProperty({
     description: `Количество калорий. Ограничения: обязательно для заполнения; минимальное значение ${CountCaloriesToReset.Min}, максимально значение ${CountCaloriesToReset.Max}; только целые числа.`,
-    example: 'John Doe is cool'
+    example: 1500
   })
   @IsInt()
   @Max(CountCaloriesToReset.Max)

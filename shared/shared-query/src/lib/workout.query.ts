@@ -1,7 +1,7 @@
 import { IsIn, IsEnum,IsOptional, IsNumber, IsInt } from 'class-validator';
 import { UserTime } from '@project/shared/shared-types';
 import { Transform } from 'class-transformer';
-import { DefaultPostsLimit, DefaultSortParam } from './query.constant';
+import { DEFAULT_PAGE, DefaultPostsLimit, DefaultSortParam } from './query.constant';
 
 export class WorkoutQuery {
   @Transform(({ value } ) => +value || DefaultPostsLimit.Query)
@@ -9,13 +9,13 @@ export class WorkoutQuery {
   @IsOptional()
   public limit = DefaultPostsLimit.Query;
 
-  @Transform(({ value }) => +value)
+  @Transform(({ value }) => +value || DEFAULT_PAGE)
   @IsOptional()
-  public page: number;
+  public page = DEFAULT_PAGE;
 
   @IsIn(['createdAt', 'price'])
   @IsOptional()
-  public sortBy?: 'createdAt' | 'price' = DefaultSortParam.Type;
+  public sortBy: string = DefaultSortParam.Type;
 
   @IsInt()
   @IsOptional()
@@ -31,9 +31,9 @@ export class WorkoutQuery {
 
   @IsEnum(UserTime)
   @IsOptional()
-  public timeOfTraining: string;
+  public timeOfTraining?: string;
 
   @IsIn(['asc', 'desc'])
   @IsOptional()
-  public sortDirection: 'desc' | 'asc' = DefaultSortParam.Direction;
+  public sortDirection: string = DefaultSortParam.Direction;
 }

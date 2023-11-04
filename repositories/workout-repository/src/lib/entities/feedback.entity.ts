@@ -1,7 +1,7 @@
 import { Feedback } from '@project/shared/shared-types';
 
 export class FeedbackEntity implements Feedback {
-  public feedbackId: number;
+  public feedbackId: number | undefined;
   public workoutId: number;
   public userId: string;
   public rating: number;
@@ -9,14 +9,6 @@ export class FeedbackEntity implements Feedback {
   public createdDate: Date;
 
   constructor(feedback: Feedback) {
-    this.fillEntity(feedback);
-  }
-  
-  public toObject() {
-    return {...this };
-  }
-
-  public fillEntity(feedback: Feedback) {
     this.feedbackId = feedback.feedbackId;
     this.workoutId = feedback.workoutId;
     this.userId = feedback.userId;
@@ -24,4 +16,9 @@ export class FeedbackEntity implements Feedback {
     this.text = feedback.text;
     this.createdDate = feedback.createdDate;
   }
+  
+  public toObject() {
+    return {...this };
+  }
+
 }

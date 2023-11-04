@@ -13,6 +13,11 @@ export async function getJwtOptions(configService: ConfigService): Promise<JwtMo
 }
 
 export function createJWTPayload(user: User): TokenPayload {
+  if(!user._id) {
+    throw new Error(
+      `User not found`,
+    );
+  }
   return {
     sub: user._id,
     email: user.email,

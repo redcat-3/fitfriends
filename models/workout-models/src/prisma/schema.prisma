@@ -26,6 +26,10 @@ enum PaymentMethod {
   umoney
 }
 
+enum OrderType {
+  subscription
+}
+
 generator client {
   provider        = "prisma-client-js"
   output          = "../../../../node_modules/.prisma/client"
@@ -73,7 +77,7 @@ model Feedback {
 
 model Order {
   orderId       Int           @id @default(autoincrement()) @map("order_id")
-  orderType     String
+  orderType     OrderType
   workout       Workout       @relation(fields: [workoutId], references: [workoutId], onDelete: Cascade, onUpdate: Cascade)
   workoutId     Int           @map("workout_id")
   userId        String        @map("user_id")

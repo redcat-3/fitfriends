@@ -9,7 +9,7 @@ import { PrismaService } from './prisma/prisma.service';
 export class FeedbackRepository implements CRUDRepository<FeedbackEntity, number, Feedback> {
   constructor(private readonly prisma: PrismaService) {}
 
-  public async create(item: FeedbackEntity): Promise<Feedback | null> {
+  public async create(item: FeedbackEntity): Promise<Feedback> {
     return await this.prisma.feedback.create({data: {...item.toObject()}}); 
   }
 

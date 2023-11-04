@@ -1,9 +1,9 @@
 import { Order } from '@project/shared/shared-types';
-import { PaymentMethod } from '@prisma/client';
+import { OrderType, PaymentMethod } from '@prisma/client';
 
 export class OrderEntity implements Order {
-  public orderId: number;
-  public orderType: string;
+  public orderId: number | undefined;
+  public orderType: OrderType;
   public workoutId: number;
   public userId: string;
   public price: number;
@@ -12,15 +12,7 @@ export class OrderEntity implements Order {
   public paymentMethod: PaymentMethod;
   public createdDate: Date;
 
-  constructor(Order: Order) {
-    this.fillEntity(Order);
-  }
-  
-  public toObject() {
-    return {...this };
-  }
-
-  public fillEntity(order: Order) {
+  constructor(order: Order) {
     this.orderId = order.orderId;
     this.orderType = order.orderType;
     this.workoutId = order.workoutId;
@@ -31,4 +23,9 @@ export class OrderEntity implements Order {
     this.paymentMethod = order.paymentMethod;
     this.createdDate = order.createdDate;
   }
+  
+  public toObject() {
+    return {...this };
+  }
+
 }

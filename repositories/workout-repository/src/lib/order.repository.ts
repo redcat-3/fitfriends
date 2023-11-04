@@ -9,7 +9,7 @@ import { PrismaService } from './prisma/prisma.service';
 export class OrderRepository implements CRUDRepository<OrderEntity, number, Order> {
   constructor(private readonly prisma: PrismaService) {}
 
-  public async create(item: OrderEntity): Promise<Order | null> {
+  public async create(item: OrderEntity): Promise<Order> {
     return await this.prisma.order.create({data: {...item.toObject()}}); 
   }
 

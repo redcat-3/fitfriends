@@ -1,9 +1,8 @@
-import { PaymentMethod } from "@prisma/client";
-
+import { OrderType, PaymentMethod } from "@prisma/client";
 
 export interface Order {
-  orderId: number;
-  orderType: string;
+  orderId?: number;
+  orderType: OrderType;
   workoutId: number;
   userId: string;
   price: number;

@@ -93,13 +93,13 @@ export class WorkoutRepository implements CRUDRepository<WorkoutEntity, number, 
     if (!currentWorkout) {
       return null;
     }
-    const rating = ((currentWorkout.rating + newRating) / currentWorkout.feedbacks.length).toFixed(1);
+    const rating = Math.round((currentWorkout.rating + newRating) * 100 / currentWorkout.feedbacks.length / 100);
     const workout = await this.prisma.workout.update({
       where:{
         workoutId
       },
       data: {
-        rating: +rating
+        rating
       }
      });
      
