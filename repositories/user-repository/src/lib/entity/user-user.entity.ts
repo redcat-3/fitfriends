@@ -6,6 +6,7 @@ export class UserUserEntity extends UserAbstractEntity implements UserUser {
     public caloriesToReset: number;
     public caloriesToSpend: number;
     public trainingReady: boolean;
+    public followCoaches: string[];
 
   constructor(userData: UserUser) {
     super(userData);
@@ -17,5 +18,6 @@ export class UserUserEntity extends UserAbstractEntity implements UserUser {
     this.caloriesToReset = userData.caloriesToReset;
     this.caloriesToSpend = userData.caloriesToSpend;
     this.trainingReady = userData.trainingReady;
+    this.followCoaches = userData.followCoaches;
   }
 }

@@ -30,7 +30,9 @@ export class WorkoutService {
       rating: DEFAULT_AMOUNT,
     };
     const workoutEntity = await new WorkoutEntity(workout);
-    return this.workoutRepository.create(workoutEntity);
+    const followers = await this.userRepository.getFollowersByUserId(coachId);
+    const newWorkout = await this.workoutRepository.create(workoutEntity);
+    return { newWorkout, followers, coach }
   }
 
   public async update(workoutId: number, dto: UpdateWorkoutDto, coachId: string) {

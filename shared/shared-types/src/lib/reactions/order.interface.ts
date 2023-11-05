@@ -5,6 +5,7 @@ export interface Order {
   orderType: OrderType;
   workoutId: number;
   userId: string;
+  coachId: string;
   price: number;
   count: number;
   orderPrice: number;

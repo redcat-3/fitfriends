@@ -122,6 +122,16 @@ export class UserModel extends Document implements User {
     required: false,
   })
   public personalTraining: boolean;
+
+  @Prop({
+    required: false,
+  })
+  public followCoaches: string[];
+
+  @Prop({
+    required: false,
+  })
+  public followers: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);

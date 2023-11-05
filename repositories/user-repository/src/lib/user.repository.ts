@@ -7,6 +7,13 @@ import { UserModel } from './user.model';
 import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { UpdateUserDto } from '@project/shared/shared-dto';
+import { RETURNABLE_FIELDS } from './user-repository.constant';
+
+export type UserFields = {
+  id: string,
+  email: string,
+  name: string,
+};
 
 @Injectable()
 export class UserRepository implements CRUDRepository<UserEntity, string, User> {
@@ -67,5 +74,68 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
     })
     .sort({role: sort});
     return users;
+  }
+
+  public async addToFollowById(
+    userId: string,
+    followId: string
+  ): Promise<void> {
+    await this.userModel.findOneAndUpdate(
+      { _id: userId },
+      {
+        $addToSet: { followCoaches: new mongoose.Types.ObjectId(followId) },
+      },
+      { new: true, upsert: true }
+    );
+
+    await this.userModel.findOneAndUpdate(
+      { _id: followId },
+      {
+        $addToSet: { followers: new mongoose.Types.ObjectId(userId) },
+      },
+      { new: true, upsert: true }
+    );
+  }
+
+  public async removeFromFollowById(
+    userId: string,
+    followId: string
+  ): Promise<void> {
+    await this.userModel.findOneAndUpdate(
+      { _id: userId },
+      {
+        $pull: { followCoaches: new mongoose.Types.ObjectId(followId) },
+      },
+      { new: true, upsert: true }
+    );
+
+    await this.userModel.findOneAndUpdate(
+      { _id: followId },
+      {
+        $pull: { followers: new mongoose.Types.ObjectId(userId) },
+      },
+      { new: true, upsert: true }
+    );
+  }
+
+  public async getFollowCoachesByUserId(userId: string): Promise<string[] | null> {
+    const user = await this.userModel.findOne({ _id: userId });
+    return user.followCoaches;
+  }
+
+  public async getFollowersByUserId(userId: string): Promise<UserFields[] | null> {
+    const user = await this.userModel.findOne({ _id: userId });
+    return this.userModel
+    .aggregate([
+      {
+        $match: {
+          _id: {
+            $in: [...user.followers],
+          },
+        },
+      },
+      { $project: RETURNABLE_FIELDS },
+    ])
+    .exec();
   }
 }

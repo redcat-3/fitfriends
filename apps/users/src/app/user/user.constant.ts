@@ -11,7 +11,9 @@ export const UserError = {
     UserFound: 'User found',
     AvatarAdded: 'Avatar added successfully',
     List: 'User list found',
-    Friends: 'User friends list found'
+    Friends: 'User friends list found',
+    Follow: 'You have successfully signed up for the coach',
+    Unfollow: 'You have successfully unsubscribed from the coach updates',
   } as const;
 
   export const UserPath = {
@@ -20,5 +22,7 @@ export const UserError = {
     Update:'update',
     List:'list',
     Friends:'list/friends',
+    Follow: 'list/friends/follow/:id',
+    Unfollow: 'list/friends/unfollow/:id',
   }as const;
   

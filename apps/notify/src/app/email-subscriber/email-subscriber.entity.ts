@@ -5,6 +5,7 @@ export class EmailSubscriberEntity implements Entity<EmailSubscriberEntity>, Sub
   public id: string | undefined;
   public email: string;
   public name: string;
+  public coachId: string;
   public dateNotify?: string;
 
 
@@ -12,6 +13,7 @@ export class EmailSubscriberEntity implements Entity<EmailSubscriberEntity>, Sub
     this.id = emailSubscriber.id;
     this.email = emailSubscriber.email;
     this.name = emailSubscriber.name;
+    this.coachId = emailSubscriber.coachId;
     this.dateNotify = emailSubscriber.dateNotify;
   }
 
@@ -23,6 +25,7 @@ export class EmailSubscriberEntity implements Entity<EmailSubscriberEntity>, Sub
     this.email = entity.email;
     this.name = entity.name;
     this.id = entity.id;
+    this.coachId = entity.coachId;
     this.dateNotify = entity.dateNotify;
   }
 }

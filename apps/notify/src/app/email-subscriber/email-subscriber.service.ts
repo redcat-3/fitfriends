@@ -1,5 +1,5 @@
 import { EmailSubscriberEntity } from './email-subscriber.entity';
-import { CreateSubscriberDto } from './dto/create-subscriber.dto';
+import { CreateSubscriberDto } from '../../../../../shared/shared-dto/src/lib/reaction/create/create-subscriber.dto';
 import { EmailSubscriberRepository } from './email-subscriber.repository';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import dayjs from 'dayjs';
@@ -37,5 +37,13 @@ export class EmailSubscriberService {
     const subscriberData = {...subscriber, dateNotify: dayjs().toISOString()}
     const updatedSubscriber = new EmailSubscriberEntity(subscriberData)
     return await this.emailSubscriberRepository.update(subscriber.id, updatedSubscriber);
+  }
+
+  public async removeSubscriber(email: string) {
+    const existsSubscriber = await this.emailSubscriberRepository.findByEmail(email);
+    if (!existsSubscriber) {
+      throw new NotFoundException(EmailError.NotFoundSubscriber);
+    }
+    return this.emailSubscriberRepository.destroy(existsSubscriber.id);
   }
 }

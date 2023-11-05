@@ -4,4 +4,5 @@ export interface UserCoach extends UserAbstract {
   certificate: string;
   merit: string;
   personalTraining: boolean;
+  followers: string[];
 }

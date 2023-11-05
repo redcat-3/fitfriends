@@ -41,6 +41,41 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
     return orders;
   }
 
+  public async findAllByWorkoutId(workoutId: number): Promise<Order[] | null> {
+    const orders = await this.prisma.order.findMany({
+      where: {
+        workoutId
+      }
+    });
+    return orders;
+  }
+
+  public async findByCoachId(coachId: string ): Promise<Set<number> | null> {
+    const ordersByCoachId = await this.prisma.order.findMany({
+      where: {
+        userId: coachId
+      }
+    });
+    const workouts = new Set(ordersByCoachId.map((order) => order.workoutId));
+    return workouts;
+  }
+
+  public async getAgregationWorkout(coachId: string ): Promise<{ workoutId: number, count: number, sum: number} | null> {
+    const groupWorkouts = await this.prisma.order.groupBy({
+      by: ['workoutId'],
+      where: {
+        coachId,
+      },
+      _count: {
+        orderId: true,
+      },
+      _sum: {
+        orderPrice: true,
+      }
+    });
+    return { workoutId, count: aggregation._count.orderId, sum: aggregation._sum.orderPrice};
+  }
+
   public async destroy(orderId: number): Promise<void> {
     await this.prisma.order.delete({ where: {orderId} });
   }

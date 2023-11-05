@@ -7,11 +7,13 @@ import { RequestWithUserPayload } from '@project/shared/shared-types';
 import { UpdateUserDto } from '@project/shared/shared-dto';
 import { MongoidValidationPipe } from '@project/shared/shared-pipes';
 import { UserQuery } from '@project/shared/shared-query';
+import { NotifyService } from '../notify/notify.service';
 
 @Controller(UserPath.Main)
 export class UserController {
   constructor(
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly notifyService: NotifyService
   ) {}
 
   @ApiResponse({
@@ -62,5 +64,43 @@ export class UserController {
       return [];
     }
     return friends.map((user) => adaptRdoUser(user));
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: UserMessages.Follow
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get(UserPath.Follow)
+  public async followCoach(@Req() {user}, @Param('id') id: string) {
+    const subscriber = await this.userService.findById(user.id);
+    const subscriberDto = {
+      email: subscriber.email,
+      name: subscriber.name,
+      coachId: id
+    }
+    await this.userService.followCoach(user._id, id);
+    await this.notifyService.registerSubscriber(subscriberDto);
+    
+    return subscriber;
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: UserMessages.Unfollow
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get(UserPath.Unfollow)
+  public async unfollowCoach(@Req() {user}, @Param('id') id: string) {
+    const subscriber = await this.userService.findById(user.id);
+    const data = {
+      email: subscriber.email,
+      coach: id,
+      name: subscriber.name
+    }
+    await this.userService.unfollowCoach(user._id, id);
+    await this.notifyService.removeSubscriber({... data});
+
+    return subscriber;
   }
 }

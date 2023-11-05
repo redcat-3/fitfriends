@@ -9,6 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { getMongooseOptions } from '@project/util/util-core';
 import { FeedbackModule } from './feedback/feedback.module';
 import { OrderModule } from './order/order.module';
+import { NotifyModule } from './notify/notify.module';
 
 @Module({
   imports: [
@@ -17,8 +18,8 @@ import { OrderModule } from './order/order.module';
     FeedbackModule,
     UserRepositoryModule,
     MongooseModule.forRootAsync(getMongooseOptions(ConfigName.Db)),
-    FeedbackModule,
     OrderModule,
+    NotifyModule,
   ],
   controllers: [],
   providers: [],

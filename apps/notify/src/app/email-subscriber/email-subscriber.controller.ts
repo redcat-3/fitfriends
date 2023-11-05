@@ -1,11 +1,10 @@
-import { CreateSubscriberDto } from './dto/create-subscriber.dto';
+import { CreateSubscriberDto } from '@project/shared/shared-dto';
 import { EmailSubscriberService } from './email-subscriber.service';
 import { Controller } from '@nestjs/common';
 import { MailService } from '../mail/mail.service';
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 import { RabbitRouting } from '@project/shared/shared-types';
-import { NewsletterDto } from './dto/newsletter.dto';
-import { getNewWorkouts } from './utils/get-new-workouts';
+import { NewsletterDto } from '@project/shared/shared-dto';
 
 @Controller()
 export class EmailSubscriberController {
@@ -15,7 +14,7 @@ export class EmailSubscriberController {
   ) {}
 
   @RabbitSubscribe({
-    exchange: 'fitfriends.notify',
+    exchange: 'fitfriends.subscriber',
     routingKey: RabbitRouting.AddSubscriber,
     queue: 'fitfriends.notify.subscriber',
   })
@@ -25,19 +24,24 @@ export class EmailSubscriberController {
   }
 
   @RabbitSubscribe({
-    exchange: 'fitfriends.notify',
+    exchange: 'fitfriends.subscriber',
+    routingKey: RabbitRouting.RemoveSubscriber,
+    queue: 'fitfriends.notify.subscriber',
+  })
+  public async delete(email: string, coach: string, name: string) {
+    this.subscriberService.removeSubscriber(email);
+    await this.mailService.sendNotifyRemoveSubscriber(email, coach, name);
+  }
+
+  @RabbitSubscribe({
+    exchange: 'fitfriends.newsletter',
     routingKey: RabbitRouting.SendNewsletter,
     queue: 'fitfriends.notify.newsletter',
   })
   public async sendNewsletter(dto: NewsletterDto) {
-    const { email, workouts } = dto;
-    const recipient = await this.subscriberService.getSubscriber(email);
-    if (recipient && workouts.length > 0) {
-      const newWorkouts = getNewWorkouts(dto, recipient);
-      if (newWorkouts.length > 0) {
-        await this.mailService.sendNewsletter(recipient.email, newWorkouts);
-        this.subscriberService.updateDateSent(recipient);
-      }
+    const recipient = await this.subscriberService.getSubscriber(dto.email);
+    if (recipient && dto.workoutInfo) {
+      await this.mailService.sendNewsletter(dto);
     }
   }
 }

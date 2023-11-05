@@ -6,6 +6,7 @@ export class OrderEntity implements Order {
   public orderType: OrderType;
   public workoutId: number;
   public userId: string;
+  public coachId: string;
   public price: number;
   public count: number;
   public orderPrice: number;
@@ -17,6 +18,7 @@ export class OrderEntity implements Order {
     this.orderType = order.orderType;
     this.workoutId = order.workoutId;
     this.userId = order.userId;
+    this.coachId = order.coachId;
     this.price = order.price;
     this.count = order.count;
     this.orderPrice = order.orderPrice;

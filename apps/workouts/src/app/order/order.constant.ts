@@ -17,6 +17,7 @@ export const OrdersPath = {
   Add:"add",
   Id:":orderId",
   Index:"list/:workoutId",
+  IndexCoach:"coach/list/:coachId",
 }as const;
 
 export const  API_TAG_NAME ="Orders"

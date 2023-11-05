@@ -81,6 +81,7 @@ model Order {
   workout       Workout       @relation(fields: [workoutId], references: [workoutId], onDelete: Cascade, onUpdate: Cascade)
   workoutId     Int           @map("workout_id")
   userId        String        @map("user_id")
+  coachId       String        @map("coach_id")
   price         Int
   count         Int
   orderPrice    Int           @map("order_price")

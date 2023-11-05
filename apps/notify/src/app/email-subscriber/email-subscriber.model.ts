@@ -14,6 +14,9 @@ export class EmailSubscriberModel extends Document implements  Subscriber {
 
   @Prop()
   public name: string;
+
+  @Prop()
+  public coachId: string;
 }
 
 export const EmailSubscriberSchema = SchemaFactory.createForClass(EmailSubscriberModel);

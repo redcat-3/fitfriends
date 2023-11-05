@@ -10,6 +10,7 @@ import { UpdateWorkoutValidationPipe } from './pipes/update-workout-validation.p
 import { JwtAuthGuard, fillObject } from '@project/util/util-core';
 import { RequestWithUserPayload } from '@project/shared/shared-types';
 import { WorkoutQuery } from '@project/shared/shared-query';
+import { NotifyService } from '../notify/notify.service';
 
 
 @ApiTags(API_TAG_NAME)
@@ -17,7 +18,8 @@ import { WorkoutQuery } from '@project/shared/shared-query';
 @Controller(WorkoutPath.Main)
 export class WorkoutController {
   constructor(
-    private readonly workoutsService: WorkoutService
+    private readonly workoutsService: WorkoutService,
+    private readonly notifyService: NotifyService
   ) { }
 
   @ApiResponse({
@@ -32,8 +34,18 @@ export class WorkoutController {
     @Body(CreateWorkoutValidationPipe)
     dto: CreateWorkoutDto) {
     const userId = user.sub;
-    const workout = await this.workoutsService.create(dto, userId);
-    return fillObject(WorkoutRdo, workout);
+    const result = await this.workoutsService.create(dto, userId);
+    if (result.followers && (result.followers.length > 0)) {
+      result.followers.map((follower) => {
+        this.notifyService.sendNewsletter({
+          email: follower.email,
+          workoutInfo: result.newWorkout,
+          name: follower.name,
+          coach: result.coach.name,
+        })
+      })
+    }
+    return fillObject(WorkoutRdo, result.newWorkout);
   }
 
   @ApiResponse({

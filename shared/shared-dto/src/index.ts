@@ -13,4 +13,6 @@ export * from './lib/workout/update/update-workout.dto';
 export * from './lib/workout/workout-dto.constant';
 export * from './lib/reaction/create/create-feedback.dto';
 export * from './lib/reaction/create/create-order.dto';
+export * from './lib/reaction/create/create-subscriber.dto';
+export * from './lib/reaction/create/newsletter.dto';
 export * from './lib/reaction/reaction.constant';

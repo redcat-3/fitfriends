@@ -9,8 +9,3 @@ export const EmailError = {
   EmptyName : 'Name is empty',
   NotFoundSubscriber: 'Subscriber not found'
 } as const;
-
-export const SubscriberMessages = {
-  InvalidEmail: 'The email is not valid',
-  EmptyName : 'The name is empty',
-} as const;

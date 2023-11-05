@@ -47,4 +47,10 @@ export class OrdersService {
   public async findByWorkoutId(id: number, query: OrderQuery) {
     return await this.orderRepository.findByWorkoutId(id, query);
   }
+
+  public async findByCoachId(id: string) {
+    const workoutIds = await this.orderRepository.findByCoachId(id);
+    return workoutIds.forEach(async (workout): Promise<{ workoutId: number, count: number, sum: number}> =>
+      await this.orderRepository.getAgregationWorkout(workout));
+  }
 }

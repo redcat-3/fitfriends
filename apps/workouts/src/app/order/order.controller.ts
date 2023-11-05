@@ -46,7 +46,18 @@ export class OrdersController {
   })
   @Get(OrdersPath.Index)
   public async indexOrders(@Param('workoutId') id:number, @Query() query : OrderQuery ) {
-    const Orders = await this.OrdersService.findByWorkoutId(id, query);
-    return Orders.map((Order) => fillObject(OrderRdo, Order));
+    const orders = await this.OrdersService.findByWorkoutId(id, query);
+    return orders.map((order) => fillObject(OrderRdo, order));
+  }
+  
+  @ApiResponse({
+    type: OrderRdo,
+    status: HttpStatus.OK,
+    description: OrdersMessages.Show,
+  })
+  @Get(OrdersPath.Index)
+  public async indexCoachOrders(@Param('coachId') id:string ) {
+    const orders = await this.OrdersService.findByCoachId(id);
+    return orders;
   }
 }
