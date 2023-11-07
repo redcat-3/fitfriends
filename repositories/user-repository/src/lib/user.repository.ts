@@ -1,10 +1,10 @@
 import { CRUDRepository } from '@project/util/util-types';
 import { Injectable } from '@nestjs/common';
 import { UserEntity } from './entity/user.entity';
-import { User, UserRole } from '@project/shared/shared-types';
+import { User } from '@project/shared/shared-types';
 import { UserQuery } from '@project/shared/shared-query';
 import { UserModel } from './user.model';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { UpdateUserDto } from '@project/shared/shared-dto';
 import { RETURNABLE_FIELDS } from './user-repository.constant';
@@ -50,9 +50,7 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
 
   public async getFriendsByUserId(userId: string): Promise<User[] | null> {
     const user = await this.userModel.findOne({ _id: userId });
-    const friendsIds = user.friends.forEach((item) => {
-      new mongoose.Types.ObjectId(item);
-    })
+    const friendsIds = user.friends;
     const friends = await this.userModel.find({
       _id: { $in: friendsIds},
     });
@@ -60,20 +58,70 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
   }
 
   public async getUsersList(query?: UserQuery): Promise<User[] | null> {
-    const{ location, typeOfTrain, level, sortBy } = query;
-    if (!location && !typeOfTrain && !level && !sortBy) {
-      return await this.userModel.find().sort({role: -1});
+    const{ location, typeOfTrain, level, sortDirection, limit, page } = query;
+    const sort = sortDirection === 'asc' ? 1 : -1;
+    if (!location && !typeOfTrain && !level) {
+      return await this.userModel
+        .find()
+        .limit(limit)
+        .skip(page > 0 ? limit * (page - 1) : undefined)
+        .sort({role: sort});
     }
-
-    const sort = sortBy === UserRole.User ? 1 : -1;
-    const types = typeOfTrain ? typeOfTrain.split(',') : [];
-    const users = await this.userModel.find({
-      location,
-      typeOfTrain: {$in: types},
-      level
-    })
-    .sort({role: sort});
-    return users;
+    if (location && typeOfTrain && level) {
+      return await this.userModel.find({
+        location,
+        typeOfTrain: typeOfTrain,
+        level
+      })
+      .limit(limit)
+      .skip(page > 0 ? limit * (page - 1) : undefined)
+      .sort({role: sort});
+    } else if (!location && typeOfTrain && level) {
+      return await this.userModel.find({
+        typeOfTrain: typeOfTrain,
+        level
+      })
+      .limit(limit)
+      .skip(page > 0 ? limit * (page - 1) : undefined)
+      .sort({role: sort});
+    } else if (!location && !typeOfTrain && level) {
+      return await this.userModel.find({
+        level
+      })
+      .limit(limit)
+      .skip(page > 0 ? limit * (page - 1) : undefined)
+      .sort({role: sort});
+    } else if (!location && typeOfTrain && !level) {
+      return await this.userModel.find({
+        typeOfTrain: typeOfTrain,
+      })
+      .limit(limit)
+      .skip(page > 0 ? limit * (page - 1) : undefined)
+      .sort({role: sort});
+    } else if (location && !typeOfTrain && !level) {
+      return await this.userModel.find({
+        location,
+      })
+      .limit(limit)
+      .skip(page > 0 ? limit * (page - 1) : undefined)
+      .sort({role: sort});
+    }  else if (location && typeOfTrain && !level) {
+      return await this.userModel.find({
+        location,
+        typeOfTrain: typeOfTrain,
+      })
+      .limit(limit)
+      .skip(page > 0 ? limit * (page - 1) : undefined)
+      .sort({role: sort});
+    } else if (location && !typeOfTrain && level) {
+      return await this.userModel.find({
+        location,
+        level,
+      })
+      .limit(limit)
+      .skip(page > 0 ? limit * (page - 1) : undefined)
+      .sort({role: sort});
+    }
   }
 
   public async addToFollowById(
@@ -83,7 +131,7 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
     await this.userModel.findOneAndUpdate(
       { _id: userId },
       {
-        $addToSet: { followCoaches: new mongoose.Types.ObjectId(followId) },
+        $addToSet: { followCoaches: followId },
       },
       { new: true, upsert: true }
     );
@@ -91,7 +139,7 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
     await this.userModel.findOneAndUpdate(
       { _id: followId },
       {
-        $addToSet: { followers: new mongoose.Types.ObjectId(userId) },
+        $addToSet: { followers: userId },
       },
       { new: true, upsert: true }
     );
@@ -104,7 +152,7 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
     await this.userModel.findOneAndUpdate(
       { _id: userId },
       {
-        $pull: { followCoaches: new mongoose.Types.ObjectId(followId) },
+        $pull: { followCoaches: followId },
       },
       { new: true, upsert: true }
     );
@@ -112,7 +160,63 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
     await this.userModel.findOneAndUpdate(
       { _id: followId },
       {
-        $pull: { followers: new mongoose.Types.ObjectId(userId) },
+        $pull: { followers: userId },
+      },
+      { new: true, upsert: true }
+    );
+  }
+
+  public async checkFriend(userId: string, friendId: string): Promise<boolean> {
+    const user = await this.userModel.findOne(
+      { _id: userId }
+    );
+    return user.friends.includes(friendId);
+  }
+
+  public async checkFollow(userId: string, followId: string): Promise<boolean> {
+    const user = await this.userModel.findOne(
+      { _id: userId }
+    );
+    return user.followCoaches.includes(followId) ? true : false;
+  }
+
+  public async addToFriends(
+    userId: string,
+    friendId: string
+  ): Promise<void> {
+    await this.userModel.findOneAndUpdate(
+      { _id: userId },
+      {
+        $addToSet: { friends: friendId },
+      },
+      { new: true, upsert: true }
+    );
+
+    await this.userModel.findOneAndUpdate(
+      { _id: friendId },
+      {
+        $addToSet: { friends: userId },
+      },
+      { new: true, upsert: true }
+    );
+  }
+
+  public async removeFromFriends(
+    userId: string,
+    friendId: string
+  ): Promise<void> {
+    await this.userModel.findOneAndUpdate(
+      { _id: userId },
+      {
+        $pull: { friends: friendId },
+      },
+      { new: true, upsert: true }
+    );
+
+    await this.userModel.findOneAndUpdate(
+      { _id: friendId },
+      {
+        $pull: { friends: userId },
       },
       { new: true, upsert: true }
     );

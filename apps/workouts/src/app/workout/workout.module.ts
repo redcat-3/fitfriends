@@ -8,11 +8,13 @@ import { getJwtOptions } from '@project/util/util-core';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigWorkoutsModule } from '@project/config/config-workouts';
 import { UserRepositoryModule } from '@project/repositories/user-repository';
+import { NotifyModule } from '../notify/notify.module';
 
 @Module({
   imports: [
     WorkoutRepositoryModule,
     UserRepositoryModule,
+    NotifyModule,
     ConfigWorkoutsModule,
     JwtModule.registerAsync({
       imports: [],

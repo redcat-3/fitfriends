@@ -1,6 +1,6 @@
 import { registerAs } from '@nestjs/config';
 import * as Joi from 'joi';
-import { DEFAULT_ERROR_MESSAGE } from './config-users.constant';
+import { DEFAULT_ERROR_MESSAGE } from './config-notify.constant';
 
 export interface NotifyConfig {
   environment: string;
@@ -78,6 +78,7 @@ export default registerAs('application', (): NotifyConfig => {
       .valid('development', 'production', 'stage'),
     port: Joi.number()
       .port(),
+    globalPrefix: Joi.string(),
     db: Joi.object({
       host: Joi.string().valid().hostname(),
       port: Joi.number().port(),

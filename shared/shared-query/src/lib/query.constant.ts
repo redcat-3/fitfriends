@@ -1,11 +1,7 @@
-export const DefaultPostsLimit = {
-  Query: 25,
-  Search: 20,
-} as const;
-
 export const DefaultSortParam = {
   Direction: 'desc',
   Type: 'createdAt',
+  OrderType: 'count'
 } as const;
 
 export const TagDefaultParam = {

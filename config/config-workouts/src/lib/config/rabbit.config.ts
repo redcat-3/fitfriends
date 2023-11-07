@@ -1,7 +1,7 @@
 import { registerAs } from '@nestjs/config';
 import * as Joi from 'joi';
-import { RabbitConfig } from '@project/shared/app-types';
-import { ConfigName, DEFAULT_ERROR_MESSAGE, DEFAULT_RABBIT_PORT } from '../config-posts.constant';
+import { RabbitConfig } from '@project/shared/shared-types';
+import { ConfigName, DEFAULT_ERROR_MESSAGE, DEFAULT_RABBIT_PORT } from '../config-workouts.constant';
 
 export default registerAs(ConfigName.Rabbit, (): RabbitConfig => {
   const  config: RabbitConfig = {

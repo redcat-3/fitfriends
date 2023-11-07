@@ -25,29 +25,29 @@ export class AuthenticationService {
 
   public async register(dto: CreateUserDto) {
     const dtoUser = adaptCreateDtoUser(dto);
-    let user = {
-      ... dtoUser,
-      passwordHash: '',
-      dateBirth: dayjs(dto.dateBirth).toDate(),
-    };
-    if (user.role === UserRole.User) {
+    let user;
+    if (dtoUser.role === UserRole.User) {
       user = {
-        ... user,
+        ... dtoUser,
+        passwordHash: '',
+        dateBirth: dayjs(dto.dateBirth).toDate(),
+        friends: [],
         certificate: '',
         merit: '',
-        passwordHash: '',
         personalTraining: false
       }
-    } else if (user.role === UserRole.Сoach) {
+    } else if (dtoUser.role === UserRole.Сoach) {
       user = {
-        ... user,
+        ... dtoUser,
+        passwordHash: '',
+        dateBirth: dayjs(dto.dateBirth).toDate(),
+        friends: [],
         timeOfTraining: UserTime.One,
-        caloriesToReset: 1000,
-        caloriesToSpend: 1000,
+        caloriesToReset: 0,
+        caloriesToSpend: 0,
         trainingReady: false,
       }
     }
-  
     delete user.password;
 
     const existUser = await this.userRepository
@@ -57,7 +57,7 @@ export class AuthenticationService {
       throw new ConflictException(AuthError.UserExists);
     }
 
-    const userEntity = new TypeEntityAdapter[user.role](user as unknown as User);
+    const userEntity = new TypeEntityAdapter[user.role](user);
     await userEntity.setPassword(dto.password);
 
     return this.userRepository

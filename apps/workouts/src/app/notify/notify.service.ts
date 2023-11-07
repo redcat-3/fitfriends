@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
-import { rabbitConfig } from '@project/config/config-users';
+import { rabbitConfig } from '@project/config/config-workouts';
 import { ConfigType } from '@nestjs/config';
 import { RabbitRouting } from '@project/shared/shared-types';
 import { NewsletterDto } from '@project/shared/shared-dto';

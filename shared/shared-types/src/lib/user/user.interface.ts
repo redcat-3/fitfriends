@@ -26,4 +26,7 @@ export interface User {
   certificate: string;
   merit: string;
   personalTraining: boolean;
+  followers: string[];
+  followCoaches: string[];
+  friends?: string[];
 }

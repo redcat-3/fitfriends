@@ -5,9 +5,16 @@ POST http://localhost:3001/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "test@test.local",
+  "email": "test@test1.local",
   "password": "123456"
 }
+
+###
+
+
+# Get user by ID
+GET http://localhost:3001/api/user/6535430009ad33414280b094 HTTP/1.1
+Authorization: Bearer {{token}}
 
 ###
 
@@ -38,8 +45,30 @@ Content-Type: application/json
 ###
 
 # Get user by ID
-GET http://localhost:3001/api/user/list/friends/6535430009ad33414280b094 HTTP/1.1
+GET http://localhost:3001/api/user/list/friends/652ffdf03cb7412c4cd5994a HTTP/1.1
 Authorization: Bearer {{token}}
 
 ###
 
+# Follow user
+PATCH http://localhost:3001/api/user/list/friends/follow/652ffdf03cb7412c4cd5994a HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+# Unfollow user
+PATCH http://localhost:3001/api/user/list/friends/unfollow/6535430009ad33414280b094 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Add user to friends
+PATCH http://localhost:3001/api/user/friends/add/652ffdf03cb7412c4cd5994a HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Remove user to friends
+PATCH http://localhost:3001/api/user/friends/remove/652ffdf03cb7412c4cd5994a HTTP/1.1
+Authorization: Bearer {{token}}
+
+###

@@ -7,12 +7,13 @@ import { OrderRdo } from './rdo/order.rdo';
 import { RequestWithUserPayload } from '@project/shared/shared-types';
 import { CreateOrderDto } from '@project/shared/shared-dto';
 import { OrderQuery } from '@project/shared/shared-query';
+import { MongoidValidationPipe } from '@project/shared/shared-pipes';
 
 @ApiTags(API_TAG_NAME)
 @Controller(OrdersPath.Main)
 export class OrdersController {
   constructor(
-    private readonly OrdersService: OrdersService,
+    private readonly ordersService: OrdersService,
   ) {}
 
   @ApiResponse({
@@ -24,7 +25,7 @@ export class OrdersController {
   @Post(OrdersPath.Add)
   public async addOrder(@Body() dto: CreateOrderDto, @Req() {user}: RequestWithUserPayload) {
     const userId = user.sub;
-    const newOrder = await this.OrdersService.create(dto, userId);
+    const newOrder = await this.ordersService.create(dto, userId);
     return fillObject(OrderRdo, newOrder);
   }
 
@@ -33,10 +34,12 @@ export class OrdersController {
     status: HttpStatus.OK,
     description: OrdersMessages.Show,
   })
+  @UseGuards(JwtAuthGuard)
   @Get(OrdersPath.Id)
-  public async showOrders(@Param('OrderId') id:number) {
-    const Order = await this.OrdersService.findByOrderId(id);
-    return fillObject(OrderRdo, Order);
+  public async showOrders(@Param('orderId') id:number, @Req() {user}: RequestWithUserPayload) {
+    const userId = user.sub;
+    const order = await this.ordersService.findByOrderId(userId, id);
+    return fillObject(OrderRdo, order);
   }
 
   @ApiResponse({
@@ -44,9 +47,11 @@ export class OrdersController {
     status: HttpStatus.OK,
     description: OrdersMessages.Show,
   })
+  @UseGuards(JwtAuthGuard)
   @Get(OrdersPath.Index)
-  public async indexOrders(@Param('workoutId') id:number, @Query() query : OrderQuery ) {
-    const orders = await this.OrdersService.findByWorkoutId(id, query);
+  public async indexOrders(@Param('workoutId') id:number, @Query() query : OrderQuery, @Req() {user}: RequestWithUserPayload) {
+    const userId = user.sub;
+    const orders = await this.ordersService.findByWorkoutId(userId, id, query);
     return orders.map((order) => fillObject(OrderRdo, order));
   }
   
@@ -55,9 +60,10 @@ export class OrdersController {
     status: HttpStatus.OK,
     description: OrdersMessages.Show,
   })
-  @Get(OrdersPath.Index)
-  public async indexCoachOrders(@Param('coachId') id:string ) {
-    const orders = await this.OrdersService.findByCoachId(id);
+  @UseGuards(JwtAuthGuard)
+  @Get(OrdersPath.IndexCoach)
+  public async indexCoachOrders(@Param('coachId',  MongoidValidationPipe) id:string, @Query() query : OrderQuery ) {
+    const orders = await this.ordersService.findByCoachId(id, query);
     return orders;
   }
 }

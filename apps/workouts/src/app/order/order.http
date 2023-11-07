@@ -36,3 +36,9 @@ GET http://localhost:3002/api/order/1 HTTP/1.1
 Authorization: Bearer {{token}}
 
 ###
+
+# Get orders by coachID
+GET http://localhost:3002/api/order/coach/list/6535430009ad33414280b094 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###

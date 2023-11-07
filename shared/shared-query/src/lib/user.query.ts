@@ -1,7 +1,19 @@
-import { IsIn, IsEnum,IsString, IsOptional } from 'class-validator';
+import { IsIn, IsEnum,IsString, IsOptional, IsNumber } from 'class-validator';
 import { UserLevel, UserLocation } from '@project/shared/shared-types';
+import { DEFAULT_LIMIT, DEFAULT_PAGE, DefaultSortParam } from './query.constant';
+import { Transform } from 'class-transformer';
 
 export class UserQuery {
+  @Transform(({ value } ) => +value || DEFAULT_LIMIT)
+  @IsNumber()
+  @IsOptional()
+  public limit: number = DEFAULT_LIMIT;
+
+  @Transform(({ value }) => +value || DEFAULT_PAGE)
+  @IsNumber()
+  @IsOptional()
+  public page: number = DEFAULT_PAGE;
+  
   @IsEnum(UserLocation)
   @IsOptional()
   public location?: UserLocation;
@@ -14,7 +26,7 @@ export class UserQuery {
   @IsOptional()
   public level?: UserLevel;
 
-  @IsIn(['user', 'coach'])
+  @IsIn(['asc', 'desc'])
   @IsOptional()
-  public sortBy?: 'user' | 'coach';
+  public sortDirection: 'asc' | 'desc' = DefaultSortParam.Direction;
 }

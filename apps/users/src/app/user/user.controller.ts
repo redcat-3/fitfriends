@@ -71,15 +71,15 @@ export class UserController {
     description: UserMessages.Follow
   })
   @UseGuards(JwtAuthGuard)
-  @Get(UserPath.Follow)
-  public async followCoach(@Req() {user}, @Param('id') id: string) {
-    const subscriber = await this.userService.findById(user.id);
+  @Patch(UserPath.Follow)
+  public async followCoach(@Req() { user }: RequestWithUserPayload, @Param('id', MongoidValidationPipe) id: string) {
+    const subscriber = await this.userService.findById(user.sub);
     const subscriberDto = {
       email: subscriber.email,
       name: subscriber.name,
       coachId: id
     }
-    await this.userService.followCoach(user._id, id);
+    await this.userService.followCoach(user.sub, id);
     await this.notifyService.registerSubscriber(subscriberDto);
     
     return subscriber;
@@ -90,17 +90,39 @@ export class UserController {
     description: UserMessages.Unfollow
   })
   @UseGuards(JwtAuthGuard)
-  @Get(UserPath.Unfollow)
-  public async unfollowCoach(@Req() {user}, @Param('id') id: string) {
-    const subscriber = await this.userService.findById(user.id);
+  @Patch(UserPath.Unfollow)
+  public async unfollowCoach(@Req() { user }: RequestWithUserPayload, @Param('id', MongoidValidationPipe) id: string) {
+    const subscriber = await this.userService.findById(user.sub);
     const data = {
       email: subscriber.email,
       coach: id,
       name: subscriber.name
     }
-    await this.userService.unfollowCoach(user._id, id);
+    await this.userService.unfollowCoach(user.sub, id);
     await this.notifyService.removeSubscriber({... data});
 
     return subscriber;
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: UserMessages.AddFriend
+  })
+  @UseGuards(JwtAuthGuard)
+  @Patch(UserPath.AddFriend)
+  public async addFriend(@Req() { user }: RequestWithUserPayload, @Param('id', MongoidValidationPipe) id: string) {
+    await this.userService.addToFriends(user.sub, id);
+    return;
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: UserMessages.RemoveFriend
+  })
+  @UseGuards(JwtAuthGuard)
+  @Patch(UserPath.RemoveFriend)
+  public async removeFriend(@Req() { user }: RequestWithUserPayload, @Param('id', MongoidValidationPipe) id: string) {
+    await this.userService.removeFromFriends(user.sub, id);
+    return;
   }
 }

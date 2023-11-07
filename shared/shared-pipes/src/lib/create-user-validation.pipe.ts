@@ -8,7 +8,7 @@ export class CreateUserValidationPipe implements PipeTransform {
   async transform(dto: CreateUserDto, { type }: ArgumentMetadata) {
     if (type === ValidationArgumentType.Body) {
       let errors = [];
-      const user = adaptCreateDtoUser(dto)
+      const user = adaptCreateDtoUser(dto);
       errors = errors.concat(await validate(user, { validationError: { target: false }}));
       if (errors.length > 0) {
           throw new BadRequestException(errors)

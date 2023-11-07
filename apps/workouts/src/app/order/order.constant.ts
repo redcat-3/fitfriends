@@ -1,7 +1,9 @@
 export const OrdersError = {
-  UserNotFound : "User  is not found",
-  WrongRole : "User role is wrong",
-  WorkoutNotFound : "Workout  is not found",
+  UserNotFound: "User  is not found",
+  WrongRole: "User role is wrong",
+  AuthWorkoutError: "User is not creator of this workout",
+  AuthError: "User is not creator of this workout, and is not recipient of this order",
+  WorkoutNotFound: "Workout  is not found",
   OrderNotFound: "Order is not existing",
   OrderExists: "Order already added"
 } as const;

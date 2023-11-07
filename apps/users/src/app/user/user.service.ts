@@ -4,11 +4,14 @@ import { UpdateUserDto } from '@project/shared/shared-dto';
 import { UserQuery } from '@project/shared/shared-query';
 import { User, UserRole } from '@project/shared/shared-types';
 import { UserError } from './user.constant';
+import { NotificationEntity, NotificationRepository } from '@project/repositories/notification-repository';
+import dayjs from 'dayjs';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
+    private readonly notificationRepository: NotificationRepository,
   ) {
   }
   public async findByEmail(email: string): Promise<User | null> {
@@ -50,10 +53,66 @@ export class UserService {
     if (coach.role !== UserRole.Сoach) {
       throw new BadRequestException (UserError.InvalidRole);
     }
-    this.userRepository.addToFollowById(userId, followId);
+    if (!this.userRepository.checkFollow(userId, followId)) {
+      this.userRepository.addToFollowById(userId, followId);
+    } else {
+      throw new NotFoundException (UserError.Follow);
+    }
   }
 
   public async unfollowCoach(userId: string, followId: string): Promise<void> {
-    this.userRepository.removeFromFollowById(userId, followId);
+    const user = await this.userRepository.findById(userId);
+    const follow = await this.userRepository.findById(followId);
+    if (!user || !follow) {
+      throw new NotFoundException (UserError.NotFound);
+    }
+    if (this.userRepository.checkFollow(userId, followId)) {
+      this.userRepository.removeFromFollowById(userId, followId);
+    } else {
+      throw new NotFoundException (UserError.NotFollow);
+    }
+  }
+
+  public async removeFromFriends(userId: string, friendId: string): Promise<void> {
+    const user = await this.userRepository.findById(userId);
+    const follow = await this.userRepository.findById(friendId);
+    if (!user || !follow) {
+      throw new NotFoundException (UserError.NotFound);
+    }
+    if (this.userRepository.checkFriend(userId, friendId)) {
+      this.userRepository.removeFromFriends(userId, friendId);
+    } else {
+      throw new NotFoundException (UserError.NotFriend);
+    }
+  }
+
+  public async addToFriends(userId: string, friendId: string): Promise<void> {
+    const user = await this.userRepository.findById(userId);
+    const friend = await this.userRepository.findById(friendId);
+    if (!user || !friend) {
+      throw new NotFoundException (UserError.NotFound);
+    }
+    if (this.userRepository.checkFriend(userId, friendId)) {
+      this.userRepository.addToFriends(userId, friendId);
+      const text = `Пользователь ${user.name} добавил вас в друзья`;
+      const notification = {
+        text,
+        userId: friendId,
+        createdDate: dayjs().toDate(),
+      }
+      const notificationEntity = new NotificationEntity(notification);
+      this.notificationRepository.create(notificationEntity);
+    } else {
+      throw new NotFoundException (UserError.Friend);
+    }
+  }
+
+  public async checkFriends(userId: string, friendId: string): Promise<boolean> {
+    const user = await this.userRepository.findById(userId);
+    const friend = await this.userRepository.findById(friendId);
+    if (!user || !friend) {
+      throw new NotFoundException (UserError.NotFound);
+    }
+    return this.userRepository.checkFriend(userId, friendId);
   }
 }

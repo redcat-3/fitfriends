@@ -1,8 +1,7 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Subscriber } from '@project/shared/shared-types';
-
-const SUBSCRIBERS_COLLECTION_NAME = 'email-subscribers';
+import { SUBSCRIBERS_COLLECTION_NAME } from './email-subscriber.constant';
 
 @Schema({
   collection: SUBSCRIBERS_COLLECTION_NAME,

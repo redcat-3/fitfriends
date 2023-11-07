@@ -10,14 +10,11 @@ export class UserUserEntity extends UserAbstractEntity implements UserUser {
 
   constructor(userData: UserUser) {
     super(userData);
-    this.fillEntity(userData);
-  }
-
-  public fillEntity(userData: UserUser) {
     this.timeOfTrain = userData.timeOfTrain;
     this.caloriesToReset = userData.caloriesToReset;
     this.caloriesToSpend = userData.caloriesToSpend;
     this.trainingReady = userData.trainingReady;
     this.followCoaches = userData.followCoaches;
   }
+
 }

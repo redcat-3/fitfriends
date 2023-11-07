@@ -15,12 +15,27 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@project/config/config-notifications": [
+        "config/config-notifications/src/index.ts"
+      ],
       "@project/config/config-notify": ["config/config-notify/src/index.ts"],
+      "@project/config/config-requests": [
+        "config/config-requests/src/index.ts"
+      ],
       "@project/config/config-users": ["config/config-users/src/index.ts"],
       "@project/config/config-workouts": [
         "config/config-workouts/src/index.ts"
       ],
       "@project/models/workout-models": ["models/workout-models/src/index.ts"],
+      "@project/repositories/notification-repositiry": [
+        "repositories/notification-repositiry/src/index.ts"
+      ],
+      "@project/repositories/notification-repository": [
+        "repositories/notification-repository/src/index.ts"
+      ],
+      "@project/repositories/request-repository": [
+        "repositories/request-repository/src/index.ts"
+      ],
       "@project/repositories/user-repository": [
         "repositories/user-repository/src/index.ts"
       ],

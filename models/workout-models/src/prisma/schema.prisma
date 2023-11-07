@@ -30,6 +30,12 @@ enum OrderType {
   subscription
 }
 
+enum RequestStatus {
+  consider
+  rejected
+  accept
+}
+
 generator client {
   provider        = "prisma-client-js"
   output          = "../../../../node_modules/.prisma/client"
@@ -77,7 +83,7 @@ model Feedback {
 
 model Order {
   orderId       Int           @id @default(autoincrement()) @map("order_id")
-  orderType     OrderType
+  orderType     OrderType     @map("order_type")
   workout       Workout       @relation(fields: [workoutId], references: [workoutId], onDelete: Cascade, onUpdate: Cascade)
   workoutId     Int           @map("workout_id")
   userId        String        @map("user_id")
@@ -89,4 +95,33 @@ model Order {
   createdDate   DateTime      @default(now()) @map("created_date")
 
   @@map("orders")
+}
+
+model Request {
+  requestId     Int           @id @default(autoincrement()) @map("request_id")
+  requester     String
+  userId        String        @map("user_id")
+  createdDate   DateTime      @default(now()) @map("created_date")
+  updatedDate   DateTime      @default(now()) @map("updated_date")
+  status        RequestStatus
+
+  @@map("requests")
+}
+
+model Notification {
+  notificationId     Int          @id @default(autoincrement()) @map("notification_id")
+  userId             String       @map("user_id")
+  createdDate        DateTime     @default(now()) @map("created_date")
+  text               String       
+
+  @@map("notifications")
+}
+
+model Balance {
+  balanceId     Int          @id @default(autoincrement()) @map("balance_id")
+  userId        String       @map("user_id")
+  workoutId     Int          @map("workout_id")
+  count         Int       
+
+  @@map("balances")
 }

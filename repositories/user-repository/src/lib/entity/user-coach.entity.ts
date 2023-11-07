@@ -9,10 +9,6 @@ export class UserCoachEntity extends UserAbstractEntity implements UserCoach {
 
   constructor(userData: UserCoach) {
     super(userData);
-    this.fillEntity(userData);
-  }
-
-  public fillEntity(userData: UserCoach) {
     this.certificate = userData.certificate;
     this.merit = userData.merit;
     this.personalTraining = userData.personalTraining;

@@ -1,30 +1,34 @@
 import { IsIn, IsEnum,IsOptional, IsNumber, IsInt } from 'class-validator';
 import { UserTime } from '@project/shared/shared-types';
 import { Transform } from 'class-transformer';
-import { DEFAULT_PAGE, DefaultPostsLimit, DefaultSortParam } from './query.constant';
+import { DEFAULT_LIMIT, DEFAULT_PAGE, DefaultSortParam } from './query.constant';
 
 export class WorkoutQuery {
-  @Transform(({ value } ) => +value || DefaultPostsLimit.Query)
+  @Transform(({ value } ) => +value || DEFAULT_LIMIT)
   @IsNumber()
   @IsOptional()
-  public limit = DefaultPostsLimit.Query;
+  public limit: number = DEFAULT_LIMIT;
 
   @Transform(({ value }) => +value || DEFAULT_PAGE)
+  @IsNumber()
   @IsOptional()
-  public page = DEFAULT_PAGE;
+  public page: number = DEFAULT_PAGE;
 
   @IsIn(['createdAt', 'price'])
   @IsOptional()
-  public sortBy: string = DefaultSortParam.Type;
+  public sortBy: 'createdAt' | 'price' = DefaultSortParam.Type;
 
+  @Transform(({ value }) => +value)
   @IsInt()
   @IsOptional()
   public caloriesToSpend?: number;
 
+  @Transform(({ value }) => +value)
   @IsInt()
   @IsOptional()
   public price?: number;
 
+  @Transform(({ value }) => +value)
   @IsInt()
   @IsOptional()
   public rating?: number;
@@ -35,5 +39,5 @@ export class WorkoutQuery {
 
   @IsIn(['asc', 'desc'])
   @IsOptional()
-  public sortDirection: string = DefaultSortParam.Direction;
+  public sortDirection: 'asc' | 'desc' = DefaultSortParam.Direction;
 }

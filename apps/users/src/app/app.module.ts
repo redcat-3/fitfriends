@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { getMongooseOptions } from '@project/util/util-core';
 import { UserModule } from './user/user.module';
 import { NotifyModule } from './notify/notify.module';
+import { NotificationRepositoryModule } from '@project/repositories/notification-repository';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { NotifyModule } from './notify/notify.module';
     MongooseModule.forRootAsync(getMongooseOptions(ConfigName.Db)),
     UserModule,
     NotifyModule,
+    NotificationRepositoryModule
   ],
   controllers: [],
   providers: [],
