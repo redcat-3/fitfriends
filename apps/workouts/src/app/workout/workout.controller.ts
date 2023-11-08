@@ -11,6 +11,8 @@ import { JwtAuthGuard, fillObject } from '@project/util/util-core';
 import { RequestWithUserPayload } from '@project/shared/shared-types';
 import { WorkoutQuery } from '@project/shared/shared-query';
 import { NotifyService } from '../notify/notify.service';
+import { NotificationEntity, NotificationRepository } from '@project/repositories/notification-repository';
+import dayjs from 'dayjs';
 
 
 @ApiTags(API_TAG_NAME)
@@ -19,7 +21,8 @@ import { NotifyService } from '../notify/notify.service';
 export class WorkoutController {
   constructor(
     private readonly workoutsService: WorkoutService,
-    private readonly notifyService: NotifyService
+    private readonly notifyService: NotifyService,
+    private readonly notificationRepository: NotificationRepository,
   ) { }
 
   @ApiResponse({
@@ -35,14 +38,21 @@ export class WorkoutController {
     dto: CreateWorkoutDto) {
     const userId = user.sub;
     const result = await this.workoutsService.create(dto, userId);
-    if (result.followers && (result.followers.length > 0)) {
+    if (result && (result.followers.length > 0)) {
       result.followers.map((follower) => {
         this.notifyService.sendNewsletter({
           email: follower.email,
           workoutInfo: result.newWorkout,
           name: follower.name,
           coach: result.coach.name,
-        })
+        });
+        const notification = {
+          userId: follower.id,
+          text: `Тренер ${result.coach.name} приглашает вас на тренировку с названием ${result.newWorkout.name}`,
+          createdDate: dayjs().toDate(),
+        }
+        const notificationEntity = new NotificationEntity(notification);
+        this.notificationRepository.create(notificationEntity);
       })
     }
     return fillObject(WorkoutRdo, result.newWorkout);

@@ -13,7 +13,6 @@ export class NotifyService {
     @Inject(rabbitConfig.KEY)
     private readonly rabbitOptions: ConfigType<typeof rabbitConfig>,
   ) {
-    console.log(rabbitConfig.KEY);
   }
 
   public async sendNewsletter(dto: NewsletterDto) {

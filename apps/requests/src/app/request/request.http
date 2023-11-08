@@ -27,7 +27,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "status": "accept",
+  "status": "accept"
 }
 
 ###
@@ -51,6 +51,6 @@ Authorization: Bearer {{token}}
 ###
 
 # Delete request
-DELETE  http://localhost:3004/api/request/1 HTTP/1.1
+DELETE  http://localhost:3004/api/request/3 HTTP/1.1
 Authorization: Bearer {{token}}
 

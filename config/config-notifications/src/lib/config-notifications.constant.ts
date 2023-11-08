@@ -8,4 +8,3 @@ export const ConfigName = {
   Db: 'db'
 } as const;
 
-export const DEFAULT_RABBIT_PORT = 5672

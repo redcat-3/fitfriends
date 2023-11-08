@@ -7,4 +7,6 @@ export const ConfigName = {
   Rabbit : 'rabbit',
 } as const;
 
-export const DEFAULT_ERROR_MESSAGE =  'Environments validation failed. Please check .env file. Error message: '
+export const DEFAULT_ERROR_MESSAGE =  'Environments validation failed. Please check .env file. Error message: ';
+
+export const DEFAULT_RABBIT_PORT = 5672;

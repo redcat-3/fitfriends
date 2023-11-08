@@ -121,6 +121,7 @@ model Balance {
   balanceId     Int          @id @default(autoincrement()) @map("balance_id")
   userId        String       @map("user_id")
   workoutId     Int          @map("workout_id")
+  price         Int
   count         Int       
 
   @@map("balances")

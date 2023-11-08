@@ -7,7 +7,6 @@ import { OrderRdo } from './rdo/order.rdo';
 import { RequestWithUserPayload } from '@project/shared/shared-types';
 import { CreateOrderDto } from '@project/shared/shared-dto';
 import { OrderQuery } from '@project/shared/shared-query';
-import { MongoidValidationPipe } from '@project/shared/shared-pipes';
 
 @ApiTags(API_TAG_NAME)
 @Controller(OrdersPath.Main)
@@ -62,8 +61,8 @@ export class OrdersController {
   })
   @UseGuards(JwtAuthGuard)
   @Get(OrdersPath.IndexCoach)
-  public async indexCoachOrders(@Param('coachId',  MongoidValidationPipe) id:string, @Query() query : OrderQuery ) {
-    const orders = await this.ordersService.findByCoachId(id, query);
+  public async indexCoachOrders(@Req() {user}: RequestWithUserPayload, @Query() query : OrderQuery ) {
+    const orders = await this.ordersService.findByCoachId(user.sub, query);
     return orders;
   }
 }

@@ -18,7 +18,7 @@ export const NotificationMessages = {
 export const NotificationPath = { 
   Main:"notification",
   Add:"add",
-  Id:":notificationId",
+  Id:"list/:notificationId",
   Index:"list",
 } as const;
 

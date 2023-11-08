@@ -2,11 +2,12 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { OrderRepository } from '@project/repositories/workout-repository';
 import { CreateOrderDto } from '@project/shared/shared-dto';
 import { WorkoutRepository, OrderEntity } from '@project/repositories/workout-repository';
-import { OrdersError } from './order.constant';
+import { EMPTY_WORKOUT, OrdersError } from './order.constant';
 import { UserRepository } from '@project/repositories/user-repository';
 import { OrderToCoach, UserRole } from '@project/shared/shared-types';
 import dayjs from 'dayjs';
 import { OrderQuery } from '@project/shared/shared-query';
+import { BalanceEntity, BalanceRepository } from '@project/repositories/balance-repository';
 
 @Injectable()
 export class OrdersService {
@@ -14,6 +15,7 @@ export class OrdersService {
     private readonly orderRepository: OrderRepository,
     private readonly workoutRepository: WorkoutRepository,
     private readonly userRepository: UserRepository,
+    private readonly balanceRepository: BalanceRepository,
   ) { }
 
   public async create(dto: CreateOrderDto, userId: string) {
@@ -38,6 +40,14 @@ export class OrdersService {
     }
     const orderEntity = new OrderEntity(order);
     const newOrder = await this.orderRepository.create(orderEntity);
+    const balance = {
+      userId,
+      workoutId: workout.workoutId,
+      price: workout.price,
+      count: dto.count
+    }
+    const balanceEntity = new BalanceEntity(balance);
+    await this.balanceRepository.create(balanceEntity);
     return newOrder;
   }
 
@@ -71,15 +81,26 @@ export class OrdersService {
   }
 
   public async findByCoachId(id: string, query: OrderQuery) {
+    const user = await this.userRepository.findById(id);
+    if (!user) {
+      throw new NotFoundException(OrdersError.UserNotFound);
+    } 
+    if (user.role !== UserRole.Сoach) {
+      throw new BadRequestException(OrdersError.WrongRole);
+    }
     const groupWorkouts = await this.orderRepository.groupByWorkoutWereCoachId(id, query);
-    const orders: OrderToCoach[] = [];
+    const orders = [];
+    const order: OrderToCoach = {workout: EMPTY_WORKOUT, countWorkout: 0, orderPrice: 0};
     let summaryPrice = 0;
-    groupWorkouts.map(async (item, index) => {
-      orders[index].workout = await this.workoutRepository.findById(item.workoutId);
-      orders[index].countWorkout = item._sum.count;
-      orders[index].orderPrice = item._sum.orderPrice;
-      summaryPrice = summaryPrice + item._sum.orderPrice;
-    })
+    if (groupWorkouts.length > 0) {
+      groupWorkouts.map(async (item) => {
+        order.workout = await this.workoutRepository.findById(item.workoutId);
+        order.countWorkout = item._sum.count;
+        order.orderPrice = item._sum.orderPrice;
+        orders.push(order);
+        summaryPrice = summaryPrice + item._sum.orderPrice;
+      });
+    }
     return {orders, summaryPrice};
   }
 }

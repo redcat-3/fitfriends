@@ -1,3 +1,5 @@
+import { IWorkout, UserGender, UserLevel, WorkoutType } from "@project/shared/shared-types";
+
 export const OrdersError = {
   UserNotFound: "User  is not found",
   WrongRole: "User role is wrong",
@@ -19,7 +21,25 @@ export const OrdersPath = {
   Add:"add",
   Id:":orderId",
   Index:"list/:workoutId",
-  IndexCoach:"coach/list/:coachId",
+  IndexCoach:"coach/list/index",
 }as const;
 
 export const  API_TAG_NAME ="Orders"
+
+export const EMPTY_WORKOUT: IWorkout = {
+  workoutId: 0,
+  coachId: '',
+  name: '',
+  background: '',
+  level: UserLevel.Beginner,
+  type: WorkoutType.Aerobics,
+  timeOfTraining: '',
+  price: 0,
+  caloriesToSpend: 0,
+  description: '',
+  gender: UserGender.Male,
+  video: '',
+  rating: 0,
+  special: false,
+  createdDate: '',
+}

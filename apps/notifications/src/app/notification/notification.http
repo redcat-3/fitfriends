@@ -1,0 +1,29 @@
+@token={{login.response.body.accessToken}}
+# @name login
+# Login user by email and password
+POST http://localhost:3001/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "test@test.local",
+  "password": "123456"
+}
+
+###
+
+# Get notification by ID
+GET http://localhost:3005/api/notification/list/1 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Get inputs notifications
+GET http://localhost:3005/api/notification/list HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Delete notification
+DELETE  http://localhost:3004/api/notification/1 HTTP/1.1
+Authorization: Bearer {{token}}
+

@@ -5,7 +5,7 @@ POST http://localhost:3001/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "test@test.local",
+  "email": "coach@test.local",
   "password": "123456"
 }
 
@@ -38,7 +38,7 @@ Authorization: Bearer {{token}}
 ###
 
 # Get orders by coachID
-GET http://localhost:3002/api/order/coach/list/6535430009ad33414280b094 HTTP/1.1
+GET http://localhost:3002/api/order/coach/list/index HTTP/1.1
 Authorization: Bearer {{token}}
 
 ###

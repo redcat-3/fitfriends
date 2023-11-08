@@ -9,6 +9,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigWorkoutsModule } from '@project/config/config-workouts';
 import { UserRepositoryModule } from '@project/repositories/user-repository';
 import { NotifyModule } from '../notify/notify.module';
+import { NotificationRepositoryModule } from '@project/repositories/notification-repository';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { NotifyModule } from '../notify/notify.module';
     UserRepositoryModule,
     NotifyModule,
     ConfigWorkoutsModule,
+    NotificationRepositoryModule,
     JwtModule.registerAsync({
       imports: [],
       inject: [ConfigService],

@@ -1,3 +1,5 @@
+export const DEFAULT_NULL_VALUE = 0;
+
 export const Rating = {
   Min: 1,
   Max: 5,
@@ -18,7 +20,7 @@ export const FeedbackTextLength = {
   Max: 1024,
 };
 
-export const NotificatioTextLength = {
+export const NotificationTextLength = {
   Min: 10,
   Max: 1024,
 };

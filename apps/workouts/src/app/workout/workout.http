@@ -68,20 +68,3 @@ DELETE  http://localhost:3002/api/workout/list/coach/1 HTTP/1.1
 Authorization: Bearer {{token}}
 
 ###
-
-# # Get comments of the post
-# GET http://localhost:3000/api/post/6485f358299152496b800a62/comments HTTP/1.1
-
-# ###
-
-# # Post new comment of the post
-# POST http://localhost:3333/api/post/6485f358299152496b800a62/comments HTTP/1.1
-# Authorization: Bearer {{token}}
-# Content-Type: application/json
-
-# {
-#   "text": "The universe loves you",
-#   "author": "6485f358299152496b800a62"
-# }
-# ###
-

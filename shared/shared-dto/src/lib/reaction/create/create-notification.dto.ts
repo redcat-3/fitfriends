@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsMongoId, IsString, MaxLength, MinLength } from 'class-validator';
-import { NotificatioTextLength } from '../reaction.constant';
+import { NotificationTextLength } from '../reaction.constant';
 
 export class CreateNotificationDto {
   @ApiProperty({
@@ -15,7 +15,7 @@ export class CreateNotificationDto {
     example: 'Вас добавили в друзья'
   })
   @IsString()
-  @MinLength(NotificatioTextLength.Min)
-  @MaxLength(NotificatioTextLength.Max)
+  @MinLength(NotificationTextLength.Min)
+  @MaxLength(NotificationTextLength.Max)
   public text: string;
 }

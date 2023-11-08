@@ -6,8 +6,7 @@ import { JwtAuthGuard } from '@project/util/util-core';
 import { RequestRdo } from './rdo/request.rdo';
 import { RequestWithUserPayload } from '@project/shared/shared-types';
 import { adaptPrismaRequest } from './utils/adapt-prisma-request';
-import { RequestStatus } from '@prisma/client';
-import { CreateRequestDto } from '@project/shared/shared-dto';
+import { CreateRequestDto, UpdateRequestDto } from '@project/shared/shared-dto';
 
 @ApiTags(API_TAG_NAME)
 @Controller(RequestsPath.Main)
@@ -35,9 +34,9 @@ export class RequestsController {
   })
   @UseGuards(JwtAuthGuard)
   @Patch(RequestsPath.Id)
-  public async updateRequest(@Param('requestId') id:number, @Body() status: RequestStatus, @Req() {user}: RequestWithUserPayload) {
+  public async updateRequest(@Param('requestId') id:number, @Body() dto: UpdateRequestDto, @Req() {user}: RequestWithUserPayload) {
     const userId = user.sub;
-    const request = await this.requestsService.update(id, status, userId,);
+    const request = await this.requestsService.update(id, dto.status, userId,);
     return adaptPrismaRequest(request);
   }
   
