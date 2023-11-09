@@ -65,6 +65,18 @@ export class WorkoutService {
     return workouts;
   }
 
+  public async findByCoachIdWithFilters(coachId: string, price: string, calories: string, rating: string, duration: string) {
+    const coach = await this.userRepository.findById(coachId);
+    if (!coach) {
+      throw new NotFoundException(WorkoutsError.UserNotFound);
+    } 
+    if (coach.role !== UserRole.Сoach) {
+      throw new BadRequestException(WorkoutsError.WrongRole);
+    }
+    const workouts = await this.workoutRepository.searchByUserIdWithFilters(coachId, price, calories, rating, duration);
+    return workouts;
+  }
+
   public async findAll(query: WorkoutQuery) {
     const workouts = await this.workoutRepository.findAll(query);
     return workouts;

@@ -8,6 +8,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { UpdateUserDto } from '@project/shared/shared-dto';
 import { RETURNABLE_FIELDS } from './user-repository.constant';
+import { buildFilterQuery } from './utils/build-filter-query';
 
 export type UserFields = {
   id: string,
@@ -67,61 +68,12 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
         .skip(page > 0 ? limit * (page - 1) : undefined)
         .sort({role: sort});
     }
-    if (location && typeOfTrain && level) {
-      return await this.userModel.find({
-        location,
-        typeOfTrain: typeOfTrain,
-        level
-      })
+    const queryFilter = buildFilterQuery (location, typeOfTrain, level)
+    return await this.userModel
+      .find(queryFilter)
       .limit(limit)
       .skip(page > 0 ? limit * (page - 1) : undefined)
       .sort({role: sort});
-    } else if (!location && typeOfTrain && level) {
-      return await this.userModel.find({
-        typeOfTrain: typeOfTrain,
-        level
-      })
-      .limit(limit)
-      .skip(page > 0 ? limit * (page - 1) : undefined)
-      .sort({role: sort});
-    } else if (!location && !typeOfTrain && level) {
-      return await this.userModel.find({
-        level
-      })
-      .limit(limit)
-      .skip(page > 0 ? limit * (page - 1) : undefined)
-      .sort({role: sort});
-    } else if (!location && typeOfTrain && !level) {
-      return await this.userModel.find({
-        typeOfTrain: typeOfTrain,
-      })
-      .limit(limit)
-      .skip(page > 0 ? limit * (page - 1) : undefined)
-      .sort({role: sort});
-    } else if (location && !typeOfTrain && !level) {
-      return await this.userModel.find({
-        location,
-      })
-      .limit(limit)
-      .skip(page > 0 ? limit * (page - 1) : undefined)
-      .sort({role: sort});
-    }  else if (location && typeOfTrain && !level) {
-      return await this.userModel.find({
-        location,
-        typeOfTrain: typeOfTrain,
-      })
-      .limit(limit)
-      .skip(page > 0 ? limit * (page - 1) : undefined)
-      .sort({role: sort});
-    } else if (location && !typeOfTrain && level) {
-      return await this.userModel.find({
-        location,
-        level,
-      })
-      .limit(limit)
-      .skip(page > 0 ? limit * (page - 1) : undefined)
-      .sort({role: sort});
-    }
   }
 
   public async addToFollowById(

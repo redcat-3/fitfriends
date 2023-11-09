@@ -107,7 +107,6 @@ export class WorkoutController {
     status: HttpStatus.OK,
     description: WorkoutMessages.Index
   })
-  @UseGuards(JwtAuthGuard)
   @Get(WorkoutPath.List)
   public async index(@Query() query : WorkoutQuery) {
     const workouts = await this.workoutsService.findAll(query);
@@ -123,6 +122,23 @@ export class WorkoutController {
   @Get(WorkoutPath.CoachList)
   public async coachIndex(@Req() { user }: RequestWithUserPayload) {
     const workouts = await this.workoutsService.findByCoachId(user.sub);
+    return workouts.map((workout) => fillObject(WorkoutRdo, workout));
+  }
+
+  @ApiResponse({
+    type: WorkoutRdo,
+    status: HttpStatus.OK,
+    description: WorkoutMessages.Index
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get(WorkoutPath.CoachListWithFilters)
+  public async coachIndexWithFilters(
+    @Req() { user }: RequestWithUserPayload, 
+    @Param('price') price: string,
+    @Param('calories') calories: string, 
+    @Param('rating') rating: string, 
+    @Param('duration') duration: string) {
+    const workouts = await this.workoutsService.findByCoachIdWithFilters(user.sub, price, calories, rating, duration);
     return workouts.map((workout) => fillObject(WorkoutRdo, workout));
   }
 }

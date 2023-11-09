@@ -1,6 +1,6 @@
 export const DefaultSortParam = {
   Direction: 'desc',
-  Type: 'createdAt',
+  Type: 'createdDate',
   OrderType: 'count'
 } as const;
 

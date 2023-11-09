@@ -22,10 +22,11 @@ export const WorkoutMessages = {
 } as const;
 
 export const WorkoutPath = {
-  Main:'workout',
-  Add:'add',
-  List:'list',
-  CoachList:'list/coach',
+  Main: 'workout',
+  Add: 'add',
+  List: 'list',
+  CoachList: 'list/coach',
+  CoachListWithFilters: 'list/coach/:price/:calories/:rating/:duration',
   Id: 'list/coach/:id'
 }as const;
 

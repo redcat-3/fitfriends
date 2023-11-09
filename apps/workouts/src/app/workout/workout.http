@@ -12,18 +12,18 @@ Content-Type: application/json
 
 ###
 
-# Create post
+# Create workout
 POST http://localhost:3002/api/workout/add HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "name": "Yoga",
+  "name": "Yoga 3",
   "background": "image.jpg",
   "level": "beginner",
   "type": "yoga",
   "timeOfTraining": "30-50",
-  "price": 2500,
+  "price": 1500,
   "caloriesToSpend": 1500,
   "description": "Yoga for beginners",
   "gender": "indifferent",
@@ -33,7 +33,7 @@ Content-Type: application/json
 
 ###
 
-# Update post by ID
+# Update workout by ID
 PATCH http://localhost:3002/api/workout/list/coach/3 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -45,25 +45,25 @@ Content-Type: application/json
 
 ###
 
-# Get post by ID
+# Get workout by ID
 GET http://localhost:3002/api/workout/list/coach/3 HTTP/1.1
 Authorization: Bearer {{token}}
 
 ###
 
-# Get all posts and filtres
+# Get all workouts and filtres
 GET http://localhost:3002/api/workout/list HTTP/1.1
 Authorization: Bearer {{token}}
 
 ###
 
-# Get all posts
+# Get all workouts
 GET http://localhost:3002/api/workout/list/coach HTTP/1.1
 Authorization: Bearer {{token}}
 
 ###
 
-# Delete post
+# Delete workout
 DELETE  http://localhost:3002/api/workout/list/coach/1 HTTP/1.1
 Authorization: Bearer {{token}}
 

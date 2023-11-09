@@ -19,7 +19,7 @@ Authorization: Bearer {{token}}
 ###
 
 # Get user list
-GET http://localhost:3001/api/user/list HTTP/1.1
+GET http://localhost:3001/api/user/list?level=pro HTTP/1.1
 Authorization: Bearer {{token}}
 
 ###

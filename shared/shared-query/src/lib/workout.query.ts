@@ -1,4 +1,4 @@
-import { IsIn, IsEnum,IsOptional, IsNumber, IsInt } from 'class-validator';
+import { IsIn, IsEnum,IsOptional, IsNumber, IsString } from 'class-validator';
 import { UserTime } from '@project/shared/shared-types';
 import { Transform } from 'class-transformer';
 import { DEFAULT_LIMIT, DEFAULT_PAGE, DefaultSortParam } from './query.constant';
@@ -14,24 +14,25 @@ export class WorkoutQuery {
   @IsOptional()
   public page: number = DEFAULT_PAGE;
 
-  @IsIn(['createdAt', 'price'])
+  @IsIn(['createdDate', 'price'])
   @IsOptional()
-  public sortBy: 'createdAt' | 'price' = DefaultSortParam.Type;
+  public sortBy: 'createdDate' | 'price' = DefaultSortParam.Type;
 
-  @Transform(({ value }) => +value)
-  @IsInt()
+  @IsString()
   @IsOptional()
-  public caloriesToSpend?: number;
+  public caloriesToSpend?: string;
 
-  @Transform(({ value }) => +value)
-  @IsInt()
+  @IsString()
   @IsOptional()
-  public price?: number;
+  public price?: string;
 
-  @Transform(({ value }) => +value)
-  @IsInt()
+  @IsString()
   @IsOptional()
-  public rating?: number;
+  public type?: string;
+
+  @IsString()
+  @IsOptional()
+  public rating?: string;
 
   @IsEnum(UserTime)
   @IsOptional()
