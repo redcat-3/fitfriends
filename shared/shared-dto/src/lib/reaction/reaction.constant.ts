@@ -40,3 +40,10 @@ export const RequestMessages = {
 export const MailMessages = {
   InvalidEmail: 'User with this email already exists'
 } as const;
+
+export const ExampleValue = {
+  Price: 200,
+  Rating: 4,
+  PrismaId: 3,
+  CountOfWorkouts: 4,
+} as const;

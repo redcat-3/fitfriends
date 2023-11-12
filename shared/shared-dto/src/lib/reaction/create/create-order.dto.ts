@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsInt, Max, Min } from 'class-validator';
 import { OrderCount } from '../reaction.constant';
 import { OrderType, PaymentMethod } from '@prisma/client';
+import { ExampleValue } from '../reaction.constant';
 
 export class CreateOrderDto {
   @ApiProperty({
@@ -13,14 +14,14 @@ export class CreateOrderDto {
 
   @ApiProperty({
     description: 'Workout ID',
-    example: 23
+    example: ExampleValue.PrismaId
   })
   @IsInt()
   public workoutId: number;
 
   @ApiProperty({
     description: `Количество приобретаемых тренировок.`,
-    example: 4
+    example: ExampleValue.CountOfWorkouts
   })
   @IsInt()
   @Max(OrderCount.Max)

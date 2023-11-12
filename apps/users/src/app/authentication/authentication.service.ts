@@ -36,7 +36,7 @@ export class AuthenticationService {
         merit: '',
         personalTraining: false
       }
-    } else if (dtoUser.role === UserRole.Сoach) {
+    } else if (dtoUser.role === UserRole.Coach) {
       user = {
         ... dtoUser,
         passwordHash: '',

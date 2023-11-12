@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, IsMongoId } from 'class-validator';
+import { ExampleValue } from '../reaction.constant';
 
 export class CreateBalanceDto {
   @ApiProperty({
@@ -11,21 +12,21 @@ export class CreateBalanceDto {
 
   @ApiProperty({
     description: 'Workout ID',
-    example: 2
+    example: ExampleValue.PrismaId
   })
   @IsInt()
   public workoutId: number;
 
   @ApiProperty({
     description: 'Price of workout',
-    example: 200
+    example: ExampleValue.Price
   })
   @IsInt()
   public price: number;
 
   @ApiProperty({
     description: 'Count of workouts',
-    example: 4
+    example: ExampleValue.CountOfWorkouts
   })
   @IsInt()
   public count: number;

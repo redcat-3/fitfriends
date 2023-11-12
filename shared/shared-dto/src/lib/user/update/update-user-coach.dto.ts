@@ -5,8 +5,8 @@ import { CoachMeritLength } from '../user-dto.constant';
 
 export class UpdateUserCoachDto extends UpdateAbstractUserDto {
   @ApiProperty({
-    description: 'Coach certificate id',
-    example: '1'
+    description: 'Coach certificate',
+    example: '1.jpg'
     })
     @IsOptional()
     @IsString()

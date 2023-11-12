@@ -61,7 +61,7 @@ export class UserDto {
 
   @ApiProperty({
     description: 'User role',
-    example: UserRole.Сoach,
+    example: UserRole.Coach,
   })
   @IsEnum(UserRole)
   public role: UserRole;

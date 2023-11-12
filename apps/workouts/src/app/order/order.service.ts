@@ -70,7 +70,7 @@ export class OrdersService {
     if (!user) {
       throw new NotFoundException(OrdersError.UserNotFound);
     } 
-    if (user.role !== UserRole.Сoach) {
+    if (user.role !== UserRole.Coach) {
       throw new BadRequestException(OrdersError.WrongRole);
     }
     const workout = await this.workoutRepository.findById(id);
@@ -85,7 +85,7 @@ export class OrdersService {
     if (!user) {
       throw new NotFoundException(OrdersError.UserNotFound);
     } 
-    if (user.role !== UserRole.Сoach) {
+    if (user.role !== UserRole.Coach) {
       throw new BadRequestException(OrdersError.WrongRole);
     }
     const groupWorkouts = await this.orderRepository.groupByWorkoutWereCoachId(id, query);

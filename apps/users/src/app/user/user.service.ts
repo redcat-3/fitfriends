@@ -32,7 +32,7 @@ export class UserService {
 
   public async getUsersList(id: string, query: UserQuery): Promise<User[] | null> {
     const user = await this.userRepository.findById(id);
-    if (user.role === UserRole.Сoach) {
+    if (user.role === UserRole.Coach) {
       throw new BadRequestException (UserError.InvalidRole);
     }
     return await this.userRepository.getUsersList(query);
@@ -43,14 +43,14 @@ export class UserService {
     if (!user) {
       throw new NotFoundException (UserError.NotFound);
     }
-    if (user.role === UserRole.Сoach) {
+    if (user.role === UserRole.Coach) {
       throw new BadRequestException (UserError.InvalidRole);
     }
     const coach = await this.userRepository.findById(followId);
     if (!coach) {
       throw new NotFoundException (UserError.NotFound);
     }
-    if (coach.role !== UserRole.Сoach) {
+    if (coach.role !== UserRole.Coach) {
       throw new BadRequestException (UserError.InvalidRole);
     }
     if (!this.userRepository.checkFollow(userId, followId)) {

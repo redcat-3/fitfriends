@@ -34,3 +34,11 @@ export const CountCaloriesToSpend = {
   Min: 1000,
   Max: 5000,
 };
+
+export const ExampleValue = {
+  Price: 200,
+  Rating: 4,
+  PrismaId: 3,
+  CountOfWorkouts: 4,
+  Calories: 2000,
+} as const;

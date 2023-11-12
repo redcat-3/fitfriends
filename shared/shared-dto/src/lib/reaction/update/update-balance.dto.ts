@@ -1,18 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, Min } from 'class-validator';
-import { DEFAULT_NULL_VALUE } from '../reaction.constant';
+import { DEFAULT_NULL_VALUE, ExampleValue } from '../reaction.constant';
 
 export class UpdateBalanceDto {
   @ApiProperty({
     description: 'Balance ID',
-    example: 2
+    example: ExampleValue.PrismaId
   })
   @IsInt()
   public balanceId: number;
 
   @ApiProperty({
     description: 'Count of workouts',
-    example: 4
+    example: ExampleValue.CountOfWorkouts
   })
   @IsInt()
   @Min(DEFAULT_NULL_VALUE)

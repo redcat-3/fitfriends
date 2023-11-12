@@ -1,18 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, IsString, Max, MaxLength, Min, MinLength } from 'class-validator';
-import { FeedbackTextLength, Rating } from '../reaction.constant';
+import { ExampleValue, FeedbackTextLength, Rating } from '../reaction.constant';
 
 export class CreateFeedbackDto {
   @ApiProperty({
     description: 'Workout ID',
-    example: 23
+    example: ExampleValue.PrismaId
   })
   @IsInt()
   public workoutId: number;
 
   @ApiProperty({
     description: 'Rating of workout',
-    example: 4
+    example: ExampleValue.Rating
   })
   @IsInt()
   @Min(Rating.Min)
