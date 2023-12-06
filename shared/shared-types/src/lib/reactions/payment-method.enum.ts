@@ -1,6 +1,6 @@
 export enum PaymentMethod {
   Visa = 'visa',
   Mir = 'mir',
-  Umoney = 'umoney',
+  Umoney = 'iomoney',
 }
       

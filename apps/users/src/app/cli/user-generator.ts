@@ -33,7 +33,7 @@ export default class UserGenerator implements UserGeneratorInterface {
         trainingReady: getRandomBoolean()
       }
       return userUser;
-    } else if (role === UserRole.Сoach) {
+    } else if (role === UserRole.Coach) {
       const userCoach = {
         ... user,
         certificate: getRandomItem<string>(this.mockData.CERTIFICATE),

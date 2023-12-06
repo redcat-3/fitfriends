@@ -36,9 +36,9 @@ export class UserRdo {
   @ApiProperty({
     description: 'User registration date',
   })
-  @Expose({ name: 'createdAt'})
-  @Transform(({obj}) => obj.createdAt.toString())
-  public createdAt: string;
+  @Expose({ name: 'createdDate'})
+  @Transform(({obj}) => obj.createdDate.toString())
+  public createdDate: string;
 
   @ApiProperty({
     description: 'User gender',
@@ -60,7 +60,7 @@ export class UserRdo {
     example: UserRole.User
   })
   @Expose()
-  public role: UserGender;
+  public role: UserRole;
 
   @ApiProperty({
     description: 'Текст с общей информацией.',
