@@ -1,7 +1,7 @@
 import { Body, Req, Controller, HttpStatus,HttpCode, Post, UseGuards } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { JwtAuthGuard, fillObject } from '@project/util/util-core';
-import { LoggedUserRdo } from '../../../../../shared/shared-rdo/src/lib/auth/rdo/logged-user.rdo';
+import { LoggedUserRdo } from '@project/shared/shared-rdo';
 import { API_TAG_NAME, AuthError, AuthMessages, AuthPath } from './authentication.constant';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserValidationPipe } from '@project/shared/shared-pipes';
