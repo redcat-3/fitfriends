@@ -97,8 +97,8 @@ export class WorkoutController {
   })
   @UseGuards(JwtAuthGuard)
   @Get(WorkoutPath.Id)
-  public async show(@Param('id') id: string) {
-    const workout =  await this.workoutsService.findByWorkoutId(+id);
+  public async show(@Param('id') id: number) {
+    const workout =  await this.workoutsService.findByWorkoutId(id);
     return fillObject(WorkoutRdo, workout);
   }
 
