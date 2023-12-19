@@ -1,20 +1,11 @@
 import { WorkoutQueryDto } from "@project/shared/shared-query";
 
-export function buildFilterQuery (query: WorkoutQueryDto) {
-  const { limit, page, sortBy, caloriesToSpend, sortDirection, price, timeOfTraining, rating, type } = query;
+export function buildCountQuery (query: WorkoutQueryDto) {
+  const { caloriesToSpend, price, timeOfTraining, rating, type } = query;
   const usedFilter = {
     where: {
       AND: []
-    },
-    take: limit,
-    include: {
-      feedbacks: true,
-      orders: true,
-    },
-    orderBy: [
-      { [sortBy]: sortDirection }
-    ],
-    skip: page > 0 ? limit * (page - 1) : undefined,
+    }
   };
   if (caloriesToSpend) {
     const [min, max] = caloriesToSpend.split(",");

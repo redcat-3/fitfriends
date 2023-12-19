@@ -9,7 +9,7 @@ import { ConfigType } from '@nestjs/config';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 import { createJWTPayload } from '@project/util/util-core';
 import * as crypto from 'node:crypto';
-import { TypeEntityAdapter } from '../../../../../repositories/user-repository/src/lib/entity-adapter';
+import { TypeEntityAdapter } from '@project/repositories/user-repository';
 import dayjs from 'dayjs';
 import { adaptCreateDtoUser } from '@project/util/util-core';
 

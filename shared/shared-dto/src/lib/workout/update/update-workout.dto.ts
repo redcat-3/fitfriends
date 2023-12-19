@@ -2,13 +2,13 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsOptional, IsString, MaxLength, MinLength, IsEnum, IsInt, Min, Max } from 'class-validator';
 import { DEFAULT_AMOUNT, NameLength, WorkoutDescriptionLength } from '../workout-dto.constant';
 import { UserGender, UserLevel, WorkoutType } from '@prisma/client';
-import { CountCaloriesToReset, ExampleValue } from '../../user/user-dto.constant';
+import { CountCaloriesToReset, ExampleValueUser } from '../../user/user-dto.constant';
 import { UserTime } from '@project/shared/shared-types';
 
 export class UpdateWorkoutDto {
   @ApiProperty({
     description: 'Уникальный идентификатор тренировки.',
-    example: ExampleValue.PrismaId  
+    example: ExampleValueUser.PrismaId  
   })
   @IsOptional()
   @IsInt()
@@ -58,7 +58,7 @@ export class UpdateWorkoutDto {
 
   @ApiProperty({
     description: `Стоимость тренировки в рублях. Ограничения: целые числа; число больше или равно 0. Значение 0 подразумевает бесплатную тренировку.`,
-    example: ExampleValue.Price
+    example: ExampleValueUser.Price
   })
   @IsOptional()
   @IsInt()
@@ -67,7 +67,7 @@ export class UpdateWorkoutDto {
 
   @ApiProperty({
     description: `Количество калорий. Ограничения: обязательно для заполнения; минимальное значение ${CountCaloriesToReset.Min}, максимально значение ${CountCaloriesToReset.Max}; только целые числа.`,
-    example: ExampleValue.Calories
+    example: ExampleValueUser.Calories
   })
   @IsOptional()
   @IsInt()

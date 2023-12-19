@@ -35,7 +35,7 @@ export const CountCaloriesToSpend = {
   Max: 5000,
 };
 
-export const ExampleValue = {
+export const ExampleValueUser = {
   Price: 200,
   Rating: 4,
   PrismaId: 3,

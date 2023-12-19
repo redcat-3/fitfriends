@@ -52,8 +52,40 @@ Authorization: Bearer {{token}}
 ###
 
 # Get all workouts and filtres
-GET http://localhost:3002/api/workout/list HTTP/1.1
+POST http://localhost:3002/api/workout/list HTTP/1.1
 Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "limit": 6,
+  "page": 1,
+  "sortBy": "createdDate",
+  "caloriesToSpend": "1000,1500",
+  "price": "100,500",
+  "type": "yoga,running",
+  "rating": "1,5",
+  "timeOfTraining": "10-30,80-100",
+  "sortDirection": "asc"
+}
+
+###
+
+# Get count workouts
+POST http://localhost:3002/api/workout/list/count HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "limit": 6,
+  "page": 1,
+  "sortBy": "createdDate",
+  "caloriesToSpend": "1000,1500",
+  "price": "100,500",
+  "type": "yoga,running",
+  "rating": "1,5",
+  "timeOfTraining": "10-30,80-100",
+  "sortDirection": "asc"
+}
 
 ###
 

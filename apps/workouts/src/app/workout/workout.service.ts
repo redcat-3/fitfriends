@@ -6,7 +6,7 @@ import { CreateWorkoutDto, UpdateWorkoutDto, DEFAULT_AMOUNT } from '@project/sha
 import { getDate } from '@project/util/util-core';
 import { WorkoutEntity } from '@project/repositories/workout-repository';
 import { UserRole } from '@project/shared/shared-types';
-import { WorkoutQuery } from '@project/shared/shared-query';
+import { WorkoutQueryDto } from '@project/shared/shared-query';
 
 @Injectable()
 export class WorkoutService {
@@ -20,7 +20,7 @@ export class WorkoutService {
     if (!coach) {
       throw new NotFoundException(WorkoutsError.UserNotFound);
     } 
-    if (coach.role !== UserRole.Сoach) {
+    if (coach.role !== UserRole.Coach) {
       throw new BadRequestException(WorkoutsError.WrongRole);
     }
     const workout = {
@@ -58,7 +58,7 @@ export class WorkoutService {
     if (!coach) {
       throw new NotFoundException(WorkoutsError.UserNotFound);
     } 
-    if (coach.role !== UserRole.Сoach) {
+    if (coach.role !== UserRole.Coach) {
       throw new BadRequestException(WorkoutsError.WrongRole);
     }
     const workouts = await this.workoutRepository.searchByUserId(coachId);
@@ -70,15 +70,20 @@ export class WorkoutService {
     if (!coach) {
       throw new NotFoundException(WorkoutsError.UserNotFound);
     } 
-    if (coach.role !== UserRole.Сoach) {
+    if (coach.role !== UserRole.Coach) {
       throw new BadRequestException(WorkoutsError.WrongRole);
     }
     const workouts = await this.workoutRepository.searchByUserIdWithFilters(coachId, price, calories, rating, duration);
     return workouts;
   }
 
-  public async findAll(query: WorkoutQuery) {
+  public async findAll(query: WorkoutQueryDto) {
     const workouts = await this.workoutRepository.findAll(query);
+    return workouts;
+  }
+
+  public async find(query: WorkoutQueryDto) {
+    const workouts = await this.workoutRepository.find(query);
     return workouts;
   }
 

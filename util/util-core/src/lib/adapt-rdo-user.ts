@@ -1,11 +1,11 @@
 import { User, UserRole } from '@project/shared/shared-types';
-import { fillObject } from '@project/util/util-core';
-import { UserCoachRdo } from '../../../../shared/shared-rdo/src/lib/auth/rdo/user-coach.rdo';
-import { UserUserRdo } from '../../../../shared/shared-rdo/src/lib/auth/rdo/user-user.rdo';
+import { fillObject } from './helpers';
+import { UserCoachRdo } from '@project/shared/shared-rdo';
+import { UserUserRdo } from '@project/shared/shared-rdo';
 
 export function adaptRdoUser(user: User) {
   switch (user.role) {
-    case UserRole.Сoach:
+    case UserRole.Coach:
       return fillObject(UserCoachRdo, user);
     case UserRole.User:
     default:

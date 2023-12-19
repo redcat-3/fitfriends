@@ -1,12 +1,13 @@
 import { CRUDRepository } from '@project/util/util-types';
 import { IWorkout } from '@project/shared/shared-types';
-import { WorkoutQuery } from '@project/shared/shared-query';
+import { WorkoutQueryDto } from '@project/shared/shared-query';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import { Prisma } from '@prisma/client';
 import { WorkoutEntity } from './entities/workout.entity';
 import { adaptPrismaWorkout } from './utils/adapt-prisma-workout';
 import { buildFilterQuery } from './utils/build-filter-query';
+import { buildCountQuery } from './utils/build-count-query';
 
 @Injectable()
 export class WorkoutRepository implements CRUDRepository<WorkoutEntity, number, IWorkout> {
@@ -33,8 +34,14 @@ export class WorkoutRepository implements CRUDRepository<WorkoutEntity, number, 
     return adaptPrismaWorkout(workout);
   }
 
-  public async findAll(query: WorkoutQuery): Promise<IWorkout[]> {
+  public async find(query: WorkoutQueryDto): Promise<IWorkout[]> {
     const queryParams = buildFilterQuery(query);
+    const workouts = await this.prisma.workout.findMany(queryParams);
+    return workouts.map((workout) => adaptPrismaWorkout(workout))
+  }
+
+  public async findAll(query: WorkoutQueryDto): Promise<IWorkout[]> {
+    const queryParams = buildCountQuery(query);
     const workouts = await this.prisma.workout.findMany(queryParams);
     return workouts.map((workout) => adaptPrismaWorkout(workout))
   }

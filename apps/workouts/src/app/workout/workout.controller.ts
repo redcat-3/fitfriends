@@ -1,18 +1,19 @@
 import { Body, Req, Controller, HttpStatus,
-  Param, Post, Delete, Patch, UseGuards, Get, Query } from '@nestjs/common';
+  Param, Post, Delete, Patch, UseGuards, Get } from '@nestjs/common';
 import { WorkoutService } from './workout.service';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { API_TAG_NAME, WorkoutMessages, WorkoutPath, WorkoutsError } from './workout.constant';
-import { WorkoutRdo } from './rdo/workout.rdo';
+import { WorkoutRdo } from '@project/shared/shared-rdo';
 import { CreateWorkoutDto, UpdateWorkoutDto } from '@project/shared/shared-dto';
 import { CreateWorkoutValidationPipe } from './pipes/create-workout-validation.pipe';
 import { UpdateWorkoutValidationPipe } from './pipes/update-workout-validation.pipe';
 import { JwtAuthGuard, fillObject } from '@project/util/util-core';
 import { RequestWithUserPayload } from '@project/shared/shared-types';
-import { WorkoutQuery } from '@project/shared/shared-query';
+import { WorkoutCoachQueryDto, WorkoutQueryDto } from '@project/shared/shared-query';
 import { NotifyService } from '../notify/notify.service';
 import { NotificationEntity, NotificationRepository } from '@project/repositories/notification-repository';
 import dayjs from 'dayjs';
+import { number } from 'joi';
 
 
 @ApiTags(API_TAG_NAME)
@@ -107,10 +108,21 @@ export class WorkoutController {
     status: HttpStatus.OK,
     description: WorkoutMessages.Index
   })
-  @Get(WorkoutPath.List)
-  public async index(@Query() query : WorkoutQuery) {
-    const workouts = await this.workoutsService.findAll(query);
+  @Post(WorkoutPath.List)
+  public async index(@Body() dto : WorkoutQueryDto) {
+    const workouts = await this.workoutsService.find(dto);
     return workouts.map((workout) => fillObject(WorkoutRdo, workout));
+  }
+
+  @ApiResponse({
+    type: number,
+    status: HttpStatus.OK,
+    description: WorkoutMessages.IndexCount
+  })
+  @Post(WorkoutPath.ListCount)
+  public async indexCount(@Body() dto : WorkoutQueryDto) {
+    const workouts = await this.workoutsService.findAll(dto);
+    return workouts.length;
   }
 
   @ApiResponse({
@@ -131,14 +143,11 @@ export class WorkoutController {
     description: WorkoutMessages.Index
   })
   @UseGuards(JwtAuthGuard)
-  @Get(WorkoutPath.CoachListWithFilters)
+  @Post(WorkoutPath.CoachListWithFilters)
   public async coachIndexWithFilters(
     @Req() { user }: RequestWithUserPayload, 
-    @Param('price') price: string,
-    @Param('calories') calories: string, 
-    @Param('rating') rating: string, 
-    @Param('duration') duration: string) {
-    const workouts = await this.workoutsService.findByCoachIdWithFilters(user.sub, price, calories, rating, duration);
+    @Body() dto: WorkoutCoachQueryDto) {
+    const workouts = await this.workoutsService.findByCoachIdWithFilters(user.sub, dto.price, dto.calories, dto.rating, dto.duration);
     return workouts.map((workout) => fillObject(WorkoutRdo, workout));
   }
 }

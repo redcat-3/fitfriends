@@ -10,7 +10,7 @@ export function adaptCreateDtoUser(dto: CreateUserDto) {
   switch (dto.role) {
     case UserRole.User:
       return plainToInstance(UserUserDto, dto);
-    case UserRole.Сoach:
+    case UserRole.Coach:
       return plainToInstance(UserCoachDto, dto);
   }
 }

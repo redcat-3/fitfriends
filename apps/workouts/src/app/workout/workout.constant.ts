@@ -17,6 +17,7 @@ export const WorkoutMessages = {
   Add : "Workout added successfully",
   Show : "Workout is showing",
   Index : "Workouts are showing",
+  IndexCount : "Count of workouts are showing",
   Update : "Workout updated",
   Remove: "Workout removed"
 } as const;
@@ -25,6 +26,7 @@ export const WorkoutPath = {
   Main: 'workout',
   Add: 'add',
   List: 'list',
+  ListCount: 'list/count',
   CoachList: 'list/coach',
   CoachListWithFilters: 'list/coach/:price/:calories/:rating/:duration',
   Id: 'list/coach/:id'
