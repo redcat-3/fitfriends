@@ -2,7 +2,7 @@ import { CRUDRepository } from '@project/util/util-types';
 import { Injectable } from '@nestjs/common';
 import { UserEntity } from './entity/user.entity';
 import { User } from '@project/shared/shared-types';
-import { UserQuery } from '@project/shared/shared-query';
+import { UserQueryDto } from '@project/shared/shared-query';
 import { UserModel } from './user.model';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -58,7 +58,7 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
     return friends;
   }
 
-  public async getUsersList(query?: UserQuery): Promise<User[] | null> {
+  public async getUsersList(query?: UserQueryDto): Promise<User[] | null> {
     const{ location, typeOfTrain, level, sortDirection, limit, page } = query;
     const sort = sortDirection === 'asc' ? 1 : -1;
     if (!location && !typeOfTrain && !level) {

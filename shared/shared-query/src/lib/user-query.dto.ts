@@ -1,22 +1,19 @@
 import { IsIn, IsEnum,IsString, IsOptional, IsNumber } from 'class-validator';
-import { UserLevel, UserLocation } from '@project/shared/shared-types';
+import { UserLevel } from '@project/shared/shared-types';
 import { DEFAULT_LIMIT, DEFAULT_PAGE, DefaultSortParam } from './query.constant';
-import { Transform } from 'class-transformer';
 
-export class UserQuery {
-  @Transform(({ value } ) => +value || DEFAULT_LIMIT)
+export class UserQueryDto {
   @IsNumber()
   @IsOptional()
   public limit: number = DEFAULT_LIMIT;
 
-  @Transform(({ value }) => +value || DEFAULT_PAGE)
   @IsNumber()
   @IsOptional()
   public page: number = DEFAULT_PAGE;
   
-  @IsEnum(UserLocation)
+  @IsString()
   @IsOptional()
-  public location?: UserLocation;
+  public location?: string;
 
   @IsString()
   @IsOptional()

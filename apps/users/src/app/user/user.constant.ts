@@ -12,10 +12,11 @@ export const UserError = {
 } as const;
 
   export const UserMessages = {
-  UserFound: 'User found',
+  UserFound: 'User is found',
+  UserUpdated: 'User is updated',
   AvatarAdded: 'Avatar added successfully',
-  List: 'User list found',
-  Friends: 'User friends list found',
+  List: 'User list is found',
+  Friends: 'User friends list is found',
   Follow: 'You have successfully signed up for the coach',
   Unfollow: 'You have successfully unsubscribed from the coach updates',
   AddFriend: 'You have successfully add friend',

@@ -14,7 +14,8 @@ export const AuthMessages = {
   Login: "Login successfull",
   UserFound: "User data found",
   PasswordChanged: "Password successfully changed",
-  Refresh: 'Get a new access/refresh tokens',
+  Refresh: "Get a new access/refresh tokens",
+  Check: "Auth checked successfully",
   AvatarAdded: "Avatar added successfully"
 } as const;
 

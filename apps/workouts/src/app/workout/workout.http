@@ -27,7 +27,7 @@ Content-Type: application/json
   "caloriesToSpend": 1500,
   "description": "Yoga for beginners",
   "gender": "indifferent",
-  "video": "/video1.mov",
+  "video": "/img/content/training-video/video-thumbnail",
   "special": false
 }
 

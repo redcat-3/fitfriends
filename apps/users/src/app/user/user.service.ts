@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { UserRepository } from '@project/repositories/user-repository';
 import { UpdateUserDto } from '@project/shared/shared-dto';
-import { UserQuery } from '@project/shared/shared-query';
+import { UserQueryDto } from '@project/shared/shared-query';
 import { User, UserRole } from '@project/shared/shared-types';
 import { UserError } from './user.constant';
 import { NotificationEntity, NotificationRepository } from '@project/repositories/notification-repository';
@@ -30,7 +30,7 @@ export class UserService {
     return await this.userRepository.getFriendsByUserId(userId);
   }
 
-  public async getUsersList(id: string, query: UserQuery): Promise<User[] | null> {
+  public async getUsersList(id: string, query: UserQueryDto): Promise<User[] | null> {
     const user = await this.userRepository.findById(id);
     if (user.role === UserRole.Coach) {
       throw new BadRequestException (UserError.InvalidRole);

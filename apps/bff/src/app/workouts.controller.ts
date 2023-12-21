@@ -27,7 +27,7 @@ export class WorkoutsController {
   @UseInterceptors(UserIdInterceptor)
   @Post(BffPath.WorkoutAdd)
   public async create(@Body() dto: CreateWorkoutDto) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/add`, dto);
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/${BffPath.WorkoutAdd}`, dto);
     return data;
   }
 
@@ -41,7 +41,7 @@ export class WorkoutsController {
   @Patch(BffPath.WorkoutId)
   public async update(@Param('id') id: number,
     @Body() dto: UpdateWorkoutDto) {
-    const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Workouts}/${id}`, dto);
+    const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Workouts}/list/coach/${id}`, dto);
     return data;
   }
 
@@ -57,7 +57,7 @@ export class WorkoutsController {
   @UseInterceptors(UserIdInterceptor)
   @Delete(BffPath.WorkoutId)
   public async delete(@Param('id') id: number) {
-    const { data } = await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Workouts}/${id}`);
+    const { data } = await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Workouts}/list/coach/${id}`);
     return data;
   }
 
@@ -68,7 +68,7 @@ export class WorkoutsController {
   })
   @Get(BffPath.WorkoutId)
   public async show(@Param('id') id: number) {
-    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Workouts}/${id}`);
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Workouts}/${BffPath.WorkoutCoachList}/${id}`);
     return data;
   }
 
@@ -79,7 +79,7 @@ export class WorkoutsController {
   })
   @Post(BffPath.WorkoutList)
   public async index(@Body() dto: WorkoutQueryDto) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/list`, dto);
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/${BffPath.WorkoutList}`, dto);
     return data;
   }
 
@@ -90,7 +90,7 @@ export class WorkoutsController {
   })
   @Post(BffPath.WorkoutListCount)
   public async indexCount(@Body() dto: WorkoutQueryDto) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/list/count`, dto);
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/${BffPath.WorkoutListCount}`, dto);
     return data;
   }
 
@@ -103,7 +103,7 @@ export class WorkoutsController {
   @UseInterceptors(UserIdInterceptor)
   @Post(BffPath.WorkoutCoachList)
   public async coachIndex(@Body() dto: WorkoutCoachQueryDto) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/list/coach`, dto);
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/${BffPath.WorkoutCoachList}`, dto);
     return data;
   }
 }

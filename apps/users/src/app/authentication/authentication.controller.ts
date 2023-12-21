@@ -1,4 +1,4 @@
-import { Body, Req, Controller, HttpStatus,HttpCode, Post, UseGuards } from '@nestjs/common';
+import { Body, Req, Controller, HttpStatus, Post, UseGuards, Patch } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { JwtAuthGuard, fillObject } from '@project/util/util-core';
 import { LoggedUserRdo } from '@project/shared/shared-rdo';
@@ -56,17 +56,21 @@ import { ChangePasswordDto, CreateUserDto, UserCoachDto, UserUserDto } from '@pr
     return this.authService.changePassword(user.sub, dto);
     }
 
-    @HttpCode(HttpStatus.OK)
     @ApiResponse({
       status: HttpStatus.OK,
       description:AuthMessages.Refresh
     })
     @Post(AuthPath.Refresh)
+    @UseGuards(JwtAuthGuard)
     @UseGuards(JwtRefreshGuard)
     public async refreshToken(@Req() { user }: RequestWithUser) {
       return this.authService.createUserToken(user);
     }
 
+    @ApiResponse({
+      status: HttpStatus.OK,
+      description:AuthMessages.Check
+    })
     @UseGuards(JwtAuthGuard)
     @Post(AuthPath.Check)
     public async checkToken(@Req() { user: payload }: RequestWithUserPayload) {
@@ -78,7 +82,7 @@ import { ChangePasswordDto, CreateUserDto, UserCoachDto, UserUserDto } from '@pr
       description: AuthMessages.AvatarAdded
     })
     @UseGuards(JwtAuthGuard)
-    @Post(AuthPath.UpdateAvatar)
+    @Patch(AuthPath.UpdateAvatar)
     public async updateAvatar(@Req() { user }: RequestWithUserPayload, @Body('avatarId') avatarId:string) {
       const updatedUser = await this.authService.updateAvatar(user.sub, avatarId);
       return adaptRdoUser(updatedUser);

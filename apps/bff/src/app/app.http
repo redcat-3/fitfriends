@@ -16,6 +16,112 @@ POST http://localhost:4000/api/users/refresh HTTP/1.1
 Authorization: Bearer {{token}}
 
 ###
+
+# Get user by ID
+GET http://localhost:4000/api/users/list/friends/6535430009ad33414280b094 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Get user list
+POST http://localhost:4000/api/users/list HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "limit": 6,
+  "page": 1,
+  "level": "pro",
+  "location": "Пионерская,Петроградская",
+  "typeOfTrain": "yoga,running",
+  "sortDirection": "desc",
+}
+
+###
+
+# Get user friends list
+GET http://localhost:4000/api/users/list/friends HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Update user information 
+PATCH http://localhost:4000/api/users/update HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Test Name",
+  "description": "Колдовство, предательство и необыкновенный мир фэнтези.",
+  "caloriesToReset": 3000,
+  "trainingReady": true
+}
+
+###
+
+# Follow user
+PATCH http://localhost:4000/api/users/list/friends/follow/652ffdf03cb7412c4cd5994a HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Unfollow user
+PATCH http://localhost:4000/api/users/list/friends/unfollow/6535430009ad33414280b094 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Add user to friends
+PATCH http://localhost:4000/api/users/friends/add/652ffdf03cb7412c4cd5994a HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Remove user to friends
+PATCH http://localhost:4000/api/users/friends/remove/652ffdf03cb7412c4cd5994a HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Create workout
+POST http://localhost:4000/api/workouts/add HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Yoga 3",
+  "background": "/img/content/training-1",
+  "level": "beginner",
+  "type": "yoga",
+  "timeOfTraining": "30-50",
+  "price": 1500,
+  "caloriesToSpend": 1500,
+  "description": "Yoga for beginners",
+  "gender": "indifferent",
+  "video": "/img/content/training-video/video-thumbnail",
+  "special": false
+}
+
+###
+
+# Update workout by ID
+PATCH http://localhost:4000/api/workouts/list/coach/3 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Yoga for all",
+  "timeOfTraining": "50-80"
+}
+
+###
+
+# Get workout by ID
+GET http://localhost:4000/api/workouts/list/coach/3 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
 # Get all workouts and filtres
 POST http://localhost:4000/api/workouts/list HTTP/1.1
 Authorization: Bearer {{token}}
@@ -50,4 +156,16 @@ Content-Type: application/json
   "timeOfTraining": "10-30,80-100",
   "sortDirection": "asc"
 }
+###
+
+# Get all workouts
+GET http://localhost:4000/api/workouts/list/coach HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Delete workout
+DELETE  http://localhost:4000/api/workouts/list/coach/1 HTTP/1.1
+Authorization: Bearer {{token}}
+
 ###
