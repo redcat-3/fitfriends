@@ -1,4 +1,4 @@
-import { Body, Req, Controller, HttpStatus, Post, UseGuards, Patch } from '@nestjs/common';
+import { Body, Req, Controller, HttpStatus, Post, UseGuards, Patch, HttpCode } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { JwtAuthGuard, fillObject } from '@project/util/util-core';
 import { LoggedUserRdo } from '@project/shared/shared-rdo';
@@ -56,21 +56,17 @@ import { ChangePasswordDto, CreateUserDto, UserCoachDto, UserUserDto } from '@pr
     return this.authService.changePassword(user.sub, dto);
     }
 
+    @UseGuards(JwtRefreshGuard)
+    @Post(AuthPath.Refresh)
     @ApiResponse({
       status: HttpStatus.OK,
       description:AuthMessages.Refresh
     })
-    @Post(AuthPath.Refresh)
-    @UseGuards(JwtAuthGuard)
-    @UseGuards(JwtRefreshGuard)
+    @HttpCode(HttpStatus.OK)
     public async refreshToken(@Req() { user }: RequestWithUser) {
-      return this.authService.createUserToken(user);
+      return await this.authService.createUserToken(user);
     }
 
-    @ApiResponse({
-      status: HttpStatus.OK,
-      description:AuthMessages.Check
-    })
     @UseGuards(JwtAuthGuard)
     @Post(AuthPath.Check)
     public async checkToken(@Req() { user: payload }: RequestWithUserPayload) {

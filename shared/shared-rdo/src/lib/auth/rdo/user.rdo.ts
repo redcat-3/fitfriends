@@ -37,7 +37,6 @@ export class UserRdo {
     description: 'User registration date',
   })
   @Expose({ name: 'createdDate'})
-  @Transform(({obj}) => obj.createdDate.toString())
   public createdDate: string;
 
   @ApiProperty({

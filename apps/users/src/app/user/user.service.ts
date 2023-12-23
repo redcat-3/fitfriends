@@ -15,11 +15,19 @@ export class UserService {
   ) {
   }
   public async findByEmail(email: string): Promise<User | null> {
-    return await this.userRepository.findByEmail(email);
+    const user = this.userRepository.findByEmail(email);
+    if (!user) {
+      throw new NotFoundException (UserError.NotFound);
+    }
+    return user;
   }
 
   public async findById(id: string): Promise<User | null> {
-    return await this.userRepository.findById(id);
+    const user = await this.userRepository.findById(id);
+    if (!user) {
+      throw new NotFoundException (UserError.NotFound);
+    }
+    return user;
   }
 
   public async update(id: string, dto: UpdateUserDto): Promise<User | null> {
@@ -53,7 +61,7 @@ export class UserService {
     if (coach.role !== UserRole.Coach) {
       throw new BadRequestException (UserError.InvalidRole);
     }
-    if (!this.userRepository.checkFollow(userId, followId)) {
+    if (this.userRepository.checkFollow(userId, followId)) {
       this.userRepository.addToFollowById(userId, followId);
     } else {
       throw new NotFoundException (UserError.Follow);

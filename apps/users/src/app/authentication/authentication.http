@@ -5,7 +5,7 @@ POST http://localhost:3001/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "test@test1.local",
+  "email": "test@test.local",
   "password": "123456"
 }
 
@@ -16,8 +16,8 @@ POST http://localhost:3001/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "coach1@test.local",
-  "name": "Coach Doe",
+  "email": "coach2@test.local",
+  "name": "Alex",
   "password": "123456",
   "avatarId": "C:/img/content/avatars/users/photo-1.png",
   "gender": "male",
@@ -27,7 +27,7 @@ Content-Type: application/json
   "location": "Пионерская",
   "image": "C:/img/content/avatars/users/photo-1.png",
   "level": "pro",
-  "typeOfTrain": ["йога", "стрейчинг"],
+  "typeOfTrain": ["yoga", "boxing"],
   "certificate": "certificate.jpg",
   "merit": "studed yoga in India 5 years",
   "personalTraining": true

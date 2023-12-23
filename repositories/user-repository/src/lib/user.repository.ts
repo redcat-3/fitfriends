@@ -129,7 +129,7 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
     const user = await this.userModel.findOne(
       { _id: userId }
     );
-    return user.followCoaches.includes(followId) ? true : false;
+    return user.followCoaches.includes(followId);
   }
 
   public async addToFriends(

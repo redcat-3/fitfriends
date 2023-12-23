@@ -5,7 +5,7 @@ POST http://localhost:3001/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "test@test1.local",
+  "email": "test@test.local",
   "password": "123456"
 }
 
@@ -22,7 +22,7 @@ Content-Type: application/json
   "level": "pro",
   "location": "Пионерская,Петроградская",
   "typeOfTrain": "yoga,running",
-  "sortDirection": "desc",
+  "sortDirection": "desc"
 }
 
 ###
@@ -48,18 +48,18 @@ Content-Type: application/json
 ###
 
 # Get user by ID
-GET http://localhost:3001/api/user/list/friends/652ffdf03cb7412c4cd5994a HTTP/1.1
+GET http://localhost:3001/api/user/list/friends/658692926888cdda63033c02 HTTP/1.1
 Authorization: Bearer {{token}}
 
 ###
 
 # Follow user
-PATCH http://localhost:3001/api/user/list/friends/follow/652ffdf03cb7412c4cd5994a HTTP/1.1
+PATCH http://localhost:3001/api/user/list/friends/follow/658692926888cdda63033c02 HTTP/1.1
 Authorization: Bearer {{token}}
 
 ###
 # Unfollow user
-PATCH http://localhost:3001/api/user/list/friends/unfollow/6535430009ad33414280b094 HTTP/1.1
+PATCH http://localhost:3001/api/user/list/friends/unfollow/658692926888cdda63033c02 HTTP/1.1
 Authorization: Bearer {{token}}
 
 ###

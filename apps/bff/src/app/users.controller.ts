@@ -1,17 +1,13 @@
-import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { ApiTagNameBFF, ApplicationServiceURL, BffError, BffMessages, BffPath } from './app.constant';
+import { ApplicationServiceURL, BffPath } from './app.constant';
 import { Request } from 'express';
 import { ChangePasswordDto, CreateUserDto, LoginUserDto, UpdateUserDto } from '@project/shared/shared-dto';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { CheckAuthGuard } from './guards/check-auth.guard';
-import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserIdInterceptor } from './interceptors/userid.interceptor';
-import { LoggedUserRdo } from '@project/shared/shared-rdo';
 import { UserQueryDto } from '@project/shared/shared-query';
 
-@ApiTags(ApiTagNameBFF.Workouts)
-@ApiExtraModels(LoginUserDto)
 @Controller('users')
 @UseFilters(AxiosExceptionFilter)
 export class UsersController {
@@ -19,63 +15,35 @@ export class UsersController {
       private readonly httpService: HttpService
     ) {}
   
-    @ApiResponse({
-      status:HttpStatus.CREATED,
-      description:BffMessages.Register
-    })
     @Post(BffPath.Register)
     public async create(@Body() dto: CreateUserDto) {
       const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/${BffPath.Register}`, dto);
       return data;
     }
 
-    @ApiResponse({
-      type: LoggedUserRdo,
-      status: HttpStatus.OK,
-      description: BffMessages.Login
-    })
-    @ApiResponse({
-      status: HttpStatus.UNAUTHORIZED,
-      description: BffError.InvalidData,
-    })
     @Post(BffPath.Login)
     public async login(@Body() loginUserDto: LoginUserDto) {
       const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/${BffPath.Login}`, loginUserDto);
       return data;
     }
 
-    @ApiResponse({
-      status: HttpStatus.OK,
-      description:BffMessages.Refresh
-    })
-    @UseGuards(CheckAuthGuard)
     @Post(BffPath.Refresh)
     public async refreshToken(@Req() req: Request) {
       const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/${BffPath.Refresh}`, null, {
         headers: {
-          'Authorization': req.headers['authorization']
+          'Authorization': req.headers['Authorization']
         }
       });
       return data;
     }
 
-    @ApiResponse({
-      type: LoggedUserRdo,
-      status: HttpStatus.OK,
-      description: BffMessages.PasswordChanged
-    })
     @UseGuards(CheckAuthGuard)
-    @UseInterceptors(UserIdInterceptor)
     @Post(BffPath.ChangePassword)
     public async changePassword(@Body() dto: ChangePasswordDto) {
       const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/${BffPath.ChangePassword}`, dto);
       return data;
     }
 
-    @ApiResponse({
-      status: HttpStatus.OK,
-      description: BffMessages.AvatarAdded
-    })
     @UseGuards(CheckAuthGuard)
     @UseInterceptors(UserIdInterceptor)
     @Patch(BffPath.UpdateAvatar)
@@ -84,10 +52,6 @@ export class UsersController {
       return data;
     }
 
-    @ApiResponse({
-      status: HttpStatus.OK,
-      description: BffMessages.UserFound
-    })
     @UseGuards(CheckAuthGuard)
     @UseInterceptors(UserIdInterceptor)
     @Get(BffPath.UserId)
@@ -96,10 +60,6 @@ export class UsersController {
       return data;
     }
 
-    @ApiResponse({
-      status: HttpStatus.OK,
-      description: BffMessages.UserUpdated
-    })
     @UseGuards(CheckAuthGuard)
     @UseInterceptors(UserIdInterceptor)
     @Patch(BffPath.UserUpdate)
@@ -108,10 +68,6 @@ export class UsersController {
       return data;
     }
 
-    @ApiResponse({
-      status: HttpStatus.OK,
-      description: BffMessages.UserList
-    })
     @UseGuards(CheckAuthGuard)
     @UseInterceptors(UserIdInterceptor)
     @Post(BffPath.UserList)
@@ -120,10 +76,6 @@ export class UsersController {
       return data;
     }
 
-    @ApiResponse({
-      status: HttpStatus.OK,
-      description: BffMessages.Friends
-    })
     @UseGuards(CheckAuthGuard)
     @UseInterceptors(UserIdInterceptor)
     @Get(BffPath.Friends)
@@ -132,10 +84,6 @@ export class UsersController {
       return data;
     }
 
-    @ApiResponse({
-      status: HttpStatus.OK,
-      description: BffMessages.Follow
-    })
     @UseGuards(CheckAuthGuard)
     @UseInterceptors(UserIdInterceptor)
     @Patch(BffPath.Follow)
@@ -144,10 +92,6 @@ export class UsersController {
       return data;
     }
 
-    @ApiResponse({
-      status: HttpStatus.OK,
-      description: BffMessages.Unfollow
-    })
     @UseGuards(CheckAuthGuard)
     @UseInterceptors(UserIdInterceptor)
     @Patch(BffPath.Unfollow)
@@ -156,10 +100,6 @@ export class UsersController {
       return data;
     }
 
-    @ApiResponse({
-      status: HttpStatus.OK,
-      description: BffMessages.AddFriend
-    })
     @UseGuards(CheckAuthGuard)
     @UseInterceptors(UserIdInterceptor)
     @Patch(BffPath.AddFriend)
@@ -168,10 +108,6 @@ export class UsersController {
       return data;
     }
 
-    @ApiResponse({
-      status: HttpStatus.OK,
-      description: BffMessages.RemoveFriend
-    })
     @UseGuards(CheckAuthGuard)
     @UseInterceptors(UserIdInterceptor)
     @Patch(BffPath.RemoveFriend)
