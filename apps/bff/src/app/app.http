@@ -1,4 +1,5 @@
-@token={{login.response.body.accessToken}}
+@Atoken={{login.response.body.accessToken}}
+@Rtoken={{login.response.body.refreshToken}}
 # @name login
 # Login user by email and password
 POST http://localhost:4000/api/users/login HTTP/1.1
@@ -13,18 +14,18 @@ Content-Type: application/json
 
 # Get new JWT pair
 POST http://localhost:4000/api/users/refresh HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Rtoken}}
 
 ###
 
 # Get user by ID
 GET http://localhost:4000/api/users/list/friends/6535430009ad33414280b094 HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 
 ###
 
 # Get user list
-Authorization: Bearer {{token}}
+POST http://localhost:4000/api/users/list HTTP/1.1
 Content-Type: application/json
 
 {
@@ -40,13 +41,13 @@ Content-Type: application/json
 
 # Get user friends list
 GET http://localhost:4000/api/users/list/friends HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 
 ###
 
 # Update user information 
 PATCH http://localhost:4000/api/users/update HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 Content-Type: application/json
 
 {
@@ -60,31 +61,31 @@ Content-Type: application/json
 
 # Follow user
 PATCH http://localhost:4000/api/users/list/friends/follow/652ffdf03cb7412c4cd5994a HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 
 ###
 
 # Unfollow user
 PATCH http://localhost:4000/api/users/list/friends/unfollow/6535430009ad33414280b094 HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 
 ###
 
 # Add user to friends
 PATCH http://localhost:4000/api/users/friends/add/652ffdf03cb7412c4cd5994a HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 
 ###
 
 # Remove user to friends
 PATCH http://localhost:4000/api/users/friends/remove/652ffdf03cb7412c4cd5994a HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 
 ###
 
 # Create workout
 POST http://localhost:4000/api/workouts/add HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 Content-Type: application/json
 
 {
@@ -105,7 +106,7 @@ Content-Type: application/json
 
 # Update workout by ID
 PATCH http://localhost:4000/api/workouts/list/coach/3 HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 Content-Type: application/json
 
 {
@@ -117,31 +118,31 @@ Content-Type: application/json
 
 # Get workout by ID
 GET http://localhost:4000/api/workouts/list/coach/3 HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 
 ###
 
 # Get all workouts and filtres
 POST http://localhost:4000/api/workouts/list HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 Content-Type: application/json
 
 {
   "limit": 6,
   "page": 1,
   "sortBy": "createdDate",
-  "caloriesToSpend": "1000,1500",
-  "price": "100,500",
+  "caloriesToSpend": "0,1500",
+  "price": "0,1500",
   "type": "yoga,running",
-  "rating": "1,5",
-  "timeOfTraining": "10-30,80-100",
+  "rating": "0,5",
+  "timeOfTraining": "10-30,30-50,80-100",
   "sortDirection": "asc"
 }
 ###
 
 # Get count workouts
 POST http://localhost:4000/api/workouts/list/count HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 Content-Type: application/json
 
 {
@@ -159,12 +160,12 @@ Content-Type: application/json
 
 # Get all workouts
 GET http://localhost:4000/api/workouts/list/coach HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 
 ###
 
 # Delete workout
-DELETE  http://localhost:4000/api/workouts/list/coach/1 HTTP/1.1
-Authorization: Bearer {{token}}
+DELETE  http://localhost:4000/api/workouts/list/coach/6 HTTP/1.1
+Authorization: Bearer {{Atoken}}
 
 ###

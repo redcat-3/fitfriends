@@ -15,7 +15,9 @@ export function buildFilterQuery (location: string, typeOfTrain: string, level: 
     })
   };
   if (level) {
-    usedFilter.$and.push({ level })
+    usedFilter.$and.push({ 
+      level: level 
+    })
   };
   return usedFilter;
 }

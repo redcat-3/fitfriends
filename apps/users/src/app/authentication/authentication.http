@@ -1,4 +1,6 @@
-@token={{login.response.body.accessToken}}
+@Atoken={{login.response.body.accessToken}}
+@Rtoken={{login.response.body.refreshToken}}
+
 # @name login
 # Login user by email and password
 POST http://localhost:3001/api/auth/login HTTP/1.1
@@ -48,36 +50,36 @@ Content-Type: application/json
 
 # Get new JWT pair
 POST http://localhost:3001/api/auth/refresh HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Rtoken}}
 
 ###
 
 # Check user token
 POST http://localhost:3001/api/auth/check HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 
 
 ###
 # Change user password
 POST http://localhost:3001/api/auth/change-password HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 Content-Type: application/json
 
 {
-  "currentPassword":"123456",
-  "newPassword":"1234567"
+  "currentPassword":"1234567",
+  "newPassword":"123456"
 }
 ###
 
 # Get new JWT pair
 # @name refresh
 POST http://localhost:3001/api/auth/refresh HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{{{$randomInt min max}}token}}
 
 ###
 # Check token
 # @name check
 POST http://localhost:3001/api/auth/check HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{Atoken}}
 
 ###

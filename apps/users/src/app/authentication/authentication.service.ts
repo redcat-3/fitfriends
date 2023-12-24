@@ -92,7 +92,7 @@ export class AuthenticationService {
       accessToken: await this.jwtService.signAsync(accessTokenPayload),
       refreshToken: await this.jwtService.signAsync(refreshTokenPayload, {
         secret: this.jwtOptions.refreshTokenSecret,
-        expiresIn: this.jwtOptions.refreshTokenExpiresIn
+        expiresIn: this.jwtOptions.refreshTokenExpiresIn,
       })
     }
   }

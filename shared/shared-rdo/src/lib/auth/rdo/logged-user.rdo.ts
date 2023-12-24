@@ -3,11 +3,11 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class LoggedUserRdo {
   @ApiProperty({
-    description: 'User email',
-    example: 'test@test.ru'
+    description: 'Refresh token',
+    example: 'test'
   })
   @Expose()
-  public email: string;
+  public refreshToken: string;
 
   @ApiProperty({
     description: 'Access token',

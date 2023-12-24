@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { UsersController } from './users.controller';
-import { WorkoutsController } from './workouts.controller';
+import { UsersController } from './controllers/users.controller';
+import { WorkoutsController } from './controllers/workouts.controller';
 import { HttpModule } from '@nestjs/axios';
 import { ENV_BFF_FILE_PATH, HttpClientParam } from './app.constant';
 import { CheckAuthGuard } from './guards/check-auth.guard';

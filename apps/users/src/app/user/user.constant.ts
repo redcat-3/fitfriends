@@ -27,7 +27,7 @@ export const UserPath = {
   Main:'user',
   Id:'list/friends/:id',
   Update:'update',
-  List:'list',
+  List:'user-list',
   Friends:'list/friends',
   Follow: 'list/friends/follow/:id',
   Unfollow: 'list/friends/unfollow/:id',

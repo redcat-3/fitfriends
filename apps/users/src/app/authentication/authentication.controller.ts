@@ -1,4 +1,4 @@
-import { Body, Req, Controller, HttpStatus, Post, UseGuards, Patch, HttpCode } from '@nestjs/common';
+import { Body, Req, Controller, HttpStatus, Post, UseGuards, Patch } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { JwtAuthGuard, fillObject } from '@project/util/util-core';
 import { LoggedUserRdo } from '@project/shared/shared-rdo';
@@ -62,7 +62,6 @@ import { ChangePasswordDto, CreateUserDto, UserCoachDto, UserUserDto } from '@pr
       status: HttpStatus.OK,
       description:AuthMessages.Refresh
     })
-    @HttpCode(HttpStatus.OK)
     public async refreshToken(@Req() { user }: RequestWithUser) {
       return await this.authService.createUserToken(user);
     }

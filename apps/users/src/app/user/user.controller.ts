@@ -20,7 +20,6 @@ export class UserController {
     status: HttpStatus.OK,
     description: UserMessages.UserFound
   })
-  @UseGuards(JwtAuthGuard)
   @Get(UserPath.Id)
   public async getUserById(@Param('id', MongoidValidationPipe) id: string) {
     const findUser = await this.userService.findById(id);

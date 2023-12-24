@@ -12,7 +12,7 @@ Content-Type: application/json
 ###
 
 # Get user list
-POST http://localhost:3001/api/user/list HTTP/1.1
+POST http://localhost:3001/api/user/user-list HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
