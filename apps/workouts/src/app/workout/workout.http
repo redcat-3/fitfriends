@@ -89,7 +89,7 @@ Content-Type: application/json
 
 ###
 
-# Get all workouts
+# Get all coach workouts
 GET http://localhost:3002/api/workout/list/coach HTTP/1.1
 Authorization: Bearer {{token}}
 

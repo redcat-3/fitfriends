@@ -43,8 +43,8 @@ export class BalancesController {
   })
   @UseGuards(CheckAuthGuard)
   @Delete(BffPath.BalanceId)
-  public async delete(@Req() req:Request, @Param('id') id: number) {
-    const { data } = await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Balances}/${id}`, {
+  public async delete(@Req() req: Request, @Param('balanceId') id: number) {
+    const { data } = await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Balances}/list/${id}`, {
       headers: {
         'Authorization': req.headers['authorization']
       }
@@ -62,8 +62,8 @@ export class BalancesController {
   })
   @UseGuards(CheckAuthGuard)
   @Get(BffPath.BalanceId)
-  public async show(@Req() req:Request, @Param('id') id: number) {
-    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Balances}/${id}`, {
+  public async show(@Req() req:Request, @Param('balanceId') id: number) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Balances}/list/${id}`, {
       headers: {
         'Authorization': req.headers['authorization']
       }
@@ -85,25 +85,6 @@ export class BalancesController {
         headers: {
             'Authorization': req.headers['authorization']
         }
-    });
-    return data;
-  }
-
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: BffMessages.RequestIndex
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: BffError.RequestEmptyList
-  })
-  @UseGuards(CheckAuthGuard)
-  @Get(BffPath.RequestsIndexMyRequests)
-  public async indexMyRequests(@Req() req: Request) {
-    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Requests}/${BffPath.RequestsIndexMyRequests}`, {
-      headers: {
-        'Authorization': req.headers['authorization']
-      }
     });
     return data;
   }

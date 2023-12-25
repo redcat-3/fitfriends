@@ -1,4 +1,5 @@
 export const RequestsError = {
+  RequestNotFound: 'Request is not found',
   UserError: 'Не может быть выбран пользователь, являющийся инициатором тренировки',
   UserNotFound: 'User is not found',
   WrongRole: 'User role is wrong',

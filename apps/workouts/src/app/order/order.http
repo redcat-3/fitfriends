@@ -19,7 +19,7 @@ Content-Type: application/json
 {
   "workoutId": 3,
   "orderType": "subscription",
-  "count": 4,
+  "count": 2,
   "paymentMethod": "mir"
 }
 
@@ -33,20 +33,28 @@ Content-Type: application/json
 {
   "limit": 6,
   "page": 1,
-  "sortBy": "createdDate",
+  "sortBy": "count",
   "sortDirection": "asc"
 }
 
 ###
 
 # Get order by ID
-GET http://localhost:3002/api/order/1 HTTP/1.1
+GET http://localhost:3002/api/order/2 HTTP/1.1
 Authorization: Bearer {{token}}
 
 ###
 
 # Get orders by coachID
-GET http://localhost:3002/api/order/coach/list/index HTTP/1.1
+POST  http://localhost:3002/api/order/coach/list/index HTTP/1.1
 Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "limit": 6,
+  "page": 1,
+  "sortBy": "count",
+  "sortDirection": "asc"
+}
 
 ###

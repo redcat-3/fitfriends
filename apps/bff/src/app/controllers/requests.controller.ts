@@ -3,7 +3,7 @@ import { CheckAuthGuard } from '../guards/check-auth.guard';
 import { AxiosExceptionFilter } from '../filters/axios-exception.filter';
 import { HttpService } from '@nestjs/axios';
 import { ApplicationServiceURL, BffError, BffMessages, BffPath } from '../app.constant';
-import { CreateRequestDto, UpdateWorkoutDto } from '@project/shared/shared-dto';
+import { CreateRequestDto, UpdateRequestDto } from '@project/shared/shared-dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags(BffPath.RequestsMain)
@@ -37,8 +37,8 @@ export class RequestsController {
   @UseGuards(CheckAuthGuard)
   @Patch(BffPath.RequestsId)
   public async update(@Req() req:Request,
-    @Param('id') id: number,
-    @Body() dto: UpdateWorkoutDto) {
+    @Param('requestId') id: number,
+    @Body() dto: UpdateRequestDto) {
     const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Requests}/${id}`, dto, {
       headers: {
         'Authorization': req.headers['authorization']
@@ -57,7 +57,7 @@ export class RequestsController {
   })
   @UseGuards(CheckAuthGuard)
   @Delete(BffPath.RequestsId)
-  public async delete(@Req() req:Request, @Param('id') id: number) {
+  public async delete(@Req() req: Request, @Param('requestId') id: number) {
     const { data } = await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Requests}/${id}`, {
       headers: {
         'Authorization': req.headers['authorization']
@@ -76,7 +76,7 @@ export class RequestsController {
   })
   @UseGuards(CheckAuthGuard)
   @Get(BffPath.RequestsId)
-  public async show(@Req() req:Request, @Param('id') id: number) {
+  public async show(@Req() req:Request, @Param('requestId') id: number) {
     const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Requests}/${id}`, {
       headers: {
         'Authorization': req.headers['authorization']
@@ -93,9 +93,9 @@ export class RequestsController {
     status: HttpStatus.NOT_FOUND,
     description: BffError.RequestEmptyList
   })
-  @Get(BffPath.List)
+  @Get(BffPath.RequestsIndex)
   public async index(@Req() req: Request) {
-    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Requests}/${BffPath.List}`, {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Requests}/${BffPath.RequestsIndex}`, {
         headers: {
             'Authorization': req.headers['authorization']
         }

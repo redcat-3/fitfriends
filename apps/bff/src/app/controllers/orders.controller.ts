@@ -78,9 +78,9 @@ export class OrdersController {
     description: BffError.OrderEmptyList
   })
   @UseGuards(CheckAuthGuard)
-  @Get(BffPath.OrderIndexCoach)
-  public async coachIndex(@Req() req: Request) {
-    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Orders}/${BffPath.OrderIndexCoach}`, {
+  @Post(BffPath.OrderIndexCoach)
+  public async coachIndex(@Req() req: Request, @Body() dto: OrderQueryDto) {
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Orders}/${BffPath.OrderIndexCoach}`, dto, {
       headers: {
         'Authorization': req.headers['authorization']
       }

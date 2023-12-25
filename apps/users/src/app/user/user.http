@@ -21,7 +21,7 @@ Content-Type: application/json
   "page": 1,
   "level": "pro",
   "location": "Пионерская,Петроградская",
-  "typeOfTrain": "yoga,running",
+  "typeOfTrain": "yoga",
   "sortDirection": "desc"
 }
 

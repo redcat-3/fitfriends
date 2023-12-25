@@ -2,11 +2,11 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { OrderRepository } from '@project/repositories/workout-repository';
 import { CreateOrderDto } from '@project/shared/shared-dto';
 import { WorkoutRepository, OrderEntity } from '@project/repositories/workout-repository';
-import { EMPTY_WORKOUT, OrdersError } from './order.constant';
+import { OrdersError } from './order.constant';
 import { UserRepository } from '@project/repositories/user-repository';
 import { OrderToCoach, UserRole } from '@project/shared/shared-types';
 import dayjs from 'dayjs';
-import { OrderQuery } from '@project/shared/shared-query';
+import { OrderQueryDto } from '@project/shared/shared-query';
 import { BalanceEntity, BalanceRepository } from '@project/repositories/balance-repository';
 
 @Injectable()
@@ -65,36 +65,38 @@ export class OrdersService {
     
   }
 
-  public async findByWorkoutId(userId: string, id: number, query: OrderQuery) {
+  public async findByWorkoutId(userId: string, id: number, query: OrderQueryDto) {
     const user = await this.userRepository.findById(userId);
     if (!user) {
       throw new NotFoundException(OrdersError.UserNotFound);
     } 
-    if (user.role !== UserRole.Coach) {
+    if (user.role === UserRole.User) {
       throw new BadRequestException(OrdersError.WrongRole);
     }
     const workout = await this.workoutRepository.findById(id);
-    if (workout.coachId !== userId) {
+    if (workout.coachId === userId) {
+      return await this.orderRepository.findByWorkoutId(id, query);
+    } else {
       throw new BadRequestException(OrdersError.AuthWorkoutError);
     }
-    return await this.orderRepository.findByWorkoutId(id, query);
+   
   }
 
-  public async findByCoachId(id: string, query: OrderQuery) {
+  public async findByCoachId(id: string, query: OrderQueryDto) {
     const user = await this.userRepository.findById(id);
     if (!user) {
       throw new NotFoundException(OrdersError.UserNotFound);
     } 
-    if (user.role !== UserRole.Coach) {
+    if (user.role === UserRole.User) {
       throw new BadRequestException(OrdersError.WrongRole);
     }
     const groupWorkouts = await this.orderRepository.groupByWorkoutWereCoachId(id, query);
     const orders = [];
-    const order: OrderToCoach = {workout: EMPTY_WORKOUT, countWorkout: 0, orderPrice: 0};
+    const order: OrderToCoach = {workout: 0, countWorkout: 0, orderPrice: 0};
     let summaryPrice = 0;
     if (groupWorkouts.length > 0) {
       groupWorkouts.map(async (item) => {
-        order.workout = await this.workoutRepository.findById(item.workoutId);
+        order.workout = item.workoutId;
         order.countWorkout = item._sum.count;
         order.orderPrice = item._sum.orderPrice;
         orders.push(order);

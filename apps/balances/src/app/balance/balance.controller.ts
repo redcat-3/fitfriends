@@ -19,7 +19,7 @@ export class BalanceController {
     description: BalanceMessages.Update,
   })
   @UseGuards(JwtAuthGuard)
-  @Patch(BalancePath.Id)
+  @Patch(BalancePath.Update)
   public async updateBalance(@Req() {user}: RequestWithUserPayload, @Body() dto: UpdateBalanceDto) {
     const userId = user.sub;
     return await this.balanceService.update(dto, userId,);

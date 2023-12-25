@@ -1,7 +1,7 @@
 import { CRUDRepository } from '@project/util/util-types';
 import { Injectable } from '@nestjs/common';
 import { Feedback } from '@project/shared/shared-types';
-import { FeedbackQuery } from '@project/shared/shared-query';
+import { FeedbackQueryDto } from '@project/shared/shared-query';
 import { FeedbackEntity } from './entities/feedback.entity';
 import { PrismaService } from './prisma/prisma.service';
 
@@ -30,7 +30,7 @@ export class FeedbackRepository implements CRUDRepository<FeedbackEntity, number
     });
   }
 
-  public async findByWorkoutId(workoutId: number, {limit, page}:FeedbackQuery): Promise<Feedback[] | null> {
+  public async findByWorkoutId(workoutId: number, {limit, page}:FeedbackQueryDto): Promise<Feedback[] | null> {
     const feedbacks = await this.prisma.feedback.findMany({
       where: {
         workoutId

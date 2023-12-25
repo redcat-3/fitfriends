@@ -17,6 +17,7 @@ export const BalanceMessages = {
 export const BalancePath = { 
   Main:"balance",
   Add:"add",
+  Update: "update",
   Id:"list/:balanceId",
   Index:"list",
 } as const;

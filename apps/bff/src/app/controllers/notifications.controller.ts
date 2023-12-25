@@ -23,7 +23,7 @@ export class NotificationsController {
   })
   @UseGuards(CheckAuthGuard)
   @Delete(BffPath.NotificationId)
-  public async delete(@Req() req:Request, @Param('id') id: number) {
+  public async delete(@Req() req:Request, @Param('notificationId') id: number) {
     const { data } = await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Notifications}/${id}`, {
       headers: {
         'Authorization': req.headers['authorization']
@@ -42,8 +42,8 @@ export class NotificationsController {
   })
   @UseGuards(CheckAuthGuard)
   @Get(BffPath.NotificationId)
-  public async show(@Req() req:Request, @Param('id') id: number) {
-    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Notifications}/${id}`, {
+  public async show(@Req() req:Request, @Param('notificationId') id: number) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Notifications}/list/${id}`, {
       headers: {
         'Authorization': req.headers['authorization']
       }

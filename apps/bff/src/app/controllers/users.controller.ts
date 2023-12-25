@@ -121,9 +121,9 @@ export class UsersController {
       description:BffMessages.UserList
     })
     @UseGuards(CheckAuthGuard)
-    @Post(BffPath.List)
+    @Post(BffPath.UserList)
     public async index(@Req() req: Request, @Body() dto: UserQueryDto) {
-      const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/${BffPath.List}`, dto, {
+      const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/${BffPath.UserList}`, dto, {
         headers: {
           'Authorization': req.headers['authorization']
         }

@@ -1,7 +1,5 @@
-import { IWorkout } from "../workout/workout.interface";
-
 export interface OrderToCoach {
-  workout: IWorkout;
+  workout: number;
   orderPrice: number;
   countWorkout: number;
 }

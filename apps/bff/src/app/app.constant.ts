@@ -27,7 +27,7 @@ export const BffPath = {
   Update:'update',
   UserMain:'users',
   UserId:'list/friends/:id',
-  UserListCount:'list/count',
+  UserList:'user-list',
   Friends:'list/friends',
   Follow: 'list/friends/follow/:id',
   Unfollow: 'list/friends/unfollow/:id',

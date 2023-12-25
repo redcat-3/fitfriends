@@ -34,7 +34,7 @@ export class RequestsController {
   })
   @UseGuards(JwtAuthGuard)
   @Patch(RequestsPath.Id)
-  public async updateRequest(@Param('requestId') id:number, @Body() dto: UpdateRequestDto, @Req() {user}: RequestWithUserPayload) {
+  public async updateRequest(@Param('requestId') id: number, @Body() dto: UpdateRequestDto, @Req() {user}: RequestWithUserPayload) {
     const userId = user.sub;
     const request = await this.requestsService.update(id, dto.status, userId,);
     return adaptPrismaRequest(request);

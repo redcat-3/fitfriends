@@ -1,7 +1,7 @@
 import { CRUDRepository } from '@project/util/util-types';
 import { Injectable } from '@nestjs/common';
 import { Order } from '@project/shared/shared-types';
-import { OrderQuery } from '@project/shared/shared-query';
+import { OrderQueryDto } from '@project/shared/shared-query';
 import { OrderEntity } from './entities/order.entity';
 import { PrismaService } from './prisma/prisma.service';
 
@@ -30,7 +30,7 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
     });
   }
 
-  public async findByWorkoutId(workoutId: number, {limit, page}:OrderQuery): Promise<Order[] | null> {
+  public async findByWorkoutId(workoutId: number, {limit, page}:OrderQueryDto): Promise<Order[] | null> {
     const orders = await this.prisma.order.findMany({
       where: {
         workoutId
@@ -41,7 +41,7 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
     return orders;
   }
 
-  public async groupByWorkoutWereCoachId(coachId: string, query: OrderQuery ): Promise<{ workoutId: number, _sum: {count: number, orderPrice: number}}[] | null> {
+  public async groupByWorkoutWereCoachId(coachId: string, query: OrderQueryDto ): Promise<{ workoutId: number, _sum: {count: number, orderPrice: number}}[] | null> {
     const groupWorkouts = await this.prisma.order.groupBy({
       by: ['workoutId'],
       where: {

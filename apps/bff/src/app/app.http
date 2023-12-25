@@ -6,7 +6,7 @@ POST http://localhost:4000/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "coach@test.local",
+  "email": "test@test.local",
   "password": "123456"
 }
 
@@ -19,13 +19,14 @@ Authorization: Bearer {{Rtoken}}
 ###
 
 # Get user by ID
-GET http://localhost:4000/api/users/list/friends/6535430009ad33414280b094 HTTP/1.1
+GET http://localhost:4000/api/users/list/friends/658692926888cdda63033c02 HTTP/1.1
 Authorization: Bearer {{Atoken}}
 
 ###
 
 # Get user list
-POST http://localhost:4000/api/users/list HTTP/1.1
+POST http://localhost:4000/api/users/user-list HTTP/1.1
+Authorization: Bearer {{Atoken}}
 Content-Type: application/json
 
 {
@@ -33,7 +34,7 @@ Content-Type: application/json
   "page": 1,
   "level": "pro",
   "location": "Пионерская,Петроградская",
-  "typeOfTrain": "yoga,running",
+  "typeOfTrain": "yoga",
   "sortDirection": "desc"
 }
 
@@ -60,13 +61,13 @@ Content-Type: application/json
 ###
 
 # Follow user
-PATCH http://localhost:4000/api/users/list/friends/follow/652ffdf03cb7412c4cd5994a HTTP/1.1
+PATCH http://localhost:4000/api/users/list/friends/follow/658692926888cdda63033c02 HTTP/1.1
 Authorization: Bearer {{Atoken}}
 
 ###
 
 # Unfollow user
-PATCH http://localhost:4000/api/users/list/friends/unfollow/6535430009ad33414280b094 HTTP/1.1
+PATCH http://localhost:4000/api/users/list/friends/unfollow/658692926888cdda63033c02 HTTP/1.1
 Authorization: Bearer {{Atoken}}
 
 ###
@@ -149,11 +150,11 @@ Content-Type: application/json
   "limit": 6,
   "page": 1,
   "sortBy": "createdDate",
-  "caloriesToSpend": "1000,1500",
-  "price": "100,500",
+  "caloriesToSpend": "0,1500",
+  "price": "0,1500",
   "type": "yoga,running",
-  "rating": "1,5",
-  "timeOfTraining": "10-30,80-100",
+  "rating": "0,5",
+  "timeOfTraining": "10-30,30-50,80-100",
   "sortDirection": "asc"
 }
 ###
@@ -192,7 +193,7 @@ Content-Type: application/json
 {
   "limit": 6,
   "page": 1,
-  "sortBy": "createdDate",
+  "sortBy": "count",
   "sortDirection": "asc"
 }
 
@@ -205,8 +206,14 @@ Authorization: Bearer {{Atoken}}
 ###
 
 # Get orders by coachID
-GET  http://localhost:4000/api/orders/coach/list/index HTTP/1.1
+POST  http://localhost:4000/api/orders/coach/list/index HTTP/1.1
 Authorization: Bearer {{Atoken}}
+Content-Type: application/json
+
+{
+  "limit": 6,
+  "page": 1
+}
 
 ###
 
@@ -217,7 +224,7 @@ Content-Type: application/json
 
 {
   "workoutId": 3,
-  "rating": 4,
+  "rating": 5,
   "text": "Мне понравилось, тренер просто лапушка. Подходил, помогал, объяснял асаны. У нее теплые руки. Мне понравилось, тренер просто лапушка. Подходил, помогал, объяснял асаны. У нее теплые руки"
 }
 
@@ -284,8 +291,10 @@ Authorization: Bearer {{Atoken}}
 DELETE  http://localhost:4000/api/requests/3 HTTP/1.1
 Authorization: Bearer {{Atoken}}
 
+###
+
 # Get notification by ID
-GET http://localhost:4000/api/notifications/list/1 HTTP/1.1
+GET http://localhost:4000/api/notifications/list/9 HTTP/1.1
 Authorization: Bearer {{Atoken}}
 
 ###
@@ -303,7 +312,7 @@ Authorization: Bearer {{Atoken}}
 ###
 
 # Update balance by ID
-PATCH http://localhost:4000/api/balances/1 HTTP/1.1
+PATCH http://localhost:4000/api/balances/update HTTP/1.1
 Authorization: Bearer {{Atoken}}
 Content-Type: application/json
 
@@ -327,5 +336,5 @@ Authorization: Bearer {{Atoken}}
 ###
 
 # Delete balance
-DELETE  http://localhost:4000/api/balances/1 HTTP/1.1
+DELETE  http://localhost:4000/api/balances/list/1 HTTP/1.1
 Authorization: Bearer {{Atoken}}

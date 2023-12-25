@@ -1,4 +1,4 @@
-import { Req, Controller, HttpStatus, Param, Post, Get, UseGuards, Body, Query } from '@nestjs/common';
+import { Req, Controller, HttpStatus, Param, Post, Get, UseGuards, Body } from '@nestjs/common';
 import { OrdersService } from './order.service';
 import { API_TAG_NAME, OrdersMessages, OrdersPath } from './order.constant';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -60,8 +60,8 @@ export class OrdersController {
     description: OrdersMessages.Show,
   })
   @UseGuards(JwtAuthGuard)
-  @Get(OrdersPath.IndexCoach)
-  public async indexCoachOrders(@Req() {user}: RequestWithUserPayload, @Query() query : OrderQueryDto ) {
+  @Post(OrdersPath.IndexCoach)
+  public async indexCoachOrders(@Req() {user}: RequestWithUserPayload, @Body() query : OrderQueryDto ) {
     const orders = await this.ordersService.findByCoachId(user.sub, query);
     return orders;
   }

@@ -58,13 +58,21 @@ export class UserService {
     if (!coach) {
       throw new NotFoundException (UserError.NotFound);
     }
-    if (coach.role !== UserRole.Coach) {
+    if (coach.role === UserRole.User) {
       throw new BadRequestException (UserError.InvalidRole);
     }
-    if (this.userRepository.checkFollow(userId, followId)) {
-      this.userRepository.addToFollowById(userId, followId);
-    } else {
+    if (! this.userRepository.checkFollow(userId, followId)) {
       throw new NotFoundException (UserError.Follow);
+    } else {
+      this.userRepository.addToFollowById(userId, followId);
+      const text = `Пользователь ${user.name} подписался на вас`;
+      const notification = {
+        text,
+        userId: userId,
+        createdDate: dayjs().toDate(),
+      }
+      const notificationEntity = new NotificationEntity(notification);
+      this.notificationRepository.create(notificationEntity);
     }
   }
 

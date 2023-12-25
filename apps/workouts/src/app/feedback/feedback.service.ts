@@ -6,7 +6,7 @@ import { FeedbacksError } from './feedback.constant';
 import { UserRepository } from '@project/repositories/user-repository';
 import { UserRole } from '@project/shared/shared-types';
 import dayjs from 'dayjs';
-import { FeedbackQuery } from '@project/shared/shared-query';
+import { FeedbackQueryDto } from '@project/shared/shared-query';
 
 @Injectable()
 export class FeedbacksService {
@@ -43,7 +43,7 @@ export class FeedbacksService {
     return await this.feedbackRepository.findById(id);
   }
 
-  public async findByWorkoutId(id: number, query: FeedbackQuery) {
+  public async findByWorkoutId(id: number, query: FeedbackQueryDto) {
     return await this.feedbackRepository.findByWorkoutId(id, query);
   }
 }

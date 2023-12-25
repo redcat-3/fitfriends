@@ -50,7 +50,7 @@ export class RequestsService {
 
   public async update(requestId: number, status: RequestStatus, userId: string) {
     const request = await this.requestRepository.findById(requestId);
-    if (userId !== request.userId) {
+    if (!(userId === request.userId)) {
       throw new BadRequestException(RequestsError.AuthError);
     }
     if (status === request.status) {
@@ -88,6 +88,9 @@ export class RequestsService {
 
   public async delete(requestId: number, userId: string) {
     const request = await this.requestRepository.findById(requestId);
+    if(!request) {
+      throw new NotFoundException(RequestsError.RequestNotFound);
+    }
     if (request.requester === userId) {
       return await this.requestRepository.destroy(requestId);
     } else {
