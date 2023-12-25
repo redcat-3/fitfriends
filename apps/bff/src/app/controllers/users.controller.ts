@@ -106,9 +106,9 @@ export class UsersController {
       description:BffMessages.UserUpdated
     })
     @UseGuards(CheckAuthGuard)
-    @Patch(BffPath.UserUpdate)
+    @Patch(BffPath.Update)
     public async update(@Req() req: Request, @Body() dto: UpdateUserDto) {
-      const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Users}/${BffPath.UserUpdate}`, dto, {
+      const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Users}/${BffPath.Update}`, dto, {
         headers: {
           'Authorization': req.headers['authorization']
         }
@@ -121,9 +121,9 @@ export class UsersController {
       description:BffMessages.UserList
     })
     @UseGuards(CheckAuthGuard)
-    @Post(BffPath.UserList)
-    public async show(@Req() req: Request, @Body() dto: UserQueryDto) {
-      const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/${BffPath.UserList}`, dto, {
+    @Post(BffPath.List)
+    public async index(@Req() req: Request, @Body() dto: UserQueryDto) {
+      const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/${BffPath.List}`, dto, {
         headers: {
           'Authorization': req.headers['authorization']
         }

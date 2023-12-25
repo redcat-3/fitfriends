@@ -1,10 +1,11 @@
-import { Req, Controller, HttpStatus, Param, Get, UseGuards, Delete } from '@nestjs/common';
+import { Req, Controller, HttpStatus, Param, Get, UseGuards, Delete, Body, Patch } from '@nestjs/common';
 import { BalanceService } from './balance.service';
 import { API_TAG_NAME, BalanceMessages, BalancePath } from './balance.constant';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '@project/util/util-core';
 import { BalanceRdo } from './rdo/balance.rdo';
 import { RequestWithUserPayload } from '@project/shared/shared-types';
+import { UpdateBalanceDto } from '@project/shared/shared-dto';
 
 @ApiTags(API_TAG_NAME)
 @Controller(BalancePath.Main)
@@ -12,6 +13,17 @@ export class BalanceController {
   constructor(
     private readonly balanceService: BalanceService,
   ) {}
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: BalanceMessages.Update,
+  })
+  @UseGuards(JwtAuthGuard)
+  @Patch(BalancePath.Id)
+  public async updateBalance(@Req() {user}: RequestWithUserPayload, @Body() dto: UpdateBalanceDto) {
+    const userId = user.sub;
+    return await this.balanceService.update(dto, userId,);
+  }
 
   @ApiResponse({
     status: HttpStatus.OK,

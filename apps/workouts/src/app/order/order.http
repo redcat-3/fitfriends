@@ -26,8 +26,16 @@ Content-Type: application/json
 ###
 
 # Get orders by workout ID
-GET http://localhost:3002/api/order/list/3 HTTP/1.1
+POST http://localhost:3002/api/order/list/3 HTTP/1.1
 Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "limit": 6,
+  "page": 1,
+  "sortBy": "createdDate",
+  "sortDirection": "asc"
+}
 
 ###
 

@@ -8,7 +8,7 @@ export const BalancesError = {
 } as const;
   
 export const BalanceMessages = { 
-  Add : "Balance added successfully",
+  Update : "Balance updated successfully",
   Delete : "Balance deleted successfully",
   Show: "Balance showing",
   Index: "Balances are showing"

@@ -6,6 +6,11 @@ import { HttpModule } from '@nestjs/axios';
 import { ENV_BFF_FILE_PATH, HttpClientParam } from './app.constant';
 import { CheckAuthGuard } from './guards/check-auth.guard';
 import appConfig from './app.config';
+import { RequestsController } from './controllers/requests.controller';
+import { OrdersController } from './controllers/orders.controller';
+import { FeedbacksController } from './controllers/feedbacks.controller';
+import { NotificationsController } from './controllers/notifications.controller';
+import { BalancesController } from './controllers/balances.controller';
 
 @Module({
   imports: [
@@ -23,6 +28,11 @@ import appConfig from './app.config';
   controllers: [
     UsersController,
     WorkoutsController,
+    RequestsController,
+    OrdersController,
+    FeedbacksController,
+    NotificationsController,
+    BalancesController
   ],
   providers: [CheckAuthGuard],
 })

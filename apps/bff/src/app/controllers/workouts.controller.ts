@@ -21,9 +21,9 @@ export class WorkoutsController {
     description: BffMessages.WorkoutAdd,
   })
   @UseGuards(CheckAuthGuard)
-  @Post(BffPath.WorkoutAdd)
+  @Post(BffPath.Add)
   public async create(@Req() req:Request, @Body() dto: CreateWorkoutDto) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/${BffPath.WorkoutAdd}`, dto, {
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/${BffPath.Add}`, dto, {
       headers: {
         'Authorization': req.headers['authorization']
       }
@@ -94,9 +94,9 @@ export class WorkoutsController {
     status: HttpStatus.NOT_FOUND,
     description: BffError.WorkoutEmptyList
   })
-  @Post(BffPath.WorkoutList)
+  @Post(BffPath.List)
   public async index(@Body() dto: WorkoutQueryDto) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/${BffPath.WorkoutList}`, dto);
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/${BffPath.List}`, dto);
     return data;
   }
 

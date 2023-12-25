@@ -1,14 +1,11 @@
 import { IsIn, IsNumber,IsOptional } from 'class-validator';
-import { Transform } from 'class-transformer';
 import { DEFAULT_LIMIT, DEFAULT_PAGE, DefaultSortParam } from './query.constant';
 
-export class OrderQuery {
-  @Transform(({ value } ) => +value || DEFAULT_LIMIT)
+export class OrderQueryDto {
   @IsNumber()
   @IsOptional()
   public limit: number = DEFAULT_LIMIT;
 
-  @Transform(({ value }) => +value || DEFAULT_PAGE )
   @IsNumber()
   @IsOptional()
   public page: number = DEFAULT_PAGE;

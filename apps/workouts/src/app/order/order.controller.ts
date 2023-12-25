@@ -6,7 +6,7 @@ import { JwtAuthGuard, fillObject } from '@project/util/util-core';
 import { OrderRdo } from './rdo/order.rdo';
 import { RequestWithUserPayload } from '@project/shared/shared-types';
 import { CreateOrderDto } from '@project/shared/shared-dto';
-import { OrderQuery } from '@project/shared/shared-query';
+import { OrderQueryDto } from '@project/shared/shared-query';
 
 @ApiTags(API_TAG_NAME)
 @Controller(OrdersPath.Main)
@@ -47,8 +47,8 @@ export class OrdersController {
     description: OrdersMessages.Show,
   })
   @UseGuards(JwtAuthGuard)
-  @Get(OrdersPath.Index)
-  public async indexOrders(@Param('workoutId') id:number, @Query() query : OrderQuery, @Req() {user}: RequestWithUserPayload) {
+  @Post(OrdersPath.Index)
+  public async indexOrders(@Param('workoutId') id:number, @Body() query : OrderQueryDto, @Req() {user}: RequestWithUserPayload) {
     const userId = user.sub;
     const orders = await this.ordersService.findByWorkoutId(userId, id, query);
     return orders.map((order) => fillObject(OrderRdo, order));
@@ -61,7 +61,7 @@ export class OrdersController {
   })
   @UseGuards(JwtAuthGuard)
   @Get(OrdersPath.IndexCoach)
-  public async indexCoachOrders(@Req() {user}: RequestWithUserPayload, @Query() query : OrderQuery ) {
+  public async indexCoachOrders(@Req() {user}: RequestWithUserPayload, @Query() query : OrderQueryDto ) {
     const orders = await this.ordersService.findByCoachId(user.sub, query);
     return orders;
   }

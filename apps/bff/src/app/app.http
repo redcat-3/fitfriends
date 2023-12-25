@@ -169,3 +169,163 @@ DELETE  http://localhost:4000/api/workouts/list/coach/6 HTTP/1.1
 Authorization: Bearer {{Atoken}}
 
 ###
+
+# Create order
+POST  http://localhost:4000/api/orders/add HTTP/1.1
+Authorization: Bearer {{Atoken}}
+Content-Type: application/json
+
+{
+  "workoutId": 3,
+  "orderType": "subscription",
+  "count": 4,
+  "paymentMethod": "mir"
+}
+
+###
+
+# Get orders by workout ID
+POST  http://localhost:4000/api/orders/list/3 HTTP/1.1
+Authorization: Bearer {{Atoken}}
+Content-Type: application/json
+
+{
+  "limit": 6,
+  "page": 1,
+  "sortBy": "createdDate",
+  "sortDirection": "asc"
+}
+
+###
+
+# Get order by ID
+GET  http://localhost:4000/api/orders/1 HTTP/1.1
+Authorization: Bearer {{Atoken}}
+
+###
+
+# Get orders by coachID
+GET  http://localhost:4000/api/orders/coach/list/index HTTP/1.1
+Authorization: Bearer {{Atoken}}
+
+###
+
+# Create feedback
+POST http://localhost:4000/api/feedbacks/add HTTP/1.1
+Authorization: Bearer {{Atoken}}
+Content-Type: application/json
+
+{
+  "workoutId": 3,
+  "rating": 4,
+  "text": "Мне понравилось, тренер просто лапушка. Подходил, помогал, объяснял асаны. У нее теплые руки. Мне понравилось, тренер просто лапушка. Подходил, помогал, объяснял асаны. У нее теплые руки"
+}
+
+###
+
+# Get feedbacks by workout ID
+POST http://localhost:4000/api/feedbacks/list/3 HTTP/1.1
+Authorization: Bearer {{Atoken}}
+Content-Type: application/json
+
+{
+  "limit": 6,
+  "page": 1
+}
+
+###
+
+# Get feedback by ID
+GET http://localhost:4000/api/feedbacks/1 HTTP/1.1
+Authorization: Bearer {{Atoken}}
+
+###
+
+# Create request
+POST http://localhost:4000/api/requests/add HTTP/1.1
+Authorization: Bearer {{Atoken}}
+Content-Type: application/json
+
+{
+  "userId": "6530088c4c247c402951848f"
+}
+###
+
+# Update request by ID
+PATCH http://localhost:4000/api/requests/1 HTTP/1.1
+Authorization: Bearer {{Atoken}}
+Content-Type: application/json
+
+{
+  "status": "accept"
+}
+
+###
+
+# Get request by ID
+GET http://localhost:4000/api/requests/1 HTTP/1.1
+Authorization: Bearer {{Atoken}}
+
+###
+
+# Get inputs requests
+GET http://localhost:4000/api/requests/list/input HTTP/1.1
+Authorization: Bearer {{Atoken}}
+
+###
+
+# Get my requests
+GET http://localhost:4000/api/requests/list/requester HTTP/1.1
+Authorization: Bearer {{Atoken}}
+
+###
+
+# Delete request
+DELETE  http://localhost:4000/api/requests/3 HTTP/1.1
+Authorization: Bearer {{Atoken}}
+
+# Get notification by ID
+GET http://localhost:4000/api/notifications/list/1 HTTP/1.1
+Authorization: Bearer {{Atoken}}
+
+###
+
+# Get inputs notifications
+GET http://localhost:4000/api/notifications/list HTTP/1.1
+Authorization: Bearer {{Atoken}}
+
+###
+
+# Delete notification
+DELETE  http://localhost:4000/api/notifications/1 HTTP/1.1
+Authorization: Bearer {{Atoken}}
+
+###
+
+# Update balance by ID
+PATCH http://localhost:4000/api/balances/1 HTTP/1.1
+Authorization: Bearer {{Atoken}}
+Content-Type: application/json
+
+{
+  "balanceId": 1,
+  "count": 4
+}
+
+###
+
+# Get balance by ID
+GET http://localhost:4000/api/balances/list/1 HTTP/1.1
+Authorization: Bearer {{Atoken}}
+
+###
+
+# Get list of balances
+GET http://localhost:4000/api/balances/list HTTP/1.1
+Authorization: Bearer {{Atoken}}
+
+###
+
+# Delete balance
+DELETE  http://localhost:4000/api/balances/1 HTTP/1.1
+Authorization: Bearer {{Atoken}}
