@@ -103,6 +103,21 @@ export class UsersController {
     
     @ApiResponse({
       status: HttpStatus.OK,
+      description: BffMessages.UserFound
+    })
+    @ApiResponse({
+      status: HttpStatus.NOT_FOUND,
+      description: BffError.UserNotFound
+    })
+    @Get(BffPath.UserCoachId)
+    public async getUserCoach(@Param('id') id: MongoidValidationPipe) {
+      const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Users}/list/friends/coach/${id}`);
+      return data;
+    }
+
+    
+    @ApiResponse({
+      status: HttpStatus.OK,
       description:BffMessages.UserUpdated
     })
     @UseGuards(CheckAuthGuard)
@@ -128,6 +143,16 @@ export class UsersController {
           'Authorization': req.headers['authorization']
         }
       });
+      return data;
+    }
+
+    @ApiResponse({
+      status: HttpStatus.OK,
+      description:BffMessages.UserList
+    })
+    @Post(BffPath.Feedbacks)
+    public async indexFeedback(@Body() ids: string[]) {
+      const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/${BffPath.Feedbacks}`, ids);
       return data;
     }
 

@@ -23,9 +23,8 @@ export interface User {
   caloriesToReset: number;
   caloriesToSpend: number;
   trainingReady: boolean;
-  certificate: string;
+  certificates: string[];
   merit: string;
-  personalTraining: boolean;
   followers: string[];
   followCoaches: string[];
   friends?: string[];

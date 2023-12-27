@@ -21,6 +21,14 @@ export class OrderRepository implements CRUDRepository<OrderEntity, number, Orde
     });
   }
 
+  public async findByUserId(userId: string): Promise<Order[]> {
+    return await this.prisma.order.findMany({
+      where: {
+        userId
+      }
+    });
+  }
+
   public async update(orderId: number, item: OrderEntity): Promise<Order> {
     return await this.prisma.order.update({
       where: {

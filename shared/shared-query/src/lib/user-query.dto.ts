@@ -1,4 +1,4 @@
-import { IsIn, IsEnum,IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsIn, IsEnum,IsString, IsOptional, IsNumber, IsBoolean } from 'class-validator';
 import { UserLevel } from '@project/shared/shared-types';
 import { DEFAULT_LIMIT, DEFAULT_PAGE, DefaultSortParam } from './query.constant';
 
@@ -26,4 +26,8 @@ export class UserQueryDto {
   @IsIn(['asc', 'desc'])
   @IsOptional()
   public sortDirection: 'asc' | 'desc' = DefaultSortParam.Direction;
+
+  @IsBoolean()
+  @IsOptional()
+  public trainigReady: boolean;
 }

@@ -6,7 +6,6 @@ import { UserQueryDto } from '@project/shared/shared-query';
 import { UserModel } from './user.model';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { UpdateUserDto } from '@project/shared/shared-dto';
 import { RETURNABLE_FIELDS } from './user-repository.constant';
 import { buildFilterQuery } from './utils/build-filter-query';
 
@@ -43,9 +42,9 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
       .exec();
   }
 
-  public async update(id: string, dto: UpdateUserDto): Promise<User> {
+  public async update(id: string, item: UserEntity): Promise<User> {
     return this.userModel
-      .findByIdAndUpdate(id, dto, { new: true })
+      .findByIdAndUpdate(id, item, { new: true })
       .exec();
   }
 
@@ -58,8 +57,15 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
     return friends;
   }
 
+  public async getUsersFeedbacks(ids: string[]): Promise<User[] | null> {
+    const users = await this.userModel.find({
+      _id: { $in: ids},
+    });
+    return users;
+  }
+
   public async getUsersList(query?: UserQueryDto): Promise<User[] | null> {
-    const{ location, typeOfTrain, level, sortDirection, limit, page } = query;
+    const{ location, typeOfTrain, level, sortDirection, limit, page, trainigReady } = query;
     const sort = sortDirection === 'asc' ? 1 : -1;
     if (!location && !typeOfTrain && !level) {
       return await this.userModel
@@ -68,12 +74,19 @@ export class UserRepository implements CRUDRepository<UserEntity, string, User> 
         .skip(page > 0 ? limit * (page - 1) : undefined)
         .sort({role: sort});
     }
-    const queryFilter = buildFilterQuery (location, typeOfTrain, level)
+    const queryFilter = buildFilterQuery (location, typeOfTrain, level, trainigReady)
     return await this.userModel
       .find(queryFilter)
       .limit(limit)
       .skip(page > 0 ? limit * (page - 1) : undefined)
       .sort({role: sort});
+  }
+
+  public async getUsersListCount(query?: UserQueryDto): Promise<number> {
+    const{ location, typeOfTrain, level, trainigReady} = query;
+    const queryFilter = buildFilterQuery (location, typeOfTrain, level, trainigReady)
+    const users = await this.userModel.find(queryFilter);
+    return users.length;
   }
 
   public async addToFollowById(

@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { UserRepository } from '@project/repositories/user-repository';
+import { TypeEntityAdapter, UserRepository } from '@project/repositories/user-repository';
 import { UpdateUserDto } from '@project/shared/shared-dto';
 import { UserQueryDto } from '@project/shared/shared-query';
 import { User, UserRole } from '@project/shared/shared-types';
@@ -31,11 +31,18 @@ export class UserService {
   }
 
   public async update(id: string, dto: UpdateUserDto): Promise<User | null> {
-    return await this.userRepository.update(id, dto);
+    let user = await this.userRepository.findById(id);
+    user = {...user, ...dto};
+    const userEntity = new TypeEntityAdapter[user.role](user);
+    return await this.userRepository.update(id, userEntity);
   }
 
   public async getFriendsByUserId(userId: string): Promise<User[] | null> {
     return await this.userRepository.getFriendsByUserId(userId);
+  }
+
+  public async getUsersFeedbacks(ids: string[]): Promise<User[] | null> {
+    return await this.userRepository.getUsersFeedbacks(ids);
   }
 
   public async getUsersList(id: string, query: UserQueryDto): Promise<User[] | null> {
@@ -44,6 +51,14 @@ export class UserService {
       throw new BadRequestException (UserError.InvalidRole);
     }
     return await this.userRepository.getUsersList(query);
+  }
+
+  public async getUsersListCount(id: string, query: UserQueryDto): Promise<number> {
+    const user = await this.userRepository.findById(id);
+    if (user.role === UserRole.Coach) {
+      throw new BadRequestException (UserError.InvalidRole);
+    }
+    return await this.userRepository.getUsersListCount(query);
   }
 
   public async followCoach(userId: string, followId: string): Promise<void> {

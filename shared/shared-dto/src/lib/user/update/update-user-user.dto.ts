@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UpdateAbstractUserDto } from './update-abstract-user.dto';
-import { IsBoolean, IsEnum, IsNumber, IsOptional, Max, Min } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, Max, Min } from 'class-validator';
 import { UserTime } from '@project/shared/shared-types';
 import { CountCaloriesToReset, CountCaloriesToSpend, ExampleValueUser } from '../user-dto.constant';
 
@@ -32,12 +32,4 @@ export class UpdateUserUserDto extends UpdateAbstractUserDto {
   @Min(CountCaloriesToSpend.Min)
   @Max(CountCaloriesToSpend.Max)
   public caloriesToSpend: number;
-
-  @ApiProperty({
-    description: 'Флаг готовности пользователя к приглашениям на тренировку.',
-    example: true
-  })
-  @IsOptional()
-  @IsBoolean()
-  public trainingReady: boolean;
 }

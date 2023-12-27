@@ -6,6 +6,7 @@ export function adaptPrismaNotification(prismaNotification: Notification | null)
       const Notification = {
         ...prismaNotification,
         createdDate: prismaNotification.createdDate.toISOString(),
+        isActive: true
       };
       return Notification;
     }

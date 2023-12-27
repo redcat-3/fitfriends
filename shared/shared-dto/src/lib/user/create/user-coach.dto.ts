@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserDto } from './user.dto';
-import { IsBoolean, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { CoachMeritLength } from '../user-dto.constant';
 
 export class UserCoachDto extends UserDto{
@@ -9,7 +9,7 @@ export class UserCoachDto extends UserDto{
     example: '1'
     })
     @IsString()
-  public certificate: string;
+  public certificates: string[];
      
   @ApiProperty({
     description: 'Текст с описанием заслуг тренера.',
@@ -20,12 +20,4 @@ export class UserCoachDto extends UserDto{
   @MaxLength(CoachMeritLength.Max)
   @IsOptional()
   public merit: string;
-
-  @ApiProperty({
-    description: 'Флаг готовности проводить индивидуальные тренировки.',
-    example: true
-  })
-  @IsBoolean()
-  @IsOptional()
-  public personalTraining: boolean;
 }

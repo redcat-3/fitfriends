@@ -26,9 +26,11 @@ export const UserError = {
 export const UserPath = {
   Main:'user',
   Id:'list/friends/:id',
+  CoachId:'list/friends/coach/:id',
   Update:'update',
   List:'user-list',
   Friends:'list/friends',
+  Feedbacks:'list/friends/feedbacks',
   Follow: 'list/friends/follow/:id',
   Unfollow: 'list/friends/unfollow/:id',
   AddFriend:'friends/add/:id',

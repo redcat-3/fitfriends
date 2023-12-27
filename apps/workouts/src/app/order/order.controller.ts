@@ -55,14 +55,23 @@ export class OrdersController {
   }
   
   @ApiResponse({
-    type: OrderRdo,
     status: HttpStatus.OK,
-    description: OrdersMessages.Show,
+    description: OrdersMessages.Index,
   })
   @UseGuards(JwtAuthGuard)
   @Post(OrdersPath.IndexCoach)
   public async indexCoachOrders(@Req() {user}: RequestWithUserPayload, @Body() query : OrderQueryDto ) {
-    const orders = await this.ordersService.findByCoachId(user.sub, query);
-    return orders;
+    return await this.ordersService.findByCoachId(user.sub, query);
+  }
+
+  @ApiResponse({
+    type: OrderRdo,
+    status: HttpStatus.OK,
+    description: OrdersMessages.Index,
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get(OrdersPath.IndexUser)
+  public async indexUserOrders(@Req() {user}: RequestWithUserPayload) {
+    return await this.ordersService.findByUserId(user.sub);
   }
 }

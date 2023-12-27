@@ -22,7 +22,8 @@ export default class UserGenerator implements UserGeneratorInterface {
       image: getRandomItem<string>(this.mockData.AVATARS),
       level: getRandomItem<string>(this.mockData.LEVELS) as unknown as UserLevel,
       typeOfTrain: getRandomItems(this.mockData.TYPES_OF_TRAIN),
-      password: DEFAULT_USER_PASSWORD
+      password: DEFAULT_USER_PASSWORD,
+      trainingReady: getRandomBoolean()
     }
     if (role === UserRole.User) {
       const userUser = {
@@ -30,15 +31,13 @@ export default class UserGenerator implements UserGeneratorInterface {
         timeOfTrain: getRandomItem<string>(this.mockData.TIMES_OF_TRAIN) as unknown as UserTime,
         caloriesToReset: generateRandomValue(CountCaloriesToReset.Min, CountCaloriesToReset.Max, 0),
         caloriesToSpend: generateRandomValue(CountCaloriesToSpend.Min, CountCaloriesToSpend.Max, 0),
-        trainingReady: getRandomBoolean()
       }
       return userUser;
     } else if (role === UserRole.Coach) {
       const userCoach = {
         ... user,
-        certificate: getRandomItem<string>(this.mockData.CERTIFICATE),
-        merit: getRandomItem<string>(this.mockData.MERITS),
-        personalTraining: getRandomBoolean()
+        certificates: getRandomItems<string>(this.mockData.CERTIFICATE),
+        merit: getRandomItem<string>(this.mockData.MERITS)
       }
       return userCoach;
     }

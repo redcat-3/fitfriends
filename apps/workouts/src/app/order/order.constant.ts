@@ -22,6 +22,7 @@ export const OrdersPath = {
   Id:":orderId",
   Index:"list/:workoutId",
   IndexCoach:"coach/list/index",
+  IndexUser:"user/list/index",
 }as const;
 
 export const  API_TAG_NAME ="Orders"

@@ -19,4 +19,5 @@ export interface UserAbstract {
   level: UserLevel;
   typeOfTrain?: string[];
   friends?: string[];
+  trainingReady: boolean;
 }

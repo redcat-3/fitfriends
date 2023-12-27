@@ -111,7 +111,7 @@ export class UserModel extends Document implements User {
   @Prop({
     required: false,
   })
-  public certificate: string;
+  public certificates: string[];
 
   @Prop({
     required: false,

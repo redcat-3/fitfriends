@@ -5,6 +5,5 @@ export interface UserUser extends UserAbstract {
   timeOfTrain?: UserTime;
   caloriesToReset: number;
   caloriesToSpend: number;
-  trainingReady: boolean;
   followCoaches?: string[];
 }

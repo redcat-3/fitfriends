@@ -15,6 +15,7 @@ export class UserAbstractEntity implements UserAbstract {
     public location: UserLocation;
     public image?: string;
     public level: UserLevel;
+    public trainingReady: boolean;
     public typeOfTrain: string[] | undefined;
     public friends?: string[];
 
@@ -32,6 +33,7 @@ export class UserAbstractEntity implements UserAbstract {
     this.level = userData.level;
     this.typeOfTrain = userData.typeOfTrain;
     this.passwordHash = userData.passwordHash;
+    this.trainingReady = userData.trainingReady;
     this.friends = userData.friends;
   }
 

@@ -1,4 +1,4 @@
-export function buildFilterQuery (location: string, typeOfTrain: string, level: string) {
+export function buildFilterQuery (location: string, typeOfTrain: string, level: string, trainigReady: boolean) {
   const usedFilter = {
     $and: []
   };
@@ -17,6 +17,11 @@ export function buildFilterQuery (location: string, typeOfTrain: string, level: 
   if (level) {
     usedFilter.$and.push({ 
       level: level 
+    })
+  };
+  if (trainigReady) {
+    usedFilter.$and.push({ 
+      trainigReady: true
     })
   };
   return usedFilter;

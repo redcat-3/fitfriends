@@ -102,20 +102,6 @@ export class WorkoutsController {
 
   @ApiResponse({
     status: HttpStatus.OK,
-    description: BffMessages.WorkoutIndexCount
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: BffError.WorkoutEmptyList
-  })
-  @Post(BffPath.WorkoutListCount)
-  public async indexCount(@Body() dto: WorkoutQueryDto) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/${BffPath.WorkoutListCount}`, dto);
-    return data;
-  }
-
-  @ApiResponse({
-    status: HttpStatus.OK,
     description: BffMessages.WorkoutIndex
   })
   @ApiResponse({

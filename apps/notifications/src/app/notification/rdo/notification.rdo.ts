@@ -28,4 +28,11 @@ export class NotificationRdo {
   })
   @Expose()
   public createdDate: string;
+
+  @ApiProperty({
+    description: 'Flag active notification',
+    example: true
+  })
+  @Expose()
+  public isActive: boolean;
 }

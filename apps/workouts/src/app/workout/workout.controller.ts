@@ -13,7 +13,6 @@ import { WorkoutCoachQueryDto, WorkoutQueryDto } from '@project/shared/shared-qu
 import { NotifyService } from '../notify/notify.service';
 import { NotificationEntity, NotificationRepository } from '@project/repositories/notification-repository';
 import dayjs from 'dayjs';
-import { number } from 'joi';
 
 
 @ApiTags(API_TAG_NAME)
@@ -109,20 +108,11 @@ export class WorkoutController {
     description: WorkoutMessages.Index
   })
   @Post(WorkoutPath.List)
-  public async index(@Body() dto : WorkoutQueryDto) {
+  public async index(@Body() dto: WorkoutQueryDto) {
     const workouts = await this.workoutsService.find(dto);
-    return workouts.map((workout) => fillObject(WorkoutRdo, workout));
-  }
-
-  @ApiResponse({
-    type: number,
-    status: HttpStatus.OK,
-    description: WorkoutMessages.IndexCount
-  })
-  @Post(WorkoutPath.ListCount)
-  public async indexCount(@Body() dto : WorkoutQueryDto) {
-    const workouts = await this.workoutsService.findAll(dto);
-    return workouts.length;
+    const workoutsList = workouts.map((workout) => fillObject(WorkoutRdo, workout));
+    const count = await this.workoutsService.findCount(dto);
+    return {workoutsList, count};
   }
 
   @ApiResponse({
@@ -134,6 +124,18 @@ export class WorkoutController {
   @Get(WorkoutPath.CoachList)
   public async coachIndex(@Req() { user }: RequestWithUserPayload) {
     const workouts = await this.workoutsService.findByCoachId(user.sub);
+    return workouts.map((workout) => fillObject(WorkoutRdo, workout));
+  }
+
+  @ApiResponse({
+    type: WorkoutRdo,
+    status: HttpStatus.OK,
+    description: WorkoutMessages.Index
+  })
+  @UseGuards(JwtAuthGuard)
+  @Post(WorkoutPath.CoachList)
+  public async coachIndexQuery(@Req() { user }: RequestWithUserPayload, @Body() dto: WorkoutQueryDto) {
+    const workouts = await this.workoutsService.findByCoachIdWithFilters(user.sub, dto.price, dto.caloriesToSpend, dto.rating, dto.timeOfTraining);
     return workouts.map((workout) => fillObject(WorkoutRdo, workout));
   }
 

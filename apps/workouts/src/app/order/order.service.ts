@@ -91,7 +91,7 @@ export class OrdersService {
       throw new BadRequestException(OrdersError.WrongRole);
     }
     const groupWorkouts = await this.orderRepository.groupByWorkoutWereCoachId(id, query);
-    const orders = [];
+    const orders: OrderToCoach[] = [];
     const order: OrderToCoach = {workout: 0, countWorkout: 0, orderPrice: 0};
     let summaryPrice = 0;
     if (groupWorkouts.length > 0) {
@@ -104,5 +104,17 @@ export class OrdersService {
       });
     }
     return {orders, summaryPrice};
+  }
+
+  public async findByUserId(id: string) {
+    const user = await this.userRepository.findById(id);
+    if (!user) {
+      throw new NotFoundException(OrdersError.UserNotFound);
+    } 
+    if (user.role === UserRole.Coach) {
+      throw new BadRequestException(OrdersError.WrongRole);
+    }
+  
+    return await this.orderRepository.findByUserId(id)
   }
 }

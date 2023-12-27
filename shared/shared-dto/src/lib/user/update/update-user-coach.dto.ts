@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UpdateAbstractUserDto } from './update-abstract-user.dto';
-import { IsBoolean, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { CoachMeritLength } from '../user-dto.constant';
 
 export class UpdateUserCoachDto extends UpdateAbstractUserDto {
@@ -21,12 +21,4 @@ export class UpdateUserCoachDto extends UpdateAbstractUserDto {
   @MaxLength(CoachMeritLength.Max)
   @IsOptional()
   public merit: string;
-
-  @ApiProperty({
-    description: 'Флаг готовности проводить индивидуальные тренировки.',
-    example: true
-  })
-  @IsBoolean()
-  @IsOptional()
-  public personalTraining: boolean;
 }

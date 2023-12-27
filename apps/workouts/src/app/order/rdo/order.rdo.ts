@@ -11,6 +11,20 @@ export class OrderRdo {
   public orderId: number;
 
   @ApiProperty({
+    description: 'User ID',
+    example: 'fhsfjfk'
+  })
+  @Expose()
+  public userId: string;
+
+  @ApiProperty({
+    description: 'Coach ID',
+    example: 'fhsfjfk'
+  })
+  @Expose()
+  public coachId: string;
+
+  @ApiProperty({
     description: 'Вид покупки',
     example: OrderType.subscription
   })

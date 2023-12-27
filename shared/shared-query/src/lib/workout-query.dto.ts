@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsIn, IsOptional, IsNumber, IsString } from 'class-validator';
+import { IsIn, IsOptional, IsNumber, IsString, IsBoolean } from 'class-validator';
 import { DEFAULT_LIMIT, DEFAULT_PAGE, DefaultSortParam } from './query.constant';
 
 export class WorkoutQueryDto {
@@ -70,4 +70,8 @@ export class WorkoutQueryDto {
   @IsIn(['asc', 'desc'])
   @IsOptional()
   public sortDirection: 'asc' | 'desc' = DefaultSortParam.Direction;
+
+  @IsBoolean()
+  @IsOptional()
+  public special?: boolean;
 }

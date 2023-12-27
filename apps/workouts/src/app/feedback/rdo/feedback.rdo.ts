@@ -17,6 +17,13 @@ export class FeedbackRdo {
   public workoutId: number;
 
   @ApiProperty({
+    description: 'User-creator of feedback ID',
+    example: 'fhsfjfk'
+  })
+  @Expose()
+  public userId: string;
+
+  @ApiProperty({
     description: 'Rating of workout',
     example: 4
   })

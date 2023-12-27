@@ -28,6 +28,16 @@ export class UserController {
 
   @ApiResponse({
     status: HttpStatus.OK,
+    description: UserMessages.UserFound
+  })
+  @Get(UserPath.CoachId)
+  public async getUserCoachById(@Param('id', MongoidValidationPipe) id: string) {
+    const findUser = await this.userService.findById(id);
+    return adaptRdoUser(findUser);
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
     description: UserMessages.UserUpdated
   })
   @UseGuards(JwtAuthGuard)
@@ -48,7 +58,9 @@ export class UserController {
     if (!users) {
       return [];
     }
-    return users.map((user) => adaptRdoUser(user));
+    const usersList = users.map((user) => adaptRdoUser(user));
+    const count = await this.userService.getUsersListCount(user.sub, query);
+    return {usersList, count}
   }
 
   @ApiResponse({
@@ -63,6 +75,20 @@ export class UserController {
       return [];
     }
     return friends.map((user) => adaptRdoUser(user));
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: UserMessages.List
+  })
+  @UseGuards(JwtAuthGuard)
+  @Post(UserPath.Feedbacks)
+  public async showFeedbacks(@Body() ids: string[]) {
+    const users = await this.userService.getUsersFeedbacks(ids);
+    if (!users) {
+      return [];
+    }
+    return users.map((user) => adaptRdoUser(user));
   }
 
   @ApiResponse({

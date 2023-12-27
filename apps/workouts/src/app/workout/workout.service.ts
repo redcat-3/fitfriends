@@ -82,6 +82,11 @@ export class WorkoutService {
     return workouts;
   }
 
+  public async findCount(query: WorkoutQueryDto) {
+    const workouts = await this.workoutRepository.findAll(query);
+    return workouts.length;
+  }
+
   public async find(query: WorkoutQueryDto) {
     const workouts = await this.workoutRepository.find(query);
     return workouts;

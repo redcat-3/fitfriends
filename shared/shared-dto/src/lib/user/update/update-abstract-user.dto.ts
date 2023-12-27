@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMaxSize, IsDate, IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { ArrayMaxSize, IsBoolean, IsDate, IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import {
   MAX_TRAIN_COUNT,
   UserDescriptionLength,
@@ -84,4 +84,13 @@ export class UpdateAbstractUserDto {
   @IsOptional()
   @ArrayMaxSize(MAX_TRAIN_COUNT)
   public typeOfTrain: string[];
+
+  
+  @ApiProperty({
+    description: 'Флаг готовности пользователя к приглашениям на тренировку.',
+    example: true
+  })
+  @IsOptional()
+  @IsBoolean()
+  public trainingReady: boolean;
 }

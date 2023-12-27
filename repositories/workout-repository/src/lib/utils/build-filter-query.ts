@@ -1,7 +1,7 @@
 import { WorkoutQueryDto } from "@project/shared/shared-query";
 
 export function buildFilterQuery (query: WorkoutQueryDto) {
-  const { limit, page, sortBy, caloriesToSpend, sortDirection, price, timeOfTraining, rating, type } = query;
+  const { limit, page, sortBy, caloriesToSpend, sortDirection, price, timeOfTraining, rating, type, special } = query;
   const usedFilter = {
     where: {
       AND: []
@@ -57,6 +57,11 @@ export function buildFilterQuery (query: WorkoutQueryDto) {
         gte: +min,
         lte: +max
       },
+    })
+  };
+  if (special) {
+    usedFilter.where.AND.push({
+      special: true
     })
   };
   return usedFilter;
