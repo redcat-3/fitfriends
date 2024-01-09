@@ -95,8 +95,12 @@ export class UsersController {
       description: BffError.UserNotFound
     })
     @Get(BffPath.UserId)
-    public async getUser(@Param('id') id: MongoidValidationPipe) {
-      const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Users}/${BffPath.Friends}/${id}`);
+    public async getUser(@Param('id') id: MongoidValidationPipe, @Req() req: Request) {
+      const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Users}/${BffPath.Friends}/${id}`, {
+        headers: {
+          'Authorization': req.headers['authorization']
+        }
+      });
       return data;
     }
 
@@ -110,8 +114,12 @@ export class UsersController {
       description: BffError.UserNotFound
     })
     @Get(BffPath.UserCoachId)
-    public async getUserCoach(@Param('id') id: MongoidValidationPipe) {
-      const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Users}/list/friends/coach/${id}`);
+    public async getUserCoach(@Req() req: Request, @Param('id') id: MongoidValidationPipe) {
+      const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Users}/list/friends/coach/${id}`, {
+        headers: {
+          'Authorization': req.headers['authorization']
+        }
+      });
       return data;
     }
 
@@ -148,11 +156,15 @@ export class UsersController {
 
     @ApiResponse({
       status: HttpStatus.OK,
-      description:BffMessages.UserList
+      description:BffMessages.FeedbackIndex
     })
     @Post(BffPath.Feedbacks)
-    public async indexFeedback(@Body() ids: string[]) {
-      const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/${BffPath.Feedbacks}`, ids);
+    public async indexFeedback(@Req() req: Request, @Body() ids: string[]) {
+      const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/${BffPath.Feedbacks}`, ids, {
+        headers: {
+          'Authorization': req.headers['authorization']
+        }
+      });
       return data;
     }
 

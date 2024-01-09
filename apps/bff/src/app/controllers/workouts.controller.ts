@@ -95,8 +95,12 @@ export class WorkoutsController {
     description: BffError.WorkoutEmptyList
   })
   @Post(BffPath.List)
-  public async index(@Body() dto: WorkoutQueryDto) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/${BffPath.List}`, dto);
+  public async index(@Req() req:Request, @Body() dto: WorkoutQueryDto) {
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Workouts}/${BffPath.List}`, dto, {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    });
     return data;
   }
 

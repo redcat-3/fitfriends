@@ -89,7 +89,8 @@ export class AuthenticationService {
     const refreshTokenPayload = { ...accessTokenPayload, tokenId: crypto.randomUUID() };
     await this.refreshTokenService.createRefreshSession(refreshTokenPayload)
     return {
-      id: user._id,
+      id: user._id.toString(),
+      role: user.role,
       accessToken: await this.jwtService.signAsync(accessTokenPayload),
       refreshToken: await this.jwtService.signAsync(refreshTokenPayload, {
         secret: this.jwtOptions.refreshTokenSecret,
