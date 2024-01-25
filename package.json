@@ -41,6 +41,8 @@
     "@nx/node": "16.10.0",
     "@nx/webpack": "16.10.0",
     "@nx/workspace": "16.10.0",
+    "@rsbuild/core": "^0.3.8",
+    "@rsbuild/plugin-react": "^0.3.8",
     "@types/bcrypt": "^5.0.1",
     "@types/jest": "^29.4.0",
     "@types/node": "~18.7.1",
