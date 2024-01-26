@@ -33,14 +33,14 @@ function PopupQuestionnaireUser(): JSX.Element {
   const [caloriesToSpendError, setCaloriesToSpendError] = useState(false);
   const [caloriesToResetError, setCaloriesToResetError] = useState(false);
 
-  useEffect(() => {
-    if(authRole === UserRole.Coach) {
-      dispatch(redirectToRoute(`/personal-account/${authId}` as AppRoute));
-    }
-    if(authRole === UserRole.User) {
-      dispatch(redirectToRoute(AppRoute.Main));
-    }
-  }, [authRole, authId, dispatch]);
+  // useEffect(() => {
+  //   if(authRole === UserRole.Coach) {
+  //     dispatch(redirectToRoute(`/personal-account/${authId}` as AppRoute));
+  //   }
+  //   if(authRole === UserRole.User) {
+  //     dispatch(redirectToRoute(AppRoute.Main));
+  //   }
+  // }, [authRole, authId, dispatch]);
   
   const checkTypeChecked = (type: string) => {
     return formData.typeOfTrain.includes(type);
@@ -95,7 +95,12 @@ function PopupQuestionnaireUser(): JSX.Element {
           caloriesToReset: formData.caloriesToReset,
           caloriesToSpend: formData.caloriesToSpend
         }
-        store.dispatch(registerAction(newUser));
+        dispatch(registerAction(newUser))
+          .then((serverRusult) => {
+            if (serverRusult.type === 'user/register/fulfilled') {
+              navigate(AppRoute.SignIn);
+            }
+          });
         setRegisterData(null);
       }
     }

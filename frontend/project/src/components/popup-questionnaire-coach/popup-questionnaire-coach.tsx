@@ -31,15 +31,6 @@ function PopupQuestionnaireCoach(): JSX.Element {
   const [certificateError, setCertificateError] = useState(false);
   const [meritError, setMeritError] = useState(true);
 
-  useEffect(() => {
-    if(authRole === UserRole.Coach) {
-      navigate(`/personal-account/${authId}` as AppRoute);
-    }
-    if(authRole === UserRole.User) {
-      navigate(AppRoute.Main);
-    }
-  }, [authRole, authId]);
-  
   const handleMeritChange: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setFormData({...formData, merit: event.target.value});
     if(event.target.value.length < CoachMeritLength.Min || event.target.value.length > CoachMeritLength.Max) {
@@ -93,7 +84,12 @@ function PopupQuestionnaireCoach(): JSX.Element {
           caloriesToReset: 0,
           caloriesToSpend: 0
         }
-        dispatch(registerAction(newCoach));
+        dispatch(registerAction(newCoach))
+          .then((serverRusult) => {
+            if (serverRusult.type === 'user/register/fulfilled') {
+              navigate(AppRoute.SignIn);
+            }
+          });
         setRegisterData(null);
       }
     }

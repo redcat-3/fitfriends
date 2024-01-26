@@ -20,16 +20,16 @@ function PopupSignIn(): JSX.Element {
     password: ''
   });
 
-  useEffect(() => {
-    if (authorizationStatus === AuthorizationStatus.Auth) {
-      if (authRole === UserRole.User) {
-        navigate(AppRoute.Main);
-      }
-      if (authRole === UserRole.Coach) {
-        navigate(`/personal-account/${authId}`);
-      }
-    }
-  },[authorizationStatus, authId, authRole, navigate]);
+  // useEffect(() => {
+  //   if (authorizationStatus === AuthorizationStatus.Auth) {
+  //     if (authRole === UserRole.User) {
+  //       navigate(AppRoute.Main);
+  //     }
+  //     if (authRole === UserRole.Coach) {
+  //       navigate(`/personal-account/${authId}`);
+  //     }
+  //   }
+  // },[authorizationStatus, authId, authRole, navigate]);
 
   const handleEmailChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setFormData({...formData, email: event.target.value});
@@ -58,7 +58,19 @@ function PopupSignIn(): JSX.Element {
       formData.email !== '' &&
       formData.password !== ''
     ) {
-      dispatch(loginAction(formData));
+      dispatch(loginAction(formData))
+        .then((serverRusult) => {
+          if (serverRusult.type === 'user/login/fulfilled') {
+            if (authorizationStatus === AuthorizationStatus.Auth) {
+              if (authRole === UserRole.User) {
+                navigate(AppRoute.Main);
+              }
+              if (authRole === UserRole.Coach) {
+                navigate(`/personal-account/${authId}`);
+              }
+            }
+          }
+        });
     } else {
       setFormError(true);
     }

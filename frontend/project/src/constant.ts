@@ -142,6 +142,11 @@ export const Message = {
 export const DEFAULT_IMG = '/img/content/thumbnails/nearest-gym-01'
 
 export const ErrorMessage = {
+  LoginUnknown:'Unknown error during login.',
+  Login: 'Error during login.',
+  Register: 'Error during register.',
+  RegisterUnknown:'Unknown error during register.',
+  BadRequest:'Bad Request: Some data is missing or invalid.',
   Name: `Mинимальная длина ${UserNameLength.Min} символ, максимальная длина ${UserNameLength.Max} символов`,
   Title: `Mинимальная длина ${NameLength.Min} символ, максимальная длина ${NameLength.Max} символов`,
   File: 'Максимальный размер изображения 1 мегабайт',
@@ -190,3 +195,12 @@ export const POINTS = [
     lng: 30.29055,
   },
 ];
+
+export const HttpStatus = {
+  OK: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+};

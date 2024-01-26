@@ -1,14 +1,13 @@
-import { AxiosInstance } from 'axios';
+import { AxiosError, AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state.js';
 import { saveRefreshToken, saveToken } from '../services/token';
-import { APIRoute, AppRoute } from '../constant';
+import { APIRoute, AppRoute, ErrorMessage, HttpStatus } from '../constant';
 import { AuthData } from '../types/auth-data';
 import { LoggedUser, User, UserCreate, UserRole, UserUpdate } from '../types/user-data';
 import { FeedbackQueryDto, OrderQueryDto, UserQuery, WorkoutQueryDto } from '../types/query.js';
 import { Workout, WorkoutCreate, WorkoutUpdate } from '../types/workout-data.js';
 import { Balance, FeedbackCreate, IFeedback, INotification, IRequest, Order, OrderCreate, OrderToCoach, RequestStatus } from '../types/reaction.js';
-import { redirectToRoute } from './action.js';
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -24,9 +23,21 @@ export const registerAction = createAsyncThunk<User, UserCreate, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
-}>('user/register', async (newUser, {dispatch, extra: api}) => {
-  const {data} = await api.post<User>(`${APIRoute.Register}`, newUser);
-  return data;
+}>('user/register', async (newUser, {dispatch, extra: api, rejectWithValue}) => {
+  try{
+    const {data} = await api.post<User>(`${APIRoute.Register}`, newUser);
+    return data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      if (error.response && error.response.status === HttpStatus.BAD_REQUEST) {
+        return rejectWithValue(ErrorMessage.BadRequest);
+      } else {
+        return rejectWithValue(ErrorMessage.Register);
+      }
+    } else {
+      return rejectWithValue(ErrorMessage.RegisterUnknown);
+    }
+  }
 });
 
 export const loginAction = createAsyncThunk<{id: string, role: UserRole}, AuthData, {
@@ -34,11 +45,32 @@ export const loginAction = createAsyncThunk<{id: string, role: UserRole}, AuthDa
   state: State;
   extra: AxiosInstance;
 }>('user/login',
-  async ({email, password}, {dispatch, extra: api}) => {
-    const {data: {accessToken, refreshToken, id, role}} = await api.post<LoggedUser>(APIRoute.Login, {email, password});
-    saveToken(accessToken);
-    saveRefreshToken(refreshToken);
-    return {id, role};
+  async ({email, password}, {dispatch, extra: api, rejectWithValue}) => {
+    try {
+      const {data: {accessToken, refreshToken, id, role}} = await api.post<LoggedUser>(APIRoute.Login, {email, password});
+      saveToken(accessToken);
+      saveRefreshToken(refreshToken);
+    //   dispatch(() => {
+    //     if(role === UserRole.Coach) {
+    //       redirectToRoute(`/personal-account/${id}` as AppRoute)
+    //     }
+    //     if(role === UserRole.User) {
+    //       redirectToRoute(AppRoute.Main);
+    //     }
+    // })
+      return {id, role};
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response && error.response.status === HttpStatus.BAD_REQUEST) {
+          return rejectWithValue(ErrorMessage.BadRequest);
+        } else {
+          return rejectWithValue(ErrorMessage.Login);
+        }
+      } else {
+        return rejectWithValue(ErrorMessage.LoginUnknown);
+      }
+    }
+
   },
 );
 
